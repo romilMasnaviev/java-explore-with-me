@@ -2,14 +2,19 @@ package ru.masnaviev.explore.converter;
 
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
-import ru.masnaviev.explore.dto.StatEntityPostDto;
+import ru.masnaviev.explore.dto.StatEntityGetResponse;
+import ru.masnaviev.explore.dto.StatEntityPostRequest;
 import ru.masnaviev.explore.model.StatEntity;
+
+import java.util.List;
 
 @Component
 @Mapper(componentModel = "spring")
 public interface StatEntityConverter {
-    StatEntityPostDto statEntityConvertToPostDto(StatEntity entity);
+    StatEntityPostRequest statEntityConvertToPostDto(StatEntity entity);
 
-    StatEntity postDtoConvertToStatEntity(StatEntityPostDto postEntity);
+    StatEntity postDtoConvertToStatEntity(StatEntityPostRequest postEntity);
+
+    List<StatEntityGetResponse> statEntityConvertToGetResponse(List<StatEntity> entities);
 
 }
