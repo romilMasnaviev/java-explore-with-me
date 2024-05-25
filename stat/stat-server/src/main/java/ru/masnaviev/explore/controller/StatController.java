@@ -16,7 +16,8 @@ public class StatController {
     private final StatService service;
     @PostMapping
     public StatEntityPostDto create(@RequestBody StatEntityPostDto request){
-        log.info("create request, StatEntityPostDto = {}",request);
+        log.info("StatController. Create request, StatEntityPostDto = {}",request);
         return service.create(request);
     }
+
 }
