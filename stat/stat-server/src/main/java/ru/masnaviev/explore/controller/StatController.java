@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.masnaviev.explore.dto.StatEntityGetResponse;
 import ru.masnaviev.explore.dto.StatEntityPostRequest;
 import ru.masnaviev.explore.model.StatEntity;
@@ -39,7 +40,7 @@ public class StatController {
             service.create(request);
         } catch (Exception ex) {
             log.error("StatController. Post request, Exception ={}", ex.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -53,12 +54,12 @@ public class StatController {
                                     @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
+        log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
         try {
-            log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
             return service.get(start, end, uris, unique);
         } catch (Exception ex) {
             log.error("StatController. Get request, Exception ={}", ex.getMessage());
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 }

@@ -123,4 +123,41 @@ class StatControllerIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
+
+    @Test
+    public void testCreate_whenServiceThrowEx_thenReturnHttpStatusBadRequest() throws Exception {
+        StatEntityPostRequest request = new StatEntityPostRequest();
+        request.setApp("test");
+        request.setIp("test");
+        request.setTimestamp(now().minusHours(1));
+        request.setUri("test");
+
+        when(service.create(any())).thenThrow(new RuntimeException());
+
+        mvc.perform(post("/hit")
+                        .content(mapper.writeValueAsString(request))
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testGet_whenServiceThrowEx_thenReturnHttpStatusBadRequest() throws Exception {
+        StatEntityPostRequest request = new StatEntityPostRequest();
+        request.setApp("test");
+        request.setIp("test");
+        request.setTimestamp(now().minusHours(1));
+        request.setUri("test");
+
+        when(service.get(any(LocalDateTime.class), any(LocalDateTime.class), any(), anyBoolean())).thenThrow(new RuntimeException());
+
+        mvc.perform(get("/stats")
+                        .param("start", now().minusMinutes(1).toString())
+                        .param("end", now().plusMinutes(1).toString())
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
