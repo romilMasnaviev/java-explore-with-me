@@ -5,6 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Сущность статистики
+ */
 @Data
 @Entity
 @Table(name = "stat_entity")
@@ -21,6 +24,4 @@ public class StatEntity {
     private String ip;
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
-    @Column(name = "hits")
-    private int hits;
 }
