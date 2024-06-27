@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>stat-dto</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>stat-dto</name>
     <url>http://maven.apache.org</url>

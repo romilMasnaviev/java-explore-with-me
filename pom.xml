@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <name>Explore With Me</name>
@@ -146,6 +146,15 @@
                                 <goal>report</goal>
                             </goals>
                         </execution>
+                        <!-- //TODO доабвил блок ниже для работы с Jacoco    -->
+                        <execution>
+                            <id>jacoco-report</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <!--                                                 -->
                     </executions>
                 </plugin>
             </plugins>
