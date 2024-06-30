@@ -1,7 +1,7 @@
 package ru.masnaviev.explore.client;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -14,6 +14,7 @@ import ru.masnaviev.explore.dto.StatEntityGetResponse;
 import ru.masnaviev.explore.dto.StatEntityPostRequest;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@AllArgsConstructor
 public class Client {
     private final String url = "http://127.0.0.1:9090"; //TODO при добавлении докера поменять на переменные из app.properties
     private final String startStr = "start";
@@ -28,11 +30,8 @@ public class Client {
     private final String urisStr = "uris";
     private final String uniqueStr = "unique";
     private final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
-    private final RestTemplate restTemplate;
 
-    public Client(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
-    }
+    private final RestTemplate restTemplate;
 
     @PostMapping("/hit")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid StatEntityPostRequest request) {
@@ -41,13 +40,13 @@ public class Client {
     }
 
     @GetMapping("/stats")
-    public List<StatEntityGetResponse> get(@RequestParam(startStr) @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime start,
-                                           @RequestParam(endStr) @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime end,
+    public List<StatEntityGetResponse> get(@RequestParam(startStr) @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime start,
+                                           @RequestParam(endStr) @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime end,
                                            @RequestParam(name = urisStr, required = false) List<String> uris,
                                            @RequestParam(name = uniqueStr, required = false, defaultValue = "false") boolean unique) {
         log.debug("StatClient. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
         UriComponentsBuilder builder = buildRequest(start, end, uris, unique);
-        return buildResponse(builder);
+        return sendResponse(builder);
     }
 
     private UriComponentsBuilder buildRequest(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
@@ -63,7 +62,7 @@ public class Client {
         return builder;
     }
 
-    private List<StatEntityGetResponse> buildResponse(UriComponentsBuilder builder) {
+    private List<StatEntityGetResponse> sendResponse(UriComponentsBuilder builder) {
         HttpEntity<StatEntityGetResponse[]> response = restTemplate.getForEntity(
                 builder.encode().toUriString(),
                 StatEntityGetResponse[].class
