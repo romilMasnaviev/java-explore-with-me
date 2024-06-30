@@ -1,7 +1,5 @@
 package ru.masnaviev.explore.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +22,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Stats", description = "Управление статистикой")
 public class StatController {
 
     private final StatService service;
@@ -33,7 +30,6 @@ public class StatController {
      * Создание сущности статистики
      */
     @PostMapping("/hit")
-    @Operation(summary = "Создание сущности статистики")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid StatEntityPostRequest request) {
         log.debug("StatController. Post request, StatEntityPostDto = {}", request);
         try {
@@ -49,7 +45,6 @@ public class StatController {
      * Получение сущности статистики
      */
     @GetMapping("/stats")
-    @Operation(summary = "Получение сущности статистики")
     List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                     @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
                                     @RequestParam(name = "uris", required = false) List<String> uris,

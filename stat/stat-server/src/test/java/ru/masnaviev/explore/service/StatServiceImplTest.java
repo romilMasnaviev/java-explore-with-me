@@ -10,7 +10,7 @@ import ru.masnaviev.explore.dto.StatEntityPostRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class StatServiceImplTest {
