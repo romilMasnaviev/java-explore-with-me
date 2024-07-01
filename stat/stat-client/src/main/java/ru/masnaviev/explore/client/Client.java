@@ -1,7 +1,7 @@
 package ru.masnaviev.explore.client;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -22,9 +22,8 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@AllArgsConstructor
 public class Client {
-    private final String url = "http://127.0.0.1:9090"; //TODO при добавлении докера поменять на переменные из app.properties
+    private final String url;
     private final String startStr = "start";
     private final String endStr = "end";
     private final String urisStr = "uris";
@@ -32,6 +31,11 @@ public class Client {
     private final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
 
     private final RestTemplate restTemplate;
+
+    public Client(RestTemplate restTemplate, @Value("${stat-server.url}") String url) {
+        this.restTemplate = restTemplate;
+        this.url = url;
+    }
 
     @PostMapping("/hit")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid StatEntityPostRequest request) {
