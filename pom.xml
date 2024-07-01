@@ -146,7 +146,7 @@
                                 <goal>report</goal>
                             </goals>
                         </execution>
-                        <!-- //TODO доабвил блок ниже для работы с Jacoco    -->
+                        <!-- //TODO добавил блок ниже для работы с Jacoco    -->
                         <execution>
                             <id>jacoco-report</id>
                             <phase>test</phase>
