@@ -12,12 +12,12 @@ import java.util.List;
 public interface StatEntityRepository extends JpaRepository<StatEntity, Integer> {
 
     @Query("select new ru.masnaviev.explore.dto.StatEntityGetResponse(s.app, s.uri, " +
-            "count(distinct (case when :unique = true then s.ip else s.id end))) " +
+            "count(distinct (case when :unique = true then s.ip else concat(s.id,s.ip) end))) " +
             "from StatEntity s " +
             "where s.timestamp > :start and s.timestamp < :end " +
             "and (:#{#uris == null || #uris.isEmpty()} = true OR s.uri IN :uris) " +
             "group by s.app, s.uri " +
-            "order by count(distinct (case when :unique = true then s.ip else s.id end)) desc ")
+            "order by count(distinct (case when :unique = true then s.ip else concat(s.id,s.ip) end)) desc ")
     List<StatEntityGetResponse> getStatistics(@Param("start") LocalDateTime start,
                                               @Param("end") LocalDateTime end,
                                               @Param("uris") List<String> uris,

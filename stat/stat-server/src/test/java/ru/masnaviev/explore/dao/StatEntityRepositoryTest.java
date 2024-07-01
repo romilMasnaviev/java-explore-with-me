@@ -87,104 +87,104 @@ class StatEntityRepositoryTest {
     }
 
 
-//    @Test
-//    public void getStatistics_whenUnique_thenReturnEmptyList() {
-//        StatEntity entity1 = new StatEntity();
-//        entity1.setApp("test");
-//        entity1.setUri("test");
-//        entity1.setIp("test");
-//        entity1.setTimestamp(now());
-//
-//        StatEntity entity2 = new StatEntity();
-//        entity2.setApp("test");
-//        entity2.setUri("test");
-//        entity2.setIp("test");
-//        entity2.setTimestamp(now());
-//
-//        repository.save(entity1);
-//        repository.save(entity2);
-//
-//        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), null, true);
-//        assertEquals(1, statSummaries.size());
-//    }
-//
-//    @Test
-//    public void getStatistics_whenUniqueAndValidUris_thenReturnEmptyList() {
-//        StatEntity entity1 = new StatEntity();
-//        entity1.setApp("test");
-//        entity1.setUri("test");
-//        entity1.setIp("test");
-//        entity1.setTimestamp(now());
-//
-//        StatEntity entity2 = new StatEntity();
-//        entity2.setApp("test");
-//        entity2.setUri("test");
-//        entity2.setIp("test");
-//        entity2.setTimestamp(now());
-//
-//        repository.save(entity1);
-//        repository.save(entity2);
-//
-//        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), List.of("test"), true);
-//        assertEquals(1, statSummaries.size());
-//    }
-//
-//    @Test
-//    public void getStatistics_whenUniqueAndValidUrisV2_thenReturnEmptyList() {
-//        StatEntity entity1 = new StatEntity();
-//        entity1.setApp("test");
-//        entity1.setUri("test");
-//        entity1.setIp("test");
-//        entity1.setTimestamp(now());
-//
-//        StatEntity entity2 = new StatEntity();
-//        entity2.setApp("test");
-//        entity2.setUri("test");
-//        entity2.setIp("test");
-//        entity2.setTimestamp(now());
-//
-//        StatEntity entity3 = new StatEntity();
-//        entity3.setApp("test");
-//        entity3.setUri("wrong");
-//        entity3.setIp("test");
-//        entity3.setTimestamp(now());
-//
-//        repository.save(entity1);
-//        repository.save(entity2);
-//        repository.save(entity3);
-//
-//        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), List.of("test"), true);
-//        assertEquals(1, statSummaries.size());
-//    }
-//
-//    @Test
-//    public void getStatistics_whenUniqueAndValidUrisV3_thenReturnEmptyList() {
-//        StatEntity entity1 = new StatEntity();
-//        entity1.setApp("test");
-//        entity1.setUri("test");
-//        entity1.setIp("test");
-//        entity1.setTimestamp(now());
-//
-//        StatEntity entity2 = new StatEntity();
-//        entity2.setApp("test");
-//        entity2.setUri("test");
-//        entity2.setIp("test");
-//        entity2.setTimestamp(now());
-//
-//        StatEntity entity3 = new StatEntity();
-//        entity3.setApp("test");
-//        entity3.setUri("test");
-//        entity3.setIp("test");
-//        entity3.setTimestamp(now());
-//
-//        repository.save(entity1);
-//        repository.save(entity2);
-//        repository.save(entity3);
-//
-//        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), List.of("test"), true);
-//        assertEquals(1, statSummaries.size());
-//        assertEquals(1, statSummaries.get(0).getHits());
-//    }
+    @Test
+    public void getStatistics_whenUnique_thenReturnEmptyList() {
+        StatEntity entity1 = new StatEntity();
+        entity1.setApp("test");
+        entity1.setUri("test");
+        entity1.setIp("test");
+        entity1.setTimestamp(now());
+
+        StatEntity entity2 = new StatEntity();
+        entity2.setApp("test");
+        entity2.setUri("test");
+        entity2.setIp("test");
+        entity2.setTimestamp(now());
+
+        repository.save(entity1);
+        repository.save(entity2);
+
+        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), null, true);
+        assertEquals(1, statSummaries.size());
+    }
+
+    @Test
+    public void getStatistics_whenUniqueAndValidUris_thenReturnEmptyList() {
+        StatEntity entity1 = new StatEntity();
+        entity1.setApp("test");
+        entity1.setUri("test");
+        entity1.setIp("test");
+        entity1.setTimestamp(now());
+
+        StatEntity entity2 = new StatEntity();
+        entity2.setApp("test");
+        entity2.setUri("test");
+        entity2.setIp("test");
+        entity2.setTimestamp(now());
+
+        repository.save(entity1);
+        repository.save(entity2);
+
+        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), List.of("test"), true);
+        assertEquals(1, statSummaries.size());
+    }
+
+    @Test
+    public void getStatistics_whenUniqueAndValidUrisV2_thenReturnEmptyList() {
+        StatEntity entity1 = new StatEntity();
+        entity1.setApp("test");
+        entity1.setUri("test");
+        entity1.setIp("test");
+        entity1.setTimestamp(now());
+
+        StatEntity entity2 = new StatEntity();
+        entity2.setApp("test");
+        entity2.setUri("test");
+        entity2.setIp("test");
+        entity2.setTimestamp(now());
+
+        StatEntity entity3 = new StatEntity();
+        entity3.setApp("test");
+        entity3.setUri("wrong");
+        entity3.setIp("test");
+        entity3.setTimestamp(now());
+
+        repository.save(entity1);
+        repository.save(entity2);
+        repository.save(entity3);
+
+        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), List.of("test"), true);
+        assertEquals(1, statSummaries.size());
+    }
+
+    @Test
+    public void getStatistics_whenUniqueAndValidUrisV3_thenReturnEmptyList() {
+        StatEntity entity1 = new StatEntity();
+        entity1.setApp("test");
+        entity1.setUri("test");
+        entity1.setIp("test");
+        entity1.setTimestamp(now());
+
+        StatEntity entity2 = new StatEntity();
+        entity2.setApp("test");
+        entity2.setUri("test");
+        entity2.setIp("test");
+        entity2.setTimestamp(now());
+
+        StatEntity entity3 = new StatEntity();
+        entity3.setApp("test");
+        entity3.setUri("test");
+        entity3.setIp("test");
+        entity3.setTimestamp(now());
+
+        repository.save(entity1);
+        repository.save(entity2);
+        repository.save(entity3);
+
+        List<StatEntityGetResponse> statSummaries = repository.getStatistics(now().minusMinutes(3), now().plusMinutes(2), List.of("test"), true);
+        assertEquals(1, statSummaries.size());
+        assertEquals(1, statSummaries.get(0).getHits());
+    }
 
 
     @Test
