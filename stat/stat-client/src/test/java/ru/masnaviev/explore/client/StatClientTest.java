@@ -56,8 +56,8 @@ class StatClientTest {
 
     @Test
     public void testGet_whenValidData_thenReturnBadRequest() throws Exception {
-        when(restTemplate.getForEntity(anyString(), eq(StatEntityGetResponse[].class))).
-                thenReturn(new ResponseEntity<>(new StatEntityGetResponse[0], HttpStatus.OK));
+        when(restTemplate.getForEntity(anyString(), eq(StatEntityGetResponse[].class)))
+                .thenReturn(new ResponseEntity<>(new StatEntityGetResponse[0], HttpStatus.OK));
 
         mvc.perform(get("/stats")
                         .param("start", LocalDateTime.now().minusMinutes(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
@@ -70,8 +70,8 @@ class StatClientTest {
 
     @Test
     public void testGet_whenValidDataWithUri_thenReturnBadRequest() throws Exception {
-        when(restTemplate.getForEntity(anyString(), eq(StatEntityGetResponse[].class))).
-                thenReturn(new ResponseEntity<>(new StatEntityGetResponse[0], HttpStatus.OK));
+        when(restTemplate.getForEntity(anyString(), eq(StatEntityGetResponse[].class)))
+                .thenReturn(new ResponseEntity<>(new StatEntityGetResponse[0], HttpStatus.OK));
 
         mvc.perform(get("/stats")
                         .param("start", LocalDateTime.now().minusMinutes(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
