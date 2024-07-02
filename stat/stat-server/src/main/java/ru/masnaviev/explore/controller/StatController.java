@@ -50,11 +50,6 @@ public class StatController {
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
         log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
-        try {
-            return service.get(start, end, uris, unique);
-        } catch (Exception ex) {
-            log.error("StatController. Get request, Exception ={}", ex.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+        return service.get(start, end, uris, unique);
     }
 }

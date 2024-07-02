@@ -19,17 +19,18 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * Клиент
+ */
 @RestController
 @Slf4j
 public class Client {
+    private static final String startStr = "start";
+    private static final String endStr = "end";
+    private static final String urisStr = "uris";
+    private static final String uniqueStr = "unique";
+    private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
     private final String url;
-    private final String startStr = "start";
-    private final String endStr = "end";
-    private final String urisStr = "uris";
-    private final String uniqueStr = "unique";
-    private final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
-
     private final RestTemplate restTemplate;
 
     public Client(RestTemplate restTemplate, @Value("${stat-server.url}") String url) {
@@ -37,12 +38,18 @@ public class Client {
         this.url = url;
     }
 
+    /**
+     * Создание сущности статистики
+     */
     @PostMapping("/hit")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid StatEntityPostRequest request) {
         log.debug("StatClient. Post request, request = {}", request);
         return restTemplate.exchange(url + "/hit", HttpMethod.POST, new HttpEntity<>(request), HttpStatus.class);
     }
 
+    /**
+     * Получение сущности статистики
+     */
     @GetMapping("/stats")
     public List<StatEntityGetResponse> get(@RequestParam(startStr) @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime start,
                                            @RequestParam(endStr) @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime end,

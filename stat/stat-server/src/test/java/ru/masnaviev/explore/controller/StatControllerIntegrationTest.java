@@ -150,7 +150,9 @@ class StatControllerIntegrationTest {
         request.setTimestamp(now().minusHours(1));
         request.setUri("test");
 
-        when(service.get(any(LocalDateTime.class), any(LocalDateTime.class), any(), anyBoolean())).thenThrow(new RuntimeException());
+        List<StatEntityGetResponse> entities = new ArrayList<>();
+
+        when(service.get(any(LocalDateTime.class), any(LocalDateTime.class), any(), anyBoolean())).thenReturn(entities);
 
         mvc.perform(get("/stats")
                         .param("start", now().minusMinutes(1).toString())
@@ -158,6 +160,6 @@ class StatControllerIntegrationTest {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk());
     }
 }
