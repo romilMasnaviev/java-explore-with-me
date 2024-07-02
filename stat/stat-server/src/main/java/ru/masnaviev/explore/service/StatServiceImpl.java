@@ -27,6 +27,8 @@ public class StatServiceImpl implements StatService {
 
     /**
      * Создание сущности статистики
+     *
+     * @param request - объект запроса на создание статистики
      */
     @Override
     public StatEntityPostRequest create(StatEntityPostRequest request) {
