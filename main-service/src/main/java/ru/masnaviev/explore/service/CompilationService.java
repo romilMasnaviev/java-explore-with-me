@@ -16,7 +16,6 @@ import ru.masnaviev.explore.dto.compilation.UpdateCompilationRequest;
 import ru.masnaviev.explore.model.Compilation;
 import ru.masnaviev.explore.model.Event;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,33 +47,23 @@ public class CompilationService {
     public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
         log.debug("Получение подборок, pinned = {}, from = {}, size = {}", pinned, from, size);
         Pageable pageable = PageRequest.of(from, size);
-
         List<Compilation> compilations = repository.findAllByPinned(pinned, pageable);
         return converter.compilationConvertToCompilationDto(compilations);
     }
 
     public ResponseEntity<CompilationDto> getCompilationById(Integer compId) {
-        if (!repository.existsById(compId)) {
-            throw new EntityNotFoundException("Подборки с id = " + compId + " не существует.");
-        }
         Compilation compilation = repository.getReferenceById(compId);
         return new ResponseEntity<>(converter.compilationConvertToCompilationDto(compilation), HttpStatus.OK);
     }
 
     public ResponseEntity<HttpStatus> deleteCompilation(Integer compId) {
         log.debug("Удаление подборки, compilationDto = {}", compId);
-        if (!repository.existsById(compId)) {
-            throw new EntityNotFoundException("Подборки с id = " + compId + " не существует.");
-        }
         repository.deleteById(compId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public CompilationDto updateCompilation(Integer compId, UpdateCompilationRequest request) {
         log.debug("Обновление подборки compId = {}, request = {}", compId, request);
-        if (!repository.existsById(compId)) {
-            throw new EntityNotFoundException("Подборки с id = " + compId + " не существует.");
-        }
         Compilation compilation = repository.getReferenceById(compId);
         updateCompilation(compilation, request);
         return converter.compilationConvertToCompilationDto(repository.save(compilation));

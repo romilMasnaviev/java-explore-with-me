@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.controller.admin;
+package ru.masnaviev.explore.controller.compilation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,12 +27,12 @@ public class AdminCompilationController {
     }
 
     @DeleteMapping("/{compId}")
-    public ResponseEntity<HttpStatus> deleteCompilation(@PathVariable @Min(0) Integer compId) {
+    public ResponseEntity<HttpStatus> deleteCompilation(@PathVariable(name = "compId") @Min(value = 0) Integer compId) {
         return service.deleteCompilation(compId);
     }
 
     @PatchMapping("/{compId}")
-    CompilationDto updateCompilation(@PathVariable @Min(0) Integer compId,
+    CompilationDto updateCompilation(@PathVariable(name = "compId") @Min(value = 0) Integer compId,
                                      @RequestBody @Valid UpdateCompilationRequest request) {
         return service.updateCompilation(compId, request);
     }

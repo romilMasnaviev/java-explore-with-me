@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.masnaviev.explore.model.Event;
-import ru.masnaviev.explore.model.State;
+import ru.masnaviev.explore.model.enums.State;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +14,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM events e WHERE e.initiator_id = :id  LIMIT :limit OFFSET :offset", nativeQuery = true)
     List<Event> getUserEvents(@Param("offset") Integer offset, @Param("limit") Integer limit, @Param("id") Integer userId);
-
 
     @Query("SELECT e FROM Event e WHERE " +
             "((:users) is null or e.initiator.id in (:users)) " +
@@ -47,6 +46,5 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
                                           Pageable pageable);
 
     boolean existsByIdAndState(Integer id, State state);
-
 }
 

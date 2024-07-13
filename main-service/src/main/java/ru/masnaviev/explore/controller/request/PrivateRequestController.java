@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.controller.priv;
+package ru.masnaviev.explore.controller.request;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.masnaviev.explore.dto.request.ParticipantRequestDto;
 import ru.masnaviev.explore.service.RequestService;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -18,19 +19,19 @@ public class PrivateRequestController {
     private RequestService service;
 
     @PostMapping("/{userId}/requests")
-    public ResponseEntity<ParticipantRequestDto> createRequest(@PathVariable Integer userId,
-                                                               @RequestParam Integer eventId) {
+    public ResponseEntity<ParticipantRequestDto> createRequest(@PathVariable(name = "userId") @Min(value = 0) Integer userId,
+                                                               @RequestParam(name = "eventId") Integer eventId) {
         return service.createRequest(userId, eventId);
     }
 
     @GetMapping("/{userId}/requests")
-    public ResponseEntity<List<ParticipantRequestDto>> getRequest(@PathVariable Integer userId) {
+    public ResponseEntity<List<ParticipantRequestDto>> getRequest(@PathVariable(name = "userId") @Min(value = 0) Integer userId) {
         return service.getRequest(userId);
     }
 
     @PatchMapping("/{userId}/requests/{requestId}/cancel")
-    public ResponseEntity<ParticipantRequestDto> cancelRequest(@PathVariable Integer userId,
-                                                               @PathVariable Integer requestId) {
+    public ResponseEntity<ParticipantRequestDto> cancelRequest(@PathVariable(name = "userId") @Min(value = 0) Integer userId,
+                                                               @PathVariable(name = "requestId") @Min(value = 0) Integer requestId) {
         return service.cancelRequest(userId, requestId);
     }
 }

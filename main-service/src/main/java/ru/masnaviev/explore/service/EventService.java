@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,17 @@ import ru.masnaviev.explore.dto.request.EventRequestStatusUpdateRequest;
 import ru.masnaviev.explore.dto.request.ParticipantRequestDto;
 import ru.masnaviev.explore.dto.request.RequestStatusUpdateResult;
 import ru.masnaviev.explore.handler.CustomException;
-import ru.masnaviev.explore.model.*;
+import ru.masnaviev.explore.model.Category;
+import ru.masnaviev.explore.model.Event;
+import ru.masnaviev.explore.model.Request;
+import ru.masnaviev.explore.model.User;
+import ru.masnaviev.explore.model.enums.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,7 +52,7 @@ public class EventService {
 
     public ResponseEntity<EventFullDto> createEvent(Integer userId, NewEventDto newEvent) {
         log.debug("Создание события {}, userId = {}", newEvent, userId);
-        checkNewEventValidData(newEvent, userId);
+        checkNewEventValidData(newEvent);
         Event event = buildEvent(newEvent, userId);
 
         locationRepository.save(event.getLocation());
@@ -70,7 +74,7 @@ public class EventService {
         return converter.eventConvertToEventShortDto(repository.getUserEvents(from, size, userId));
     }
 
-    public EventFullDto updateEventByUser(Integer eventId, Integer userId, EventUpdateRequest updateRequest) { //ЕЩВЩ
+    public EventFullDto updateEventByUser(Integer eventId, Integer userId, EventUpdateRequest updateRequest) {
         log.debug("Обновление события пользователем, eventId = {}, userId = {}, request = {}", eventId, userId, updateRequest);
         Event oldEvent = repository.getReferenceById(eventId);
 
@@ -84,12 +88,7 @@ public class EventService {
     public List<ParticipantRequestDto> getUserEventRequests(Integer eventId, Integer userId) {
         log.debug("Получение информации о запросах на участие в событии текущего пользователя," +
                 "eventId = {}, userId = {}", eventId, userId);
-        if (repository.getReferenceById(eventId).getInitiator().getId() != userId) {
-            throw new CustomException(HttpStatus.BAD_REQUEST.name(),
-                    "Невозможно просматривать заявки",
-                    "Вы не являетесь владельцем данного события",
-                    Collections.emptyList());
-        }
+        validateUserAccessToEvent(eventId, userId);
         List<Request> requests = requestRepository.findAllByEventId(eventId);
         return requestConverter.RequestConvertToParticipantRequestDto(requests);
     }
@@ -99,12 +98,7 @@ public class EventService {
         log.debug("Получение информации о запросах на участие в событии текущего пользователя," +
                 "eventId = {}, userId = {}, updateRequest = {}", eventId, userId, updateRequest);
 
-        if (repository.getReferenceById(eventId).getInitiator().getId() != userId) {
-            throw new CustomException(HttpStatus.BAD_REQUEST.name(),
-                    "Невозможно принимать/отклонять заявки",
-                    "Вы не являетесь владельцем данного события",
-                    Collections.emptyList());
-        }
+        validateUserAccessToEvent(eventId, userId);
 
         Event event = repository.getReferenceById(eventId);
 
@@ -180,11 +174,14 @@ public class EventService {
     }
 
     public List<EventFullDto> getEvents(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
-                                        LocalDateTime rangeEnd, Boolean onlyAvailable, Sort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
-        log.debug("Получение события по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
+                                        LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
+        log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
                         "rangeStart = {}, rangeEnd = {}, onlyAvailable = {}, sort = {}, from = {}, size = {}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+
         saveEndpointHit(httpServletRequest);
+        String sorting = determineSorting(sort);
+
         if (rangeStart == null) {
             rangeStart = LocalDateTime.now();
         }
@@ -196,11 +193,55 @@ public class EventService {
             throw new CustomException(HttpStatus.BAD_REQUEST.name(), "Время конца меньше времени начала", "Некорректные данные", Collections.emptyList());
         }
 
-        Pageable pageable = PageRequest.of(from, size);
+        Pageable pageable = PageRequest.of(from, size, Sort.by(sorting));
         List<Event> events = repository.getAllByTextAndParameters(
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable);
 
+        setViewsForEvents(events, httpServletRequest);
+
         return converter.eventConvertToEventFullDto(events);
+    }
+
+    private void validateUserAccessToEvent(Integer eventId, Integer userId) {
+        Event event = repository.getReferenceById(eventId);
+        if (event.getInitiator().getId() != userId) {
+            throw new CustomException(HttpStatus.BAD_REQUEST.name(),
+                    "Невозможно просматривать заявки",
+                    "Вы не являетесь владельцем данного события",
+                    Collections.emptyList());
+        }
+    }
+
+
+    //TODO Подумать что вообще тут делать
+    private void setViewsForEvents(List<Event> events, HttpServletRequest httpServletRequest) {
+        List<String> uris = List.of(httpServletRequest.getRequestURI());
+        LocalDateTime start = LocalDateTime.now().minusYears(100);
+        LocalDateTime end = LocalDateTime.now();
+        List<StatEntityGetResponse> responses = statClient.get(start, end, uris, true);
+
+        Map<String, Long> uriToHitsMap = new HashMap<>();
+        if (responses != null) {
+            Collectors Collectors = null;
+            uriToHitsMap = responses.stream()
+                    .collect(java.util.stream.Collectors.toMap(StatEntityGetResponse::getUri, StatEntityGetResponse::getHits));
+        }
+        for (Event event : events) {
+            Long hits = uriToHitsMap.getOrDefault(httpServletRequest.getRequestURI(), 0L);
+            event.setViews(hits.intValue());
+        }
+    }
+
+    private String determineSorting(EventSort sort) {
+        if (sort == null) {
+            return "id";
+        } else if (sort == EventSort.EVENT_DATE) {
+            return "eventDate";
+        } else if (sort == EventSort.VIEWS) {
+            return "views";
+        } else {
+            return "id";
+        }
     }
 
     public EventFullDto getEvent(Integer id, HttpServletRequest httpServletRequest) {
@@ -210,7 +251,6 @@ public class EventService {
             throw new EntityNotFoundException("Сущности с id = " + id + " не существует");
         }
         Event event = repository.getReferenceById(id);
-        ///TODO сильно сомневаюсь что так надо
         List<StatEntityGetResponse> responses = statClient
                 .get(LocalDateTime.now().minusYears(100),
                         LocalDateTime.now(),
@@ -219,26 +259,12 @@ public class EventService {
         if (responses != null) {
             event.setViews((int) responses.get(0).getHits());
         }
-        ///TODO сильно сомневаюсь что так надо
         return converter.eventConvertToEventFullDto(event);
-
     }
 
-    private void checkNewEventValidData(NewEventDto newEvent, Integer userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new CustomException(HttpStatus.BAD_REQUEST.name(),
-                    "Пользователя с id = " + userId + " не существует.",
-                    "Некорректные данные",
-                    Collections.emptyList());
-        }
-        if (!categoryRepository.existsById(newEvent.getCategory())) {
-            throw new CustomException(HttpStatus.BAD_REQUEST.name(),
-                    "Категории с id = " + newEvent.getCategory() + " не существует.",
-                    "Некорректные данные",
-                    Collections.emptyList());
-        }
+    private void checkNewEventValidData(NewEventDto newEvent) {
         if (newEvent.getEventDate().minusHours(2).isBefore(LocalDateTime.now())) {
-            throw new CustomException(HttpStatus.FORBIDDEN.name(), //TODO по swagger FORBIDDEN высвечивает 409 кодом, хотя он 403
+            throw new CustomException(HttpStatus.FORBIDDEN.name(),
                     "Время проведения менее двух часов от текущего времени.",
                     "Некорректные данные",
                     Collections.emptyList());
@@ -252,14 +278,14 @@ public class EventService {
                     "Время проведения менее часа от текущего времени.",
                     Collections.emptyList());
         }
-        if (updateRequest.getStateAction() != null && updateRequest.getStateAction() == StateAction.PUBLISH_EVENT &&
+        if (updateRequest.getStateAction() != null && updateRequest.getStateAction() == EventAction.PUBLISH_EVENT &&
                 oldEvent.getState() != State.PENDING) {
             throw new CustomException(HttpStatus.CONFLICT.name(),
                     "Невозможно редактировать событие",
                     "Событие не в состоянии ожидания публикации",
                     Collections.emptyList());
         }
-        if (updateRequest.getStateAction() != null && updateRequest.getStateAction() == StateAction.REJECT_EVENT &&
+        if (updateRequest.getStateAction() != null && updateRequest.getStateAction() == EventAction.REJECT_EVENT &&
                 oldEvent.getState() == State.PUBLISHED) {
             throw new CustomException(HttpStatus.CONFLICT.name(),
                     "Невозможно отменить событие",
@@ -269,7 +295,6 @@ public class EventService {
     }
 
     private void checkEventUpdateRequest(Event oldEvent, EventUpdateRequest updateRequest, Integer userId) {
-
         if (oldEvent.getInitiator().getId() != userId) {
             throw new CustomException(HttpStatus.BAD_REQUEST.name(),
                     "Невозможно редактировать событие",
@@ -285,12 +310,6 @@ public class EventService {
         if (updateRequest.getEventDate() != null && updateRequest.getEventDate().minusHours(2).isBefore(LocalDateTime.now())) {
             throw new CustomException(HttpStatus.CONFLICT.name(),
                     "Время проведения менее двух часов от текущего времени.",
-                    "Некорректные данные",
-                    Collections.emptyList());
-        }
-        if (updateRequest.getCategory() != null && !categoryRepository.existsById(updateRequest.getCategory())) {
-            throw new CustomException(HttpStatus.BAD_REQUEST.name(),
-                    "Категории с id = " + updateRequest.getCategory() + " не существует.",
                     "Некорректные данные",
                     Collections.emptyList());
         }
@@ -339,11 +358,11 @@ public class EventService {
         if (request.getParticipantLimit() != null) event.setParticipantLimit(request.getParticipantLimit());
         if (request.getCategory() != null)
             event.setCategory(categoryRepository.getReferenceById(request.getCategory()));
-        if (request.getStateAction() != null && request.getStateAction().equals(StateAction.PUBLISH_EVENT)) {
+        if (request.getStateAction() != null && request.getStateAction().equals(EventAction.PUBLISH_EVENT)) {
             event.setState(State.PUBLISHED);
             event.setPublishedOn(LocalDateTime.now());
         }
-        if (request.getStateAction() != null && request.getStateAction().equals(StateAction.REJECT_EVENT))
+        if (request.getStateAction() != null && request.getStateAction().equals(EventAction.REJECT_EVENT))
             event.setState(State.CANCELED);
     }
 

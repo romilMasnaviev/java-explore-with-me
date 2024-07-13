@@ -1,11 +1,11 @@
-package ru.masnaviev.explore.controller.pub;
+package ru.masnaviev.explore.controller.event;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.masnaviev.explore.dto.event.EventFullDto;
-import ru.masnaviev.explore.model.Sort;
+import ru.masnaviev.explore.model.enums.EventSort;
 import ru.masnaviev.explore.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,16 +31,16 @@ public class PublicEventController {
                                         @RequestParam(name = "rangeStart", required = false) @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime rangeStart,
                                         @RequestParam(name = "rangeEnd", required = false) @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime rangeEnd,
                                         @RequestParam(name = "onlyAvailable", required = false, defaultValue = "false") Boolean onlyAvailable,
-                                        @RequestParam(name = "sort", required = false) Sort sort,
-                                        @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
-                                        @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size,
+                                        @RequestParam(name = "sort", required = false) EventSort sort,
+                                        @RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
+                                        @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
                                         HttpServletRequest httpServletRequest) {
         return service.getEvents(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest);
     }
 
     @GetMapping("/{id}")
-    public EventFullDto getEvent(@PathVariable @Positive Integer id,
+    public EventFullDto getEvent(@PathVariable(name = "id") @Positive @Min(value = 0)Integer eventId,
                                  HttpServletRequest httpServletRequest) {
-        return service.getEvent(id, httpServletRequest);
+        return service.getEvent(eventId, httpServletRequest);
     }
 }

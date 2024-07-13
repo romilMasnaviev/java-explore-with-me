@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.controller.admin;
+package ru.masnaviev.explore.controller.event;
 
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.masnaviev.explore.dto.event.EventFullDto;
 import ru.masnaviev.explore.dto.event.EventUpdateAdminRequest;
-import ru.masnaviev.explore.model.State;
+import ru.masnaviev.explore.model.enums.State;
 import ru.masnaviev.explore.service.EventService;
 
 import javax.validation.Valid;
@@ -25,7 +25,7 @@ public class AdminEventController {
     private EventService service;
 
     @PatchMapping("/{eventId}")
-    public EventFullDto updateEventInfoAndStatus(@PathVariable @Min(0) Integer eventId,
+    public EventFullDto updateEventInfoAndStatus(@PathVariable @Min(value = 0) Integer eventId,
                                                  @RequestBody @Valid EventUpdateAdminRequest updateRequest) {
         return service.updateEventInfoAndStatus(eventId, updateRequest);
     }
@@ -38,8 +38,8 @@ public class AdminEventController {
                                         @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime rangeStart,
                                         @RequestParam(name = "rangeEnd", required = false)
                                         @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime rangeEnd,
-                                        @RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
-                                        @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
+                                        @RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
+                                        @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size) {
         return service.getEvents(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 

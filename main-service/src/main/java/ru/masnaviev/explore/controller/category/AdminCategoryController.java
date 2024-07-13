@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.controller.admin;
+package ru.masnaviev.explore.controller.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

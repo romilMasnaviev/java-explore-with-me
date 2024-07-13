@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.controller.admin;
+package ru.masnaviev.explore.controller.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class AdminUserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable(name = "userId") Integer userId) {
         return service.deleteUser(userId);
     }
 

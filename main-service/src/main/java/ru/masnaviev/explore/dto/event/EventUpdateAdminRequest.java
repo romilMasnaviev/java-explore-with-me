@@ -3,7 +3,7 @@ package ru.masnaviev.explore.dto.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import ru.masnaviev.explore.dto.location.LocationDto;
-import ru.masnaviev.explore.model.StateAction;
+import ru.masnaviev.explore.model.enums.EventAction;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
@@ -27,7 +27,7 @@ public class EventUpdateAdminRequest {
     private Boolean paid;
     private Integer participantLimit;
     private Boolean requestModeration;
-    private StateAction stateAction;
+    private EventAction stateAction;
 
     @Size(min = 3, max = 120, message = "Заголовок должен быть от {min} до {max} символов")
     private String title;

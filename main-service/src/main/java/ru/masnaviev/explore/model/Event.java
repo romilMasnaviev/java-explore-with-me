@@ -1,6 +1,7 @@
 package ru.masnaviev.explore.model;
 
 import lombok.Data;
+import ru.masnaviev.explore.model.enums.State;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

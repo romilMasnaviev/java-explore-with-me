@@ -3,7 +3,7 @@ package ru.masnaviev.explore.dto.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import ru.masnaviev.explore.dto.location.LocationDto;
-import ru.masnaviev.explore.model.StateAction;
+import ru.masnaviev.explore.model.enums.StateAction;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Positive;

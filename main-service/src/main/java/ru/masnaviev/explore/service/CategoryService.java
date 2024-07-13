@@ -33,9 +33,6 @@ public class CategoryService {
         log.debug("Изменение категории {}, catId = {}", updateCategory, catId);
         Category category = converter.changeCategoryDtoConvertToCategory(updateCategory);
         category.setId(catId);
-        if (!repository.existsById(catId)) {
-            throw new EntityNotFoundException("Категории с id=" + catId + " не существует");
-        }
         Category updatedCategory = repository.save(category);
         return converter.categoryConvertToCategoryDto(updatedCategory);
     }

@@ -5,7 +5,7 @@ import lombok.Data;
 import ru.masnaviev.explore.dto.category.CategoryDto;
 import ru.masnaviev.explore.dto.location.LocationDto;
 import ru.masnaviev.explore.dto.user.UserShortDto;
-import ru.masnaviev.explore.model.State;
+import ru.masnaviev.explore.model.enums.State;
 
 import java.time.LocalDateTime;
 

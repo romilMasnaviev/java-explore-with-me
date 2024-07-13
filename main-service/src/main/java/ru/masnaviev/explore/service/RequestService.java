@@ -13,8 +13,8 @@ import ru.masnaviev.explore.dto.request.ParticipantRequestDto;
 import ru.masnaviev.explore.handler.CustomException;
 import ru.masnaviev.explore.model.Event;
 import ru.masnaviev.explore.model.Request;
-import ru.masnaviev.explore.model.State;
-import ru.masnaviev.explore.model.Status;
+import ru.masnaviev.explore.model.enums.State;
+import ru.masnaviev.explore.model.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.controller.pub;
+package ru.masnaviev.explore.controller.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -18,13 +18,13 @@ public class PublicCategoryController {
     public CategoryService service;
 
     @GetMapping()
-    public List<CategoryDto> getCategories(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(0) Integer from,
-                                           @RequestParam(name = "size", required = false, defaultValue = "10") @Min(1) Integer size) {
+    public List<CategoryDto> getCategories(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
+                                           @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size) {
         return service.getCategories(from, size);
     }
 
     @GetMapping("/{catId}")
-    public CategoryDto getCategory(@PathVariable(name = "catId") @Min(0) Integer catId) {
+    public CategoryDto getCategory(@PathVariable(name = "catId") @Min(value = 0) Integer catId) {
         return service.getCategory(catId);
     }
 }

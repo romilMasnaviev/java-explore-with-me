@@ -1,7 +1,7 @@
 package ru.masnaviev.explore.dto.request;
 
 import lombok.Data;
-import ru.masnaviev.explore.model.Status;
+import ru.masnaviev.explore.model.enums.Status;
 
 import java.time.LocalDateTime;
 

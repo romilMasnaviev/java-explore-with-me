@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class CustomException extends RuntimeException {
     private final String status;
     private final String reason;
