@@ -22,7 +22,7 @@ public class AdminCompilationController {
     private CompilationService service;
 
     @PostMapping
-    public CompilationDto createCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
+    public ResponseEntity<CompilationDto> createCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
         return service.createCompilation(compilationDto);
     }
 
@@ -33,8 +33,8 @@ public class AdminCompilationController {
 
     @PatchMapping("/{compId}")
     CompilationDto updateCompilation(@PathVariable @Min(0) Integer compId,
-                                     @RequestBody UpdateCompilationRequest request) {
-        return service.updateCompilation(compId,request);
+                                     @RequestBody @Valid UpdateCompilationRequest request) {
+        return service.updateCompilation(compId, request);
     }
 
 }

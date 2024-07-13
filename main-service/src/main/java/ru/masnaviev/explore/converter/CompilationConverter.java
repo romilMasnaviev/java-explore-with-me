@@ -13,25 +13,4 @@ public interface CompilationConverter {
 
     List<CompilationDto> compilationConvertToCompilationDto(List<Compilation> compilation);
 
-
 }
-
-
-//public class Compilation {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private int id;
-//    @OneToMany(mappedBy = "compilation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Event> events;
-//
-//    private boolean pinned;
-//    private String title;
-//}
-
-
-//public class CompilationDto {
-//    private int id;
-//    private List<EventShortDto> events;
-//    private boolean pinned;
-//    private String title;
-//}

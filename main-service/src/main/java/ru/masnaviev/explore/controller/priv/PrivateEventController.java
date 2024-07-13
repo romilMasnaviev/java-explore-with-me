@@ -2,6 +2,8 @@ package ru.masnaviev.explore.controller.priv;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.masnaviev.explore.dto.event.EventFullDto;
@@ -27,7 +29,7 @@ public class PrivateEventController {
     private EventService service;
 
     @PostMapping("/{userId}/events")
-    public EventFullDto createEvent(@PathVariable Integer userId, @RequestBody @Valid NewEventDto newEvent) {
+    public ResponseEntity<EventFullDto> createEvent(@PathVariable Integer userId, @RequestBody @Valid NewEventDto newEvent) {
         return service.createEvent(userId, newEvent);
     }
 

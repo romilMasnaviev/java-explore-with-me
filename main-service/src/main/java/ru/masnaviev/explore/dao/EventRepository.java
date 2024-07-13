@@ -48,5 +48,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
                                           Pageable pageable);
 
     boolean existsByIdAndState(Integer id, State state);
+
 }
 

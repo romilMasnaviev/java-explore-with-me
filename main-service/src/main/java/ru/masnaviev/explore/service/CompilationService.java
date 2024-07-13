@@ -2,6 +2,8 @@ package ru.masnaviev.explore.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class CompilationService {
 
     private EventRepository eventRepository;
 
-    public CompilationDto createCompilation(NewCompilationDto compilationDto) {
+    public ResponseEntity<CompilationDto> createCompilation(NewCompilationDto compilationDto) {
         log.debug("Добавление новой подборки, compilationDto = {}", compilationDto);
         List<Event> events = new ArrayList<>();
         if (compilationDto.getEvents() != null) {
@@ -40,9 +42,24 @@ public class CompilationService {
         compilation.setTitle(compilationDto.getTitle());
         compilation.setPinned(compilationDto.isPinned());
 
-        return converter.compilationConvertToCompilationDto(repository.save(compilation));
+        return new ResponseEntity<>(converter.compilationConvertToCompilationDto(repository.save(compilation)), HttpStatus.CREATED);
     }
 
+    public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
+        log.debug("Получение подборок, pinned = {}, from = {}, size = {}", pinned, from, size);
+        Pageable pageable = PageRequest.of(from, size);
+
+        List<Compilation> compilations = repository.findAllByPinned(pinned, pageable);
+        return converter.compilationConvertToCompilationDto(compilations);
+    }
+
+    public ResponseEntity<CompilationDto> getCompilationById(Integer compId) {
+        if (!repository.existsById(compId)) {
+            throw new EntityNotFoundException("Подборки с id = " + compId + " не существует.");
+        }
+        Compilation compilation = repository.getReferenceById(compId);
+        return new ResponseEntity<>(converter.compilationConvertToCompilationDto(compilation), HttpStatus.OK);
+    }
 
     public ResponseEntity<HttpStatus> deleteCompilation(Integer compId) {
         log.debug("Удаление подборки, compilationDto = {}", compId);
@@ -69,6 +86,6 @@ public class CompilationService {
             compilation.setEvents(events);
         }
         if (request.getTitle() != null) compilation.setTitle(request.getTitle());
-        if(request.getPinned() != null) compilation.setPinned(request.getPinned());
+        if (request.getPinned() != null) compilation.setPinned(request.getPinned());
     }
 }

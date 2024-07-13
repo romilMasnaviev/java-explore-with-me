@@ -22,11 +22,11 @@ public class CategoryService {
     private CategoryRepository repository;
     private CategoryConverter converter;
 
-    public CategoryDto createCategory(NewCategoryDto newCategory) {
+    public ResponseEntity<CategoryDto> createCategory(NewCategoryDto newCategory) {
         log.debug("Создание категории {}", newCategory);
         Category category = converter.newCategoryDtoConvertToCategory(newCategory);
         Category savedCategory = repository.save(category);
-        return converter.categoryConvertToCategoryDto(savedCategory);
+        return new ResponseEntity<>(converter.categoryConvertToCategoryDto(savedCategory),HttpStatus.CREATED);
     }
 
     public CategoryDto changeCategory(Integer catId, ChangeDirectoryDto changeDirectory) {

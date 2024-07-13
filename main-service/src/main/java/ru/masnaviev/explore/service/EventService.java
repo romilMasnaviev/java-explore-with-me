@@ -4,13 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.masnaviev.explore.client.Client;
 import ru.masnaviev.explore.converter.EventConverter;
 import ru.masnaviev.explore.converter.LocationConverter;
 import ru.masnaviev.explore.converter.RequestConverter;
 import ru.masnaviev.explore.dao.*;
+import ru.masnaviev.explore.dto.StatEntityGetResponse;
 import ru.masnaviev.explore.dto.StatEntityPostRequest;
 import ru.masnaviev.explore.dto.event.*;
 import ru.masnaviev.explore.dto.request.EventRequestStatusUpdateRequest;
@@ -44,14 +47,14 @@ public class EventService {
 
     private Client statClient;
 
-    public EventFullDto createEvent(Integer userId, NewEventDto newEvent) {
+    public ResponseEntity<EventFullDto> createEvent(Integer userId, NewEventDto newEvent) {
         log.debug("Создание события {}, userId = {}", newEvent, userId);
         checkNewEventValidData(newEvent, userId);
         Event event = buildEvent(newEvent, userId);
 
         locationRepository.save(event.getLocation());
         Event savedEvent = repository.save(event);
-        return converter.eventConvertToEventFullDto(savedEvent);
+        return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent),HttpStatus.CREATED);
     }
 
     public EventFullDto getEvent(Integer userId, Integer eventId) {
@@ -186,8 +189,11 @@ public class EventService {
         if (rangeStart == null) {
             rangeStart = LocalDateTime.now();
         }
+        if (rangeEnd == null) {
+            rangeEnd = LocalDateTime.now().plusYears(100);
+        }
 
-        if (rangeEnd != null && rangeEnd.isBefore(rangeStart)) {
+        if (rangeEnd.isBefore(rangeStart)) {
             throw new CustomException(HttpStatus.BAD_REQUEST.name(), "Время конца меньше времени начала", "Некорректные данные", Collections.emptyList());
         }
 
@@ -207,7 +213,16 @@ public class EventService {
             throw new EntityNotFoundException("Сущности с id = " + id + " не существует");
         }
         Event event = repository.getReferenceById(id);
-
+        ///TODO сильно сомневаюсь что так надо
+        List<StatEntityGetResponse> responses = statClient
+                .get(LocalDateTime.now().minusYears(100),
+                        LocalDateTime.now(),
+                        List.of(httpServletRequest.getRequestURI()),
+                        true);
+        if(responses != null){
+            event.setViews((int) responses.get(0).getHits());
+        }
+        ///TODO сильно сомневаюсь что так надо
         return converter.eventConvertToEventFullDto(event);
 
     }
@@ -257,6 +272,7 @@ public class EventService {
     }
 
     private void checkEventUpdateRequest(Event oldEvent, EventUpdateRequest updateRequest, Integer userId) {
+
         if (oldEvent.getInitiator().getId() != userId) {
             throw new CustomException(HttpStatus.BAD_REQUEST.name(),
                     "Невозможно редактировать событие",
@@ -326,7 +342,7 @@ public class EventService {
         if (request.getParticipantLimit() != null) event.setParticipantLimit(request.getParticipantLimit());
         if (request.getCategory() != null)
             event.setCategory(categoryRepository.getReferenceById(request.getCategory()));
-        if (request.getStateAction().equals(StateAction.PUBLISH_EVENT)) {
+        if (request.getStateAction() != null && request.getStateAction().equals(StateAction.PUBLISH_EVENT)) {
             event.setState(State.PUBLISHED);
             event.setPublishedOn(LocalDateTime.now());
         }
