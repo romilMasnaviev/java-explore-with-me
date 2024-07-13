@@ -1,14 +1,13 @@
-package ru.masnaviev.explore.controller;
+package ru.masnaviev.explore.controller.admin;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.masnaviev.explore.dto.UserCreateDto;
-import ru.masnaviev.explore.dto.request.UserDto;
-import ru.masnaviev.explore.service.AdminService;
+import ru.masnaviev.explore.dto.user.NewUserDto;
+import ru.masnaviev.explore.dto.user.UserDto;
+import ru.masnaviev.explore.service.UserService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -16,26 +15,25 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/admin")
-@Slf4j
+@RequestMapping("/admin/users")
 @Validated
-public class AdminController {
+public class AdminUserController {
 
-    private AdminService service;
+    private UserService service;
 
-    @PostMapping("/users")
-    public UserDto createUser(@RequestBody @Valid UserCreateDto user) {
+    @PostMapping()
+    public ResponseEntity<?> createUser(@RequestBody @Valid NewUserDto user) {
         return service.createUser(user);
     }
 
-    @GetMapping("/users")
-    public List<UserDto> getUsers(@RequestParam(name = "from", required = false) @Min(value = 0) Integer from,
-                                  @RequestParam(name = "size", required = false) @Min(value = 1) Integer size,
+    @GetMapping()
+    public ResponseEntity<?> getUsers(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
+                                  @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
                                   @RequestParam(name = "ids", required = false) List<Integer> ids) {
         return service.getUsers(from, size, ids);
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("userId") Integer userId) {
         return service.deleteUser(userId);
     }

@@ -15,7 +15,7 @@ public interface StatEntityRepository extends JpaRepository<StatEntity, Integer>
             "count(distinct (case when :unique = true then s.ip else concat(s.id,s.ip) end))) " +
             "from StatEntity s " +
             "where s.timestamp > :start and s.timestamp < :end " +
-            "and (:#{#uris == null || #uris.isEmpty()} = true OR s.uri IN :uris) " +
+                "and ((:uris) is null OR s.uri IN (:uris)) " + // было  "and (:#{#uris == null || #uris.isEmpty()} = true OR s.uri IN :uris) " +
             "group by s.app, s.uri " +
             "order by count(distinct (case when :unique = true then s.ip else concat(s.id,s.ip) end)) desc ")
     List<StatEntityGetResponse> getStatistics(@Param("start") LocalDateTime start,

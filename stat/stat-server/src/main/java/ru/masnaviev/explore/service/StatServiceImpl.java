@@ -49,6 +49,6 @@ public class StatServiceImpl implements StatService {
     @Override
     public List<StatEntityGetResponse> get(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         log.debug("StatServiceImpl. Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
-        return repository.getStatistics(start, end, Objects.requireNonNullElseGet(uris, ArrayList::new), unique);
+        return repository.getStatistics(start, end, uris, unique);
     }
 }

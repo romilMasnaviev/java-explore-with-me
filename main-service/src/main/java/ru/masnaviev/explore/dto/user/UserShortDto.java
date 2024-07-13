@@ -1,4 +1,4 @@
-package ru.masnaviev.explore.dto;
+package ru.masnaviev.explore.dto.user;
 
 import lombok.Data;
 

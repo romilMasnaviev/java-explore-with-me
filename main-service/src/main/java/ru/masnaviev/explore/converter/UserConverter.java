@@ -1,8 +1,8 @@
 package ru.masnaviev.explore.converter;
 
 import org.mapstruct.Mapper;
-import ru.masnaviev.explore.dto.UserCreateDto;
-import ru.masnaviev.explore.dto.request.UserDto;
+import ru.masnaviev.explore.dto.user.NewUserDto;
+import ru.masnaviev.explore.dto.user.UserDto;
 import ru.masnaviev.explore.model.User;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UserConverter {
 
-    User userCreateDtoConvertToUser(UserCreateDto userCreateDto);
+    User newUserDtoConvertToUser(NewUserDto newUser);
 
     UserDto userConvertToUserDto(User user);
 
