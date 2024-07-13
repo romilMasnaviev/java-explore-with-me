@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import ru.masnaviev.explore.converter.CategoryConverter;
 import ru.masnaviev.explore.dao.CategoryRepository;
 import ru.masnaviev.explore.dto.category.CategoryDto;
-import ru.masnaviev.explore.dto.category.ChangeDirectoryDto;
 import ru.masnaviev.explore.dto.category.NewCategoryDto;
+import ru.masnaviev.explore.dto.category.UpdateCategoryDto;
 import ru.masnaviev.explore.model.Category;
 
 import javax.persistence.EntityNotFoundException;
@@ -26,12 +26,12 @@ public class CategoryService {
         log.debug("Создание категории {}", newCategory);
         Category category = converter.newCategoryDtoConvertToCategory(newCategory);
         Category savedCategory = repository.save(category);
-        return new ResponseEntity<>(converter.categoryConvertToCategoryDto(savedCategory),HttpStatus.CREATED);
+        return new ResponseEntity<>(converter.categoryConvertToCategoryDto(savedCategory), HttpStatus.CREATED);
     }
 
-    public CategoryDto changeCategory(Integer catId, ChangeDirectoryDto changeDirectory) {
-        log.debug("Изменение категории {}, catId = {}", changeDirectory, catId);
-        Category category = converter.changeCategoryDtoConvertToCategory(changeDirectory);
+    public CategoryDto updateCategory(Integer catId, UpdateCategoryDto updateCategory) {
+        log.debug("Изменение категории {}, catId = {}", updateCategory, catId);
+        Category category = converter.changeCategoryDtoConvertToCategory(updateCategory);
         category.setId(catId);
         if (!repository.existsById(catId)) {
             throw new EntityNotFoundException("Категории с id=" + catId + " не существует");
@@ -40,7 +40,7 @@ public class CategoryService {
         return converter.categoryConvertToCategoryDto(updatedCategory);
     }
 
-    public ResponseEntity<HttpStatus> deleteCategory(Integer catId) { //TODO добавить postman тесты, когда существуют события, связанные с категорией
+    public ResponseEntity<HttpStatus> deleteCategory(Integer catId) {
         log.debug("Удаление категории, catId = {}", catId);
         repository.deleteById(catId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

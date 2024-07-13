@@ -18,10 +18,10 @@ public class PublicCompilationController {
     private CompilationService service;
 
     @GetMapping()
-    public List<CompilationDto> getCompilations(@RequestParam(name = "pinned",required = false) Boolean pinned,
+    public List<CompilationDto> getCompilations(@RequestParam(name = "pinned", required = false) Boolean pinned,
                                                 @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                                @RequestParam(name = "size", defaultValue = "10") Integer size){
-        return service.getCompilations(pinned,from,size);
+                                                @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        return service.getCompilations(pinned, from, size);
     }
 
     @GetMapping("/{compId}")

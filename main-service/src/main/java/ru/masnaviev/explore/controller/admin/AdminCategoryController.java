@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.masnaviev.explore.dto.category.CategoryDto;
-import ru.masnaviev.explore.dto.category.ChangeDirectoryDto;
 import ru.masnaviev.explore.dto.category.NewCategoryDto;
+import ru.masnaviev.explore.dto.category.UpdateCategoryDto;
 import ru.masnaviev.explore.service.CategoryService;
 
 import javax.validation.Valid;
@@ -27,13 +27,13 @@ public class AdminCategoryController {
     }
 
     @PatchMapping("/{catId}")
-    public CategoryDto changeCategory(@PathVariable @Min(value = 0) Integer catId,
-                                      @RequestBody @Valid ChangeDirectoryDto changeDirectory) {
-        return service.changeCategory(catId, changeDirectory);
+    public CategoryDto updateCategory(@PathVariable @Min(value = 0) Integer catId,
+                                      @RequestBody @Valid UpdateCategoryDto updateCategory) {
+        return service.updateCategory(catId, updateCategory);
     }
 
     @DeleteMapping("/{catId}")
-    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable @Min(value = 0) Integer catId){
+    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable @Min(value = 0) Integer catId) {
         return service.deleteCategory(catId);
     }
 }

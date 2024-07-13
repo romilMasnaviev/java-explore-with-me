@@ -7,7 +7,7 @@ import ru.masnaviev.explore.model.Status;
 import java.util.List;
 import java.util.Optional;
 
-public interface RequestRepository extends JpaRepository<Request,Integer> {
+public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     List<Request> findAllByEventId(int eventId);
 

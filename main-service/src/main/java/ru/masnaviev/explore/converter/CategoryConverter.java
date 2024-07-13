@@ -2,8 +2,8 @@ package ru.masnaviev.explore.converter;
 
 import org.mapstruct.Mapper;
 import ru.masnaviev.explore.dto.category.CategoryDto;
-import ru.masnaviev.explore.dto.category.ChangeDirectoryDto;
 import ru.masnaviev.explore.dto.category.NewCategoryDto;
+import ru.masnaviev.explore.dto.category.UpdateCategoryDto;
 import ru.masnaviev.explore.model.Category;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface CategoryConverter {
 
     CategoryDto categoryConvertToCategoryDto(Category category);
 
-    Category changeCategoryDtoConvertToCategory(ChangeDirectoryDto changeDirectory);
+    Category changeCategoryDtoConvertToCategory(UpdateCategoryDto changeDirectory);
 
     List<CategoryDto> categoryConvertToCategoryDto(List<Category> category);
 }

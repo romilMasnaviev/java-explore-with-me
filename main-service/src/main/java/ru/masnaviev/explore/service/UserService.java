@@ -24,15 +24,15 @@ public class UserService {
         log.debug("Создание пользователя {}", newUser);
         User user = userConverter.newUserDtoConvertToUser(newUser);
         User savedUser = userRepository.save(user);
-        return new ResponseEntity<>(userConverter.userConvertToUserDto(savedUser),HttpStatus.CREATED);
+        return new ResponseEntity<>(userConverter.userConvertToUserDto(savedUser), HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<UserDto>> getUsers(Integer from, Integer size, List<Integer> ids) {
         log.debug("Получение пользователей, from = {}, from = {}, ids = {}", from, size, ids);
         if (ids != null) {
-            return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllById(ids)),HttpStatus.OK);
+            return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllById(ids)), HttpStatus.OK);
         }
-        return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllUsers(from, size)),HttpStatus.OK);
+        return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllUsers(from, size)), HttpStatus.OK);
     }
 
     public ResponseEntity<HttpStatus> deleteUser(Integer userId) {

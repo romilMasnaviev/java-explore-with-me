@@ -9,6 +9,6 @@ import java.util.List;
 public class UpdateCompilationRequest {
     private List<Integer> events;
     private Boolean pinned;
-    @Size(max = 50)
+    @Size(max = 50, message = "Заголовок должен быть не более {max} символов")
     private String title;
 }

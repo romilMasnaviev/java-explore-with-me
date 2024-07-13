@@ -1,8 +1,6 @@
 package ru.masnaviev.explore.model;
 
 import lombok.Data;
-import org.springframework.data.annotation.Reference;
-import ru.masnaviev.explore.dto.user.UserShortDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,7 +30,7 @@ public class Event {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "initiator_id", referencedColumnName = "id")
     private User initiator;
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
     @Column(name = "paid")

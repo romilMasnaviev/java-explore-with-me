@@ -9,7 +9,6 @@ import ru.masnaviev.explore.model.State;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
@@ -22,7 +21,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             "and ((:states) is null or e.state in (:states)) " +
             "and ((:categories) is null or e.category.id in (:categories)) " +
             "and ((cast(:rangeStart as date) is null and cast(:rangeEnd as date) is null) " +
-                "or (e.eventDate < :rangeEnd and  e.eventDate > :rangeStart))")
+            "or (e.eventDate < :rangeEnd and  e.eventDate > :rangeStart))")
     List<Event> getAllByParameters(@Param("users") List<Integer> users,
                                    @Param("states") List<State> states,
                                    @Param("categories") List<Integer> categories,

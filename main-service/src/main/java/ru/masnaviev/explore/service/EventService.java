@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,7 +53,7 @@ public class EventService {
 
         locationRepository.save(event.getLocation());
         Event savedEvent = repository.save(event);
-        return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent),HttpStatus.CREATED);
+        return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent), HttpStatus.CREATED);
     }
 
     public EventFullDto getEvent(Integer userId, Integer eventId) {
@@ -200,10 +199,8 @@ public class EventService {
         Pageable pageable = PageRequest.of(from, size);
         List<Event> events = repository.getAllByTextAndParameters(
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable);
-        List<EventFullDto> eventFullDtos = converter.eventConvertToEventFullDto(events);
 
-
-        return eventFullDtos;
+        return converter.eventConvertToEventFullDto(events);
     }
 
     public EventFullDto getEvent(Integer id, HttpServletRequest httpServletRequest) {
@@ -219,7 +216,7 @@ public class EventService {
                         LocalDateTime.now(),
                         List.of(httpServletRequest.getRequestURI()),
                         true);
-        if(responses != null){
+        if (responses != null) {
             event.setViews((int) responses.get(0).getHits());
         }
         ///TODO сильно сомневаюсь что так надо

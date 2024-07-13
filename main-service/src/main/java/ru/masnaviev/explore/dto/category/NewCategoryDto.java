@@ -8,8 +8,8 @@ import javax.validation.constraints.Size;
 
 @Data
 public class NewCategoryDto {
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Имя категории не должно быть пустым")
+    @NotBlank(message = "Имя категории не должно содержать только пробельные символы")
+    @Size(min = 1, max = 50, message = "Имя категории должно быть от {min} до {max} символов")
     private String name;
 }

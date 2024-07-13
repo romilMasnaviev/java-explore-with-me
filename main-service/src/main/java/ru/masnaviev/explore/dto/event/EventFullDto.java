@@ -1,19 +1,10 @@
 package ru.masnaviev.explore.dto.event;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.DateTimeSerializerBase;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import ru.masnaviev.explore.dto.category.CategoryDto;
 import ru.masnaviev.explore.dto.location.LocationDto;
 import ru.masnaviev.explore.dto.user.UserShortDto;
-import ru.masnaviev.explore.model.Category;
-import ru.masnaviev.explore.model.Location;
 import ru.masnaviev.explore.model.State;
 
 import java.time.LocalDateTime;

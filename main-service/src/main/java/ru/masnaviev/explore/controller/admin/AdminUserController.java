@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.masnaviev.explore.dto.user.NewUserDto;
-import ru.masnaviev.explore.dto.user.UserDto;
 import ru.masnaviev.explore.service.UserService;
 
 import javax.validation.Valid;
@@ -28,8 +27,8 @@ public class AdminUserController {
 
     @GetMapping()
     public ResponseEntity<?> getUsers(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
-                                  @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
-                                  @RequestParam(name = "ids", required = false) List<Integer> ids) {
+                                      @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
+                                      @RequestParam(name = "ids", required = false) List<Integer> ids) {
         return service.getUsers(from, size, ids);
     }
 

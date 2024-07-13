@@ -11,8 +11,8 @@ import java.util.List;
 public class NewCompilationDto {
     private List<Integer> events;
     private boolean pinned;
-    @NotNull
-    @NotBlank
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Заголовок не должен быть пустым")
+    @NotBlank(message = "Заголовок не должен содержать только пробельные символы")
+    @Size(min = 1, max = 50, message = "Заголовок должен быть от {min} до {max} символов")
     private String title;
 }
