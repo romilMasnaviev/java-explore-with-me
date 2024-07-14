@@ -35,12 +35,12 @@ public class PublicEventController {
                                         @RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
                                         @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
                                         HttpServletRequest httpServletRequest) {
-        return service.getEvents(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest);
+        return service.getEventsPublic(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, httpServletRequest);
     }
 
     @GetMapping("/{id}")
-    public EventFullDto getEvent(@PathVariable(name = "id") @Positive @Min(value = 0)Integer eventId,
+    public EventFullDto getEvent(@PathVariable(name = "id") @Positive @Min(value = 0) Integer eventId,
                                  HttpServletRequest httpServletRequest) {
-        return service.getEvent(eventId, httpServletRequest);
+        return service.getEventPublic(eventId, httpServletRequest);
     }
 }

@@ -12,7 +12,6 @@ import ru.masnaviev.explore.dto.category.NewCategoryDto;
 import ru.masnaviev.explore.dto.category.UpdateCategoryDto;
 import ru.masnaviev.explore.model.Category;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service

@@ -36,7 +36,7 @@ public class PrivateEventController {
     @GetMapping("/{userId}/events/{eventId}")
     public EventFullDto getEvent(@PathVariable @Min(value = 0) Integer userId,
                                  @PathVariable(name = "eventId") @Min(value = 0) Integer eventId) {
-        return service.getEvent(userId, eventId);
+        return service.getEventPublic(userId, eventId);
     }
 
     @GetMapping("/{userId}/events")

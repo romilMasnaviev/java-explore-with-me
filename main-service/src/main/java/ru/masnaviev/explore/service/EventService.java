@@ -29,8 +29,9 @@ import ru.masnaviev.explore.model.enums.*;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -60,7 +61,7 @@ public class EventService {
         return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent), HttpStatus.CREATED);
     }
 
-    public EventFullDto getEvent(Integer userId, Integer eventId) {
+    public EventFullDto getEventPublic(Integer userId, Integer eventId) {
         log.debug("Получение события, userId = {}, eventId ={}", userId, eventId);
         Event event = repository.getReferenceById(eventId);
         if (event.getInitiator().getId() != userId) {
@@ -173,8 +174,8 @@ public class EventService {
         return converter.eventConvertToEventFullDto(repository.getAllByParameters(users, states, categories, rangeStart, rangeEnd, pageable));
     }
 
-    public List<EventFullDto> getEvents(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
-                                        LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
+    public List<EventFullDto> getEventsPublic(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
+                                              LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
         log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
                         "rangeStart = {}, rangeEnd = {}, onlyAvailable = {}, sort = {}, from = {}, size = {}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
@@ -197,9 +198,44 @@ public class EventService {
         List<Event> events = repository.getAllByTextAndParameters(
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable);
 
-        setViewsForEvents(events, httpServletRequest);
-
+        for (Event event : events) {
+            setEventViews(event, httpServletRequest);
+        }
+        repository.saveAll(events);
         return converter.eventConvertToEventFullDto(events);
+    }
+
+    public EventFullDto getEventPublic(Integer id, HttpServletRequest httpServletRequest) {
+        log.debug("Получение события по id, id = {}", id);
+        saveEndpointHit(httpServletRequest);
+        if (!repository.existsByIdAndState(id, State.PUBLISHED)) {
+            throw new EntityNotFoundException("Сущности с id = " + id + " не существует. Возможно событие еще не опубликовано");
+        }
+
+        Event event = repository.getReferenceById(id);
+        setEventViews(event, httpServletRequest);
+        repository.save(event);
+
+        return converter.eventConvertToEventFullDto(event);
+    }
+
+    private void setEventViews(Event event, HttpServletRequest httpServletRequest) {
+        String uri = httpServletRequest.getRequestURI();
+        List<StatEntityGetResponse> responses = statClient
+                .get(LocalDateTime.now().minusYears(100),
+                        LocalDateTime.now(),
+                        List.of(httpServletRequest.getRequestURI()),
+                        true);
+        int hitCount = 0;
+        if (responses != null) {
+            for (StatEntityGetResponse response : responses) {
+                if (response.getUri().equals(uri)) {
+                    hitCount = (int) response.getHits();
+                    break;
+                }
+            }
+            event.setViews(hitCount);
+        }
     }
 
     private void validateUserAccessToEvent(Integer eventId, Integer userId) {
@@ -209,26 +245,6 @@ public class EventService {
                     "Невозможно просматривать заявки",
                     "Вы не являетесь владельцем данного события",
                     Collections.emptyList());
-        }
-    }
-
-
-    //TODO Подумать что вообще тут делать
-    private void setViewsForEvents(List<Event> events, HttpServletRequest httpServletRequest) {
-        List<String> uris = List.of(httpServletRequest.getRequestURI());
-        LocalDateTime start = LocalDateTime.now().minusYears(100);
-        LocalDateTime end = LocalDateTime.now();
-        List<StatEntityGetResponse> responses = statClient.get(start, end, uris, true);
-
-        Map<String, Long> uriToHitsMap = new HashMap<>();
-        if (responses != null) {
-            Collectors Collectors = null;
-            uriToHitsMap = responses.stream()
-                    .collect(java.util.stream.Collectors.toMap(StatEntityGetResponse::getUri, StatEntityGetResponse::getHits));
-        }
-        for (Event event : events) {
-            Long hits = uriToHitsMap.getOrDefault(httpServletRequest.getRequestURI(), 0L);
-            event.setViews(hits.intValue());
         }
     }
 
@@ -242,24 +258,6 @@ public class EventService {
         } else {
             return "id";
         }
-    }
-
-    public EventFullDto getEvent(Integer id, HttpServletRequest httpServletRequest) {
-        log.debug("Получение события по id, id = {}", id);
-        saveEndpointHit(httpServletRequest);
-        if (!repository.existsByIdAndState(id, State.PUBLISHED)) {
-            throw new EntityNotFoundException("Сущности с id = " + id + " не существует");
-        }
-        Event event = repository.getReferenceById(id);
-        List<StatEntityGetResponse> responses = statClient
-                .get(LocalDateTime.now().minusYears(100),
-                        LocalDateTime.now(),
-                        List.of(httpServletRequest.getRequestURI()),
-                        true);
-        if (responses != null) {
-            event.setViews((int) responses.get(0).getHits());
-        }
-        return converter.eventConvertToEventFullDto(event);
     }
 
     private void checkNewEventValidData(NewEventDto newEvent) {

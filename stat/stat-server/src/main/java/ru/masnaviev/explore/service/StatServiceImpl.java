@@ -10,9 +10,7 @@ import ru.masnaviev.explore.dto.StatEntityPostRequest;
 import ru.masnaviev.explore.model.StatEntity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Сервис для {@link StatEntity}
