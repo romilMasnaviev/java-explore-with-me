@@ -51,7 +51,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.masnaviev.explore.StatServer</mainClass>
+                            <mainClass>ru.masnaviev.StatServer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
