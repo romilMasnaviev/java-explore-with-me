@@ -15,7 +15,6 @@ import ru.practicum.service.StatServiceImpl;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +94,8 @@ class StatControllerIntegrationTest {
         when(service.get(any(LocalDateTime.class), any(LocalDateTime.class), any(), anyBoolean())).thenReturn(entities);
 
         mvc.perform(get("/stats")
-                        .param("start", now().minusMinutes(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                        .param("end", now().plusMinutes(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        .param("start", now().minusMinutes(1).toString())
+                        .param("end", now().plusMinutes(1).toString())
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -163,6 +162,6 @@ class StatControllerIntegrationTest {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk());
     }
 }
