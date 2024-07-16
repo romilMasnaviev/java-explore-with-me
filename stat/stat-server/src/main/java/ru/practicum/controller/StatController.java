@@ -13,6 +13,7 @@ import ru.practicum.model.StatEntity;
 import ru.practicum.service.StatService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -46,8 +47,8 @@ public class StatController {
      * Получение сущности статистики
      */
     @GetMapping("/stats")
-    List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime start, //вот тут точно так
-                                    @RequestParam("end") @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime end,//вот тут точно так
+    List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime start, //вот тут точно так
+                                    @RequestParam("end") @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime end,//вот тут точно так
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
         log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
