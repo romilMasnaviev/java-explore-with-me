@@ -56,6 +56,7 @@ public class EventService {
         log.debug("Создание события {}, userId = {}", newEvent, userId);
         checkNewEventValidData(newEvent);
         Event event = buildEvent(newEvent, userId);
+
         locationRepository.save(event.getLocation());
         Event savedEvent = repository.save(event);
         return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent), HttpStatus.CREATED);
