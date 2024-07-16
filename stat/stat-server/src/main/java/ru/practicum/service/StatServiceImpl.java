@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.practicum.converter.StatEntityConverter;
 import ru.practicum.dao.StatEntityRepository;
 import ru.practicum.dto.StatEntityGetResponse;
@@ -13,7 +14,9 @@ import ru.practicum.model.StatEntity;
 
 import javax.validation.ValidationException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Сервис для {@link StatEntity}
@@ -54,5 +57,12 @@ public class StatServiceImpl implements StatService {
             throw new ValidationException("Некорректные данные");
         }
         return repository.getStatistics(start, end, uris, unique);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Map<String, String>> handleValidationException(ValidationException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
