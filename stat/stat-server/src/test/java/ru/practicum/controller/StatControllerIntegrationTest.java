@@ -98,7 +98,7 @@ class StatControllerIntegrationTest {
 
         mvc.perform(get("/stats")
                         .param("start", now().minusMinutes(1).format(formatter))
-                        .param("end", now().plusMinutes(1).format(formatter))
+                        .param("end", now().minusSeconds(1).format(formatter))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -161,7 +161,7 @@ class StatControllerIntegrationTest {
 
         mvc.perform(get("/stats")
                         .param("start", now().minusMinutes(1).format(formatter))
-                        .param("end", now().plusMinutes(1).format(formatter))
+                        .param("end", now().minusSeconds(1).format(formatter))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
