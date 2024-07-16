@@ -14,9 +14,9 @@ public interface RequestConverter {
 
     @Mapping(target = "requester", source = "userId")
     @Mapping(target = "event", source = "eventId")
-    ParticipantRequestDto RequestConvertToParticipantRequestDto(Request request);
+    ParticipantRequestDto requestConvertToParticipantRequestDto(Request request);
 
-    List<ParticipantRequestDto> RequestConvertToParticipantRequestDto(List<Request> requests);
+    List<ParticipantRequestDto> requestConvertToParticipantRequestDto(List<Request> requests);
 
     @Mapping(source = "requester", target = "userId")
     @Mapping(source = "event", target = "eventId")

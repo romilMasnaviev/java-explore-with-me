@@ -51,7 +51,7 @@ public class RequestService {
 
         eventRepository.save(event);
 
-        ParticipantRequestDto requestDto = converter.RequestConvertToParticipantRequestDto(savedRequest);
+        ParticipantRequestDto requestDto = converter.requestConvertToParticipantRequestDto(savedRequest);
 
         return new ResponseEntity<>(requestDto, HttpStatus.CREATED);
     }
@@ -59,7 +59,7 @@ public class RequestService {
     public ResponseEntity<List<ParticipantRequestDto>> getRequest(Integer userId) {
         log.debug("Получение информации о заявках текущего пользователя на участие в чужих событиях, userId = {}", userId);
         List<Request> requests = repository.findByUserId(userId);
-        return new ResponseEntity<>(converter.RequestConvertToParticipantRequestDto(requests), HttpStatus.OK);
+        return new ResponseEntity<>(converter.requestConvertToParticipantRequestDto(requests), HttpStatus.OK);
     }
 
     public ResponseEntity<ParticipantRequestDto> cancelRequest(Integer userId, Integer requestId) {
@@ -77,7 +77,7 @@ public class RequestService {
         request.setStatus(Status.CANCELED);
         repository.save(request);
 
-        return new ResponseEntity<>(converter.RequestConvertToParticipantRequestDto(request), HttpStatus.OK);
+        return new ResponseEntity<>(converter.requestConvertToParticipantRequestDto(request), HttpStatus.OK);
     }
 
     private void checkNewRequestValidData(Integer userId, Integer eventId, Event event) {

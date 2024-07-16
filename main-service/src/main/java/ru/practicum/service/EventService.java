@@ -92,7 +92,7 @@ public class EventService {
                 "eventId = {}, userId = {}", eventId, userId);
         validateUserAccessToEvent(eventId, userId);
         List<Request> requests = requestRepository.findAllByEventId(eventId);
-        return requestConverter.RequestConvertToParticipantRequestDto(requests);
+        return requestConverter.requestConvertToParticipantRequestDto(requests);
     }
 
     public RequestStatusUpdateResult changeEventRequestsStatus(Integer eventId, Integer userId,
@@ -110,7 +110,7 @@ public class EventService {
                     "Достигнут лимит количества заявок", Collections.emptyList());
         }
 
-        List<ParticipantRequestDto> requests = requestConverter.RequestConvertToParticipantRequestDto(
+        List<ParticipantRequestDto> requests = requestConverter.requestConvertToParticipantRequestDto(
                 requestRepository.findAllByIdInAndEventId(updateRequest.getRequestIds(), eventId));
 
         Status newStatus = updateRequest.getStatus();
@@ -142,7 +142,7 @@ public class EventService {
 
         if (newStatus.equals(Status.CONFIRMED) &&
                 event.getConfirmedRequests() >= event.getParticipantLimit()) {
-            List<ParticipantRequestDto> pendingRequests = requestConverter.RequestConvertToParticipantRequestDto
+            List<ParticipantRequestDto> pendingRequests = requestConverter.requestConvertToParticipantRequestDto
                     (requestRepository.findAllByEventIdAndStatus(eventId, Status.PENDING));
             for (ParticipantRequestDto pendingRequest : pendingRequests) {
                 pendingRequest.setStatus(Status.REJECTED);
