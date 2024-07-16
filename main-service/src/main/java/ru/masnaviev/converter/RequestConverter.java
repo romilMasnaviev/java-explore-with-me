@@ -2,12 +2,14 @@ package ru.masnaviev.converter;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 import ru.masnaviev.dto.request.ParticipantRequestDto;
 import ru.masnaviev.model.Request;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+@Component("requestConverter")
 public interface RequestConverter {
 
     @Mapping(target = "requester", source = "userId")

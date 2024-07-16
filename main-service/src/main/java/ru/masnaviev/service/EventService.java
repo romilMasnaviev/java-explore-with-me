@@ -8,8 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import ru.masnaviev.client.Client;
+import ru.masnaviev.Client;
 import ru.masnaviev.converter.EventConverter;
 import ru.masnaviev.converter.LocationConverter;
 import ru.masnaviev.converter.RequestConverter;
@@ -39,18 +38,18 @@ import java.util.List;
 @Slf4j
 public class EventService {
 
-    private EventRepository repository;
-    private EventConverter converter;
+    private final EventRepository repository;
+    private final EventConverter converter;
 
-    private CategoryRepository categoryRepository;
-    private UserRepository userRepository;
-    private LocationRepository locationRepository;
-    private RequestRepository requestRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
+    private final LocationRepository locationRepository;
+    private final RequestRepository requestRepository;
 
-    private LocationConverter locationConverter;
-    private RequestConverter requestConverter;
+    private final LocationConverter locationConverter;
+    private final RequestConverter requestConverter;
 
-    private Client statClient;
+    private final Client statClient;
 
     public ResponseEntity<EventFullDto> createEvent(Integer userId, NewEventDto newEvent) {
         log.debug("Создание события {}, userId = {}", newEvent, userId);

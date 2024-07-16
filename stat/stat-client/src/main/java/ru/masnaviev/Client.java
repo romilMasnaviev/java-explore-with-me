@@ -1,13 +1,20 @@
-package ru.masnaviev.client;
+package ru.masnaviev;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ru.masnaviev.dto.StatEntityGetResponse;
@@ -22,7 +29,7 @@ import java.util.List;
 /**
  * Клиент
  */
-@RestController
+@Service
 @Slf4j
 public class Client {
     private static final String startStr = "start";
@@ -33,8 +40,11 @@ public class Client {
     private final String url;
     private final RestTemplate restTemplate;
 
-    public Client(RestTemplate restTemplate, @Value("${stat-server.url}") String url) {
-        this.restTemplate = restTemplate;
+    @Autowired
+    public Client(RestTemplateBuilder builder, @Value("${stat.server.url}") String url) {
+        this.restTemplate = builder
+                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                .build();
         this.url = url;
     }
 

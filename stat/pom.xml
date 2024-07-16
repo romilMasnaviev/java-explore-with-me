@@ -10,6 +10,12 @@
     <artifactId>stat</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>stat-client</module>
+        <module>stat-server</module>
+        <module>stat-dto</module>
+    </modules>
+
     <name>stat</name>
     <url>http://maven.apache.org</url>
 
