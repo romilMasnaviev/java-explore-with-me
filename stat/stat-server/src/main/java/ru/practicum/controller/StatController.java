@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.dto.StatEntityGetResponse;
@@ -14,7 +13,6 @@ import ru.practicum.model.StatEntity;
 import ru.practicum.service.StatService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +22,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@Validated
 public class StatController {
 
     private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
@@ -49,8 +46,8 @@ public class StatController {
      * Получение сущности статистики
      */
     @GetMapping("/stats")
-    List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime start, //вот тут точно так
-                                    @RequestParam("end") @DateTimeFormat(pattern = localDateTimePattern) @PastOrPresent LocalDateTime end,//вот тут точно так
+    List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime start,
+                                    @RequestParam("end") @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime end,
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
         log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
