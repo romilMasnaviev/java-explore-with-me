@@ -8,12 +8,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import ru.practicum.Client;
 import ru.practicum.converter.EventConverter;
 import ru.practicum.converter.LocationConverter;
 import ru.practicum.converter.RequestConverter;
 import ru.practicum.dao.*;
-import ru.practicum.Client;
 import ru.practicum.dto.StatEntityGetResponse;
 import ru.practicum.dto.StatEntityPostRequest;
 import ru.practicum.dto.event.*;
