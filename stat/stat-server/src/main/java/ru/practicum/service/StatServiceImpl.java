@@ -11,6 +11,7 @@ import ru.practicum.dto.StatEntityGetResponse;
 import ru.practicum.dto.StatEntityPostRequest;
 import ru.practicum.model.StatEntity;
 
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class StatServiceImpl implements StatService {
     @Override
     public List<StatEntityGetResponse> get(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         log.debug("StatServiceImpl. Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
+        if (start != null && end != null && start.isAfter(end)) {
+            throw new ValidationException("Некорректные данные");
+        }
         return repository.getStatistics(start, end, uris, unique);
     }
 }
