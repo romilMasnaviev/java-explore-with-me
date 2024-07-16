@@ -2,6 +2,8 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.practicum.converter.StatEntityConverter;
 import ru.practicum.dao.StatEntityRepository;
@@ -29,11 +31,11 @@ public class StatServiceImpl implements StatService {
      * @param request - объект запроса на создание статистики
      */
     @Override
-    public StatEntityPostRequest create(StatEntityPostRequest request) {
+    public ResponseEntity<StatEntityPostRequest> create(StatEntityPostRequest request) {
         log.debug("StatServiceImpl. Create method, request = {}", request);
         StatEntity newStatEntity = converter.postDtoConvertToStatEntity(request);
         StatEntity savedStatEntity = repository.save(newStatEntity);
-        return converter.statEntityConvertToPostDto(savedStatEntity);
+        return new ResponseEntity<>(converter.statEntityConvertToPostDto(savedStatEntity), HttpStatus.CREATED);
     }
 
     /**

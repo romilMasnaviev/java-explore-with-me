@@ -27,7 +27,7 @@ class StatServiceImplTest {
         requestToAdd.setUri("testUri");
         requestToAdd.setApp("testApp");
 
-        StatEntityPostRequest savedRequest = service.create(requestToAdd);
+        StatEntityPostRequest savedRequest = service.create(requestToAdd).getBody();
 
         assertEquals(requestToAdd.getIp(), savedRequest.getIp());
         assertEquals(requestToAdd.getApp(), savedRequest.getApp());

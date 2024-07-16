@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.dto.StatEntityGetResponse;
 import ru.practicum.dto.StatEntityPostRequest;
@@ -44,7 +46,7 @@ class StatControllerIntegrationTest {
         request.setTimestamp(now().minusHours(1));
         request.setUri("test");
 
-        when(service.create(request)).thenReturn(request);
+        when(service.create(request)).thenReturn(new ResponseEntity<>(request, HttpStatus.CREATED));
 
         mvc.perform(post("/hit")
                         .content(mapper.writeValueAsString(request))
@@ -62,7 +64,7 @@ class StatControllerIntegrationTest {
         request.setTimestamp(now().minusHours(1));
         request.setUri("test");
 
-        when(service.create(request)).thenReturn(request);
+        when(service.create(request)).thenReturn(new ResponseEntity<>(request, HttpStatus.CREATED));
 
         mvc.perform(post("/hit")
                         .content(mapper.writeValueAsString(request))
