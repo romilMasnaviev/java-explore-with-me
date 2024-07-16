@@ -13,6 +13,7 @@ import ru.practicum.model.StatEntity;
 import ru.practicum.service.StatService;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class StatController {
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
         log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
+        if(end.isAfter(LocalDateTime.now())) throw new ValidationException("Время конца в будущем");
         return service.get(start, end, uris, unique);
     }
 
