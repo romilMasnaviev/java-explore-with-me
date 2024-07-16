@@ -141,8 +141,8 @@ public class EventService {
 
         if (newStatus.equals(Status.CONFIRMED) &&
                 event.getConfirmedRequests() >= event.getParticipantLimit()) {
-            List<ParticipantRequestDto> pendingRequests = requestConverter.requestConvertToParticipantRequestDto
-                    (requestRepository.findAllByEventIdAndStatus(eventId, Status.PENDING));
+            List<ParticipantRequestDto> pendingRequests = requestConverter.requestConvertToParticipantRequestDto(
+                    requestRepository.findAllByEventIdAndStatus(eventId, Status.PENDING));
             for (ParticipantRequestDto pendingRequest : pendingRequests) {
                 pendingRequest.setStatus(Status.REJECTED);
                 rejectedRequests.add(pendingRequest);
