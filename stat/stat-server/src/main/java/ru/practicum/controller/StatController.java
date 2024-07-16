@@ -24,9 +24,8 @@ import java.util.List;
 @Slf4j
 public class StatController {
 
+    private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
     private final StatService service;
-
-//    private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * Создание сущности статистики
@@ -47,8 +46,8 @@ public class StatController {
      * Получение сущности статистики
      */
     @GetMapping("/stats")
-    List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-                                    @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+    List<StatEntityGetResponse> get(@RequestParam("start") @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime start, //вот тут точно так
+                                    @RequestParam("end") @DateTimeFormat(pattern = localDateTimePattern) LocalDateTime end,//вот тут точно так
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
         log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);

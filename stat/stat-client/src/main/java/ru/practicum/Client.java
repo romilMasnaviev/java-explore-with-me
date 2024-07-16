@@ -23,6 +23,7 @@ import ru.practicum.dto.StatEntityPostRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class Client {
     private static final String urisStr = "uris";
     private static final String uniqueStr = "unique";
     private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(localDateTimePattern);
+
     private final String url;
     private final RestTemplate restTemplate;
 
@@ -72,8 +75,8 @@ public class Client {
 
     private UriComponentsBuilder buildRequest(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url + "/stats")
-                .queryParam(startStr, start.toString())
-                .queryParam(endStr, end.toString())
+                .queryParam(startStr, start.format(formatter))
+                .queryParam(endStr, end.format(formatter))
                 .queryParam(uniqueStr, unique);
 
         if (uris != null && !uris.isEmpty()) {
@@ -84,8 +87,9 @@ public class Client {
     }
 
     private List<StatEntityGetResponse> sendResponse(UriComponentsBuilder builder) {
-        HttpEntity<StatEntityGetResponse[]> response = restTemplate.getForEntity(
-                builder.encode().toUriString(),
+        String uriString = builder.build(false).toUriString();
+        ResponseEntity<StatEntityGetResponse[]> response = restTemplate.getForEntity(
+                uriString,
                 StatEntityGetResponse[].class
         );
 

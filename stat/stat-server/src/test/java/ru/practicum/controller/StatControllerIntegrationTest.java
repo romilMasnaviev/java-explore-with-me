@@ -15,6 +15,7 @@ import ru.practicum.service.StatServiceImpl;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(StatController.class)
 class StatControllerIntegrationTest {
 
+    private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(localDateTimePattern);
     @Autowired
     ObjectMapper mapper;
     @Autowired
@@ -94,8 +97,8 @@ class StatControllerIntegrationTest {
         when(service.get(any(LocalDateTime.class), any(LocalDateTime.class), any(), anyBoolean())).thenReturn(entities);
 
         mvc.perform(get("/stats")
-                        .param("start", now().minusMinutes(1).toString())
-                        .param("end", now().plusMinutes(1).toString())
+                        .param("start", now().minusMinutes(1).format(formatter))
+                        .param("end", now().plusMinutes(1).format(formatter))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -157,8 +160,8 @@ class StatControllerIntegrationTest {
         when(service.get(any(LocalDateTime.class), any(LocalDateTime.class), any(), anyBoolean())).thenReturn(entities);
 
         mvc.perform(get("/stats")
-                        .param("start", now().minusMinutes(1).toString())
-                        .param("end", now().plusMinutes(1).toString())
+                        .param("start", now().minusMinutes(1).format(formatter))
+                        .param("end", now().plusMinutes(1).format(formatter))
                         .characterEncoding(StandardCharsets.UTF_8)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
