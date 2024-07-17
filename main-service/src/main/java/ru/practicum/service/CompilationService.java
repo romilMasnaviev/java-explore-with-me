@@ -1,6 +1,6 @@
 package ru.practicum.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class CompilationService {
 
-    private CompilationRepository repository;
-    private CompilationConverter converter;
+    private final CompilationRepository repository;
+    private final CompilationConverter converter;
 
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public ResponseEntity<CompilationDto> createCompilation(NewCompilationDto compilationDto) {
         log.debug("Добавление новой подборки, compilationDto = {}", compilationDto);

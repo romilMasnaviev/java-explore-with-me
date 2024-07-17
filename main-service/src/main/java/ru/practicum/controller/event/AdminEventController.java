@@ -1,6 +1,6 @@
 package ru.practicum.controller.event;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +15,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/admin/events")
 @Validated
 public class AdminEventController {
 
     private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
 
-    private EventService service;
+    private final EventService service;
 
     @PatchMapping("/{eventId}")
     public EventFullDto updateEventInfoAndStatus(@PathVariable @Min(value = 0) Integer eventId,
@@ -30,7 +30,7 @@ public class AdminEventController {
         return service.updateEventInfoAndStatus(eventId, updateRequest);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<EventFullDto> getEvents(@RequestParam(name = "users", required = false) List<Integer> users,
                                         @RequestParam(name = "states", required = false) List<State> states,
                                         @RequestParam(name = "categories", required = false) List<Integer> categories,

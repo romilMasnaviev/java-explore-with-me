@@ -1,6 +1,6 @@
 package ru.practicum.controller.category;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,14 +14,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/admin/categories")
 @Validated
 public class AdminCategoryController {
 
-    private CategoryService service;
+    private final CategoryService service;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid NewCategoryDto newCategory) {
         return service.createCategory(newCategory);
     }

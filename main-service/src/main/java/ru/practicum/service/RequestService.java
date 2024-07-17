@@ -1,6 +1,6 @@
 package ru.practicum.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +21,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class RequestService {
 
-    private RequestRepository repository;
-    private RequestConverter converter;
+    private final RequestRepository repository;
+    private final RequestConverter converter;
 
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public ResponseEntity<ParticipantRequestDto> createRequest(Integer userId, Integer eventId) {
         log.debug("Добавление запроса от текущего пользователя на участие в событии, userId = {}, eventId = {}", userId, eventId);

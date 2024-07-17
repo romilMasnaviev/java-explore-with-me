@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.practicum.dto.StatEntityPostRequest;
 import ru.practicum.model.StatEntity;
 
-@Component
+@Component("statEntityConverter")
 @Mapper(componentModel = "spring")
 public interface StatEntityConverter {
     StatEntityPostRequest statEntityConvertToPostDto(StatEntity entity);

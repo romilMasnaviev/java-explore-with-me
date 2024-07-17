@@ -1,12 +1,14 @@
 package ru.practicum.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.practicum.model.Request;
 import ru.practicum.model.enums.Status;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     List<Request> findAllByEventId(int eventId);

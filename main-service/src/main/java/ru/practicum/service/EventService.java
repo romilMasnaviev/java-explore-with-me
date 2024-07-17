@@ -1,6 +1,6 @@
 package ru.practicum.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class EventService {
 
@@ -364,7 +364,7 @@ public class EventService {
             event.setState(State.CANCELED);
     }
 
-    void saveEndpointHit(HttpServletRequest request) {
+    private void saveEndpointHit(HttpServletRequest request) {
         StatEntityPostRequest newRequest = new StatEntityPostRequest(
                 request.getServerName(),
                 request.getRequestURI(),

@@ -1,6 +1,6 @@
 package ru.practicum.controller.compilation;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +11,14 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/compilations")
 @Validated
 public class PublicCompilationController {
 
-    private CompilationService service;
+    private final CompilationService service;
 
-    @GetMapping()
+    @GetMapping
     public List<CompilationDto> getCompilations(@RequestParam(name = "pinned", required = false) Boolean pinned,
                                                 @RequestParam(name = "from", defaultValue = "0") Integer from,
                                                 @RequestParam(name = "size", defaultValue = "10") Integer size) {

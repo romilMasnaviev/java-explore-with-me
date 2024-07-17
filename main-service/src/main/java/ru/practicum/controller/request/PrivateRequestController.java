@@ -1,6 +1,6 @@
 package ru.practicum.controller.request;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +11,12 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/users")
 @Validated
 public class PrivateRequestController {
 
-    private RequestService service;
+    private final RequestService service;
 
     @PostMapping("/{userId}/requests")
     public ResponseEntity<ParticipantRequestDto> createRequest(@PathVariable(name = "userId") @Min(value = 0) Integer userId,

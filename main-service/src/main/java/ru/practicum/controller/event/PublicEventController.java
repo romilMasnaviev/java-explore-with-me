@@ -1,6 +1,6 @@
 package ru.practicum.controller.event;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/events")
 @Validated
 public class PublicEventController {
 
     private static final String localDateTimePattern = "yyyy-MM-dd HH:mm:ss";
 
-    private EventService service;
+    private final EventService service;
 
-    @GetMapping()
+    @GetMapping
     public List<EventFullDto> getEvents(@RequestParam(name = "text", required = false) String text,
                                         @RequestParam(name = "categories", required = false) List<Integer> categories,
                                         @RequestParam(name = "paid", required = false) Boolean paid,

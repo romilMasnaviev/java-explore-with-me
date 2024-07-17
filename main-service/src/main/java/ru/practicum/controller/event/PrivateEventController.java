@@ -1,6 +1,6 @@
 package ru.practicum.controller.event;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,12 +20,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 @Validated
 public class PrivateEventController {
 
-    private EventService service;
+    private final EventService service;
 
     @PostMapping("/{userId}/events")
     public ResponseEntity<EventFullDto> createEvent(@PathVariable(name = "userId") @Min(value = 0) Integer userId,

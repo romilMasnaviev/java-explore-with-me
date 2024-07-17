@@ -1,6 +1,6 @@
 package ru.practicum.controller.user;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,19 +13,19 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/admin/users")
 @Validated
 public class AdminUserController {
 
-    private UserService service;
+    private final UserService service;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> createUser(@RequestBody @Valid NewUserDto user) {
         return service.createUser(user);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<?> getUsers(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
                                       @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
                                       @RequestParam(name = "ids", required = false) List<Integer> ids) {

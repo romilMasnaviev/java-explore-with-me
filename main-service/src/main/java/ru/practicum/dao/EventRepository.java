@@ -4,12 +4,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import ru.practicum.model.Event;
 import ru.practicum.model.enums.State;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query(value = "SELECT * FROM events e WHERE e.initiator_id = :id  LIMIT :limit OFFSET :offset", nativeQuery = true)

@@ -1,6 +1,6 @@
 package ru.practicum.controller.category;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.category.CategoryDto;
@@ -10,14 +10,14 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/categories")
 @Validated
 public class PublicCategoryController {
 
-    public CategoryService service;
+    private final CategoryService service;
 
-    @GetMapping()
+    @GetMapping
     public List<CategoryDto> getCategories(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
                                            @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size) {
         return service.getCategories(from, size);

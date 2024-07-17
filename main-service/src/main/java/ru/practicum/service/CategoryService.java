@@ -1,6 +1,6 @@
 package ru.practicum.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +15,11 @@ import ru.practicum.model.Category;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class CategoryService {
-    private CategoryRepository repository;
-    private CategoryConverter converter;
+    private final CategoryRepository repository;
+    private final CategoryConverter converter;
 
     public ResponseEntity<CategoryDto> createCategory(NewCategoryDto newCategory) {
         log.debug("Создание категории {}", newCategory);

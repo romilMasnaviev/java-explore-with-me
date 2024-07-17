@@ -1,6 +1,6 @@
 package ru.practicum.controller.compilation;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,12 +14,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/admin/compilations")
 @Validated
 public class AdminCompilationController {
 
-    private CompilationService service;
+    private final CompilationService service;
 
     @PostMapping
     public ResponseEntity<CompilationDto> createCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
