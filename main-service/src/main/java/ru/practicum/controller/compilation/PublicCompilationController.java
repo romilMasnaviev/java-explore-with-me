@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.compilation.CompilationDto;
 import ru.practicum.service.CompilationService;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -26,7 +25,7 @@ public class PublicCompilationController {
     }
 
     @GetMapping("/{compId}")
-    public ResponseEntity<CompilationDto> getCompilationById(@PathVariable(name = "compId") @Min(value = 0) Integer compId) {
+    public ResponseEntity<CompilationDto> getCompilationById(@PathVariable(name = "compId") Integer compId) {
         return service.getCompilationById(compId);
     }
 }

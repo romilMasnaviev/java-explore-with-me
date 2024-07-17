@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.converter.CompilationConverter;
 import ru.practicum.dao.CompilationRepository;
 import ru.practicum.dao.EventRepository;
@@ -29,6 +30,7 @@ public class CompilationService {
 
     private final EventRepository eventRepository;
 
+    @Transactional
     public ResponseEntity<CompilationDto> createCompilation(NewCompilationDto compilationDto) {
         log.debug("Добавление новой подборки, compilationDto = {}", compilationDto);
         List<Event> events = new ArrayList<>();
@@ -56,12 +58,14 @@ public class CompilationService {
         return new ResponseEntity<>(converter.compilationConvertToCompilationDto(compilation), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<HttpStatus> deleteCompilation(Integer compId) {
         log.debug("Удаление подборки, compilationDto = {}", compId);
         repository.deleteById(compId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @Transactional
     public CompilationDto updateCompilation(Integer compId, UpdateCompilationRequest request) {
         log.debug("Обновление подборки compId = {}, request = {}", compId, request);
         Compilation compilation = repository.getReferenceById(compId);

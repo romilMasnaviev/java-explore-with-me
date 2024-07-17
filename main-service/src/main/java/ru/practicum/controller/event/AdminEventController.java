@@ -25,7 +25,7 @@ public class AdminEventController {
     private final EventService service;
 
     @PatchMapping("/{eventId}")
-    public EventFullDto updateEventInfoAndStatus(@PathVariable @Min(value = 0) Integer eventId,
+    public EventFullDto updateEventInfoAndStatus(@PathVariable Integer eventId,
                                                  @RequestBody @Valid EventUpdateAdminRequest updateRequest) {
         return service.updateEventInfoAndStatus(eventId, updateRequest);
     }

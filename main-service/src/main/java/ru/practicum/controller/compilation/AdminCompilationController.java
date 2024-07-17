@@ -11,7 +11,6 @@ import ru.practicum.dto.compilation.UpdateCompilationRequest;
 import ru.practicum.service.CompilationService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,12 +26,12 @@ public class AdminCompilationController {
     }
 
     @DeleteMapping("/{compId}")
-    public ResponseEntity<HttpStatus> deleteCompilation(@PathVariable(name = "compId") @Min(value = 0) Integer compId) {
+    public ResponseEntity<HttpStatus> deleteCompilation(@PathVariable(name = "compId") Integer compId) {
         return service.deleteCompilation(compId);
     }
 
     @PatchMapping("/{compId}")
-    CompilationDto updateCompilation(@PathVariable(name = "compId") @Min(value = 0) Integer compId,
+    CompilationDto updateCompilation(@PathVariable(name = "compId") Integer compId,
                                      @RequestBody @Valid UpdateCompilationRequest request) {
         return service.updateCompilation(compId, request);
     }

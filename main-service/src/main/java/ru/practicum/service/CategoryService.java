@@ -2,9 +2,12 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.converter.CategoryConverter;
 import ru.practicum.dao.CategoryRepository;
 import ru.practicum.dto.category.CategoryDto;
@@ -21,6 +24,7 @@ public class CategoryService {
     private final CategoryRepository repository;
     private final CategoryConverter converter;
 
+    @Transactional
     public ResponseEntity<CategoryDto> createCategory(NewCategoryDto newCategory) {
         log.debug("Создание категории {}", newCategory);
         Category category = converter.newCategoryDtoConvertToCategory(newCategory);
@@ -28,6 +32,7 @@ public class CategoryService {
         return new ResponseEntity<>(converter.categoryConvertToCategoryDto(savedCategory), HttpStatus.CREATED);
     }
 
+    @Transactional
     public CategoryDto updateCategory(Integer catId, UpdateCategoryDto updateCategory) {
         log.debug("Изменение категории {}, catId = {}", updateCategory, catId);
         Category category = converter.changeCategoryDtoConvertToCategory(updateCategory);
@@ -36,6 +41,7 @@ public class CategoryService {
         return converter.categoryConvertToCategoryDto(updatedCategory);
     }
 
+    @Transactional
     public ResponseEntity<HttpStatus> deleteCategory(Integer catId) {
         log.debug("Удаление категории, catId = {}", catId);
         repository.deleteById(catId);
@@ -44,7 +50,8 @@ public class CategoryService {
 
     public List<CategoryDto> getCategories(Integer from, Integer size) {
         log.debug("Получение категорий, from ={}, size = {}", from, size);
-        List<Category> categories = repository.findAllCategories(from, size);
+        Pageable pageable = PageRequest.of(from, size);
+        List<Category> categories = repository.findAll(pageable).toList();
         return converter.categoryConvertToCategoryDto(categories);
     }
 

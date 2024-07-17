@@ -10,7 +10,6 @@ import ru.practicum.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class PublicEventController {
     }
 
     @GetMapping("/{id}")
-    public EventFullDto getEvent(@PathVariable(name = "id") @Positive @Min(value = 0) Integer eventId,
+    public EventFullDto getEvent(@PathVariable(name = "id") Integer eventId,
                                  HttpServletRequest httpServletRequest) {
         return service.getEventPublic(eventId, httpServletRequest);
     }

@@ -11,7 +11,6 @@ import ru.practicum.dto.category.UpdateCategoryDto;
 import ru.practicum.service.CategoryService;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,13 +26,13 @@ public class AdminCategoryController {
     }
 
     @PatchMapping("/{catId}")
-    public CategoryDto updateCategory(@PathVariable @Min(value = 0) Integer catId,
+    public CategoryDto updateCategory(@PathVariable Integer catId,
                                       @RequestBody @Valid UpdateCategoryDto updateCategory) {
         return service.updateCategory(catId, updateCategory);
     }
 
     @DeleteMapping("/{catId}")
-    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable @Min(value = 0) Integer catId) {
+    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable Integer catId) {
         return service.deleteCategory(catId);
     }
 }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.converter.StatEntityConverter;
 import ru.practicum.dao.StatEntityRepository;
 import ru.practicum.dto.StatEntityGetResponse;
@@ -31,6 +32,7 @@ public class StatServiceImpl implements StatService {
      * @param request - объект запроса на создание статистики
      */
     @Override
+    @Transactional
     public ResponseEntity<StatEntityPostRequest> create(StatEntityPostRequest request) {
         log.debug("StatServiceImpl. Create method, request = {}", request);
         StatEntity newStatEntity = converter.postDtoConvertToStatEntity(request);

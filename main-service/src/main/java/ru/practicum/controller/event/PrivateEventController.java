@@ -28,15 +28,15 @@ public class PrivateEventController {
     private final EventService service;
 
     @PostMapping("/{userId}/events")
-    public ResponseEntity<EventFullDto> createEvent(@PathVariable(name = "userId") @Min(value = 0) Integer userId,
+    public ResponseEntity<EventFullDto> createEvent(@PathVariable(name = "userId") Integer userId,
                                                     @RequestBody @Valid NewEventDto newEvent) {
         return service.createEvent(userId, newEvent);
     }
 
     @GetMapping("/{userId}/events/{eventId}")
     public EventFullDto getEvent(@PathVariable @Min(value = 0) Integer userId,
-                                 @PathVariable(name = "eventId") @Min(value = 0) Integer eventId) {
-        return service.getEventPublic(userId, eventId);
+                                 @PathVariable(name = "eventId") Integer eventId) {
+        return service.getEvent(userId, eventId);
     }
 
     @GetMapping("/{userId}/events")
@@ -47,21 +47,21 @@ public class PrivateEventController {
     }
 
     @PatchMapping("/{userId}/events/{eventId}")
-    public EventFullDto updateEventByUser(@PathVariable(name = "eventId") @Min(value = 0) Integer eventId,
-                                          @PathVariable(name = "userId") @Min(value = 0) Integer userId,
+    public EventFullDto updateEventByUser(@PathVariable(name = "eventId") Integer eventId,
+                                          @PathVariable(name = "userId") Integer userId,
                                           @RequestBody @Valid EventUpdateRequest updateRequest) {
         return service.updateEventByUser(eventId, userId, updateRequest);
     }
 
     @GetMapping("/{userId}/events/{eventId}/requests")
-    public List<ParticipantRequestDto> getUserEventRequests(@PathVariable(name = "eventId") @Min(value = 0) Integer eventId,
-                                                            @PathVariable(name = "userId") @Min(value = 0) Integer userId) {
+    public List<ParticipantRequestDto> getUserEventRequests(@PathVariable(name = "eventId") Integer eventId,
+                                                            @PathVariable(name = "userId") Integer userId) {
         return service.getUserEventRequests(eventId, userId);
     }
 
     @PatchMapping("/{userId}/events/{eventId}/requests")
-    public RequestStatusUpdateResult changeEventRequestsStatus(@PathVariable(name = "eventId") @Min(value = 0) Integer eventId,
-                                                               @PathVariable(name = "userId") @Min(value = 0) Integer userId,
+    public RequestStatusUpdateResult changeEventRequestsStatus(@PathVariable(name = "eventId") Integer eventId,
+                                                               @PathVariable(name = "userId") Integer userId,
                                                                @RequestBody EventRequestStatusUpdateRequest request) {
         return service.changeEventRequestsStatus(eventId, userId, request);
     }

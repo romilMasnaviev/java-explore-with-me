@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.Client;
 import ru.practicum.converter.EventConverter;
 import ru.practicum.converter.LocationConverter;
@@ -51,6 +52,7 @@ public class EventService {
 
     private final Client statClient;
 
+    @Transactional
     public ResponseEntity<EventFullDto> createEvent(Integer userId, NewEventDto newEvent) {
         log.debug("Создание события {}, userId = {}", newEvent, userId);
         checkNewEventValidData(newEvent);
@@ -61,7 +63,8 @@ public class EventService {
         return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent), HttpStatus.CREATED);
     }
 
-    public EventFullDto getEventPublic(Integer userId, Integer eventId) {
+    @Transactional
+    public EventFullDto getEvent(Integer userId, Integer eventId) {
         log.debug("Получение события, userId = {}, eventId ={}", userId, eventId);
         Event event = repository.getReferenceById(eventId);
         if (event.getInitiator().getId() != userId) {
@@ -70,11 +73,13 @@ public class EventService {
         return converter.eventConvertToEventFullDto(repository.getReferenceById(eventId));
     }
 
+    @Transactional
     public List<EventShortDto> getUserEvents(Integer userId, Integer from, Integer size) {
         log.debug("Получение событий, добавленных пользователем, user id = {}, from = {}, size = {}", userId, from, size);
         return converter.eventConvertToEventShortDto(repository.getUserEvents(from, size, userId));
     }
 
+    @Transactional
     public EventFullDto updateEventByUser(Integer eventId, Integer userId, EventUpdateRequest updateRequest) {
         log.debug("Обновление события пользователем, eventId = {}, userId = {}, request = {}", eventId, userId, updateRequest);
         Event oldEvent = repository.getReferenceById(eventId);
@@ -94,6 +99,7 @@ public class EventService {
         return requestConverter.requestConvertToParticipantRequestDto(requests);
     }
 
+    @Transactional
     public RequestStatusUpdateResult changeEventRequestsStatus(Integer eventId, Integer userId,
                                                                EventRequestStatusUpdateRequest updateRequest) {
         log.debug("Получение информации о запросах на участие в событии текущего пользователя," +
@@ -153,6 +159,7 @@ public class EventService {
         return new RequestStatusUpdateResult(confirmedRequests, rejectedRequests);
     }
 
+    @Transactional
     public EventFullDto updateEventInfoAndStatus(Integer eventId, EventUpdateAdminRequest updateRequest) {
         log.debug("Обновление события пользователем, eventId = {}, request = {}", eventId, updateRequest);
         Event oldEvent = repository.getReferenceById(eventId);
@@ -174,6 +181,7 @@ public class EventService {
         return converter.eventConvertToEventFullDto(repository.getAllByParameters(users, states, categories, rangeStart, rangeEnd, pageable));
     }
 
+    @Transactional
     public List<EventFullDto> getEventsPublic(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
                                               LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
         log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
@@ -205,6 +213,7 @@ public class EventService {
         return converter.eventConvertToEventFullDto(events);
     }
 
+    @Transactional
     public EventFullDto getEventPublic(Integer id, HttpServletRequest httpServletRequest) {
         log.debug("Получение события по id, id = {}", id);
         saveEndpointHit(httpServletRequest);

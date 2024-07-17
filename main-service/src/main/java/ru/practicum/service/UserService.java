@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.converter.UserConverter;
 import ru.practicum.dao.UserRepository;
 import ru.practicum.dto.user.NewUserDto;
@@ -20,6 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserConverter userConverter;
 
+    @Transactional
     public ResponseEntity<?> createUser(NewUserDto newUser) {
         log.debug("Создание пользователя {}", newUser);
         User user = userConverter.newUserDtoConvertToUser(newUser);
@@ -35,6 +37,7 @@ public class UserService {
         return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllUsers(from, size)), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<HttpStatus> deleteUser(Integer userId) {
         log.debug("Удаление пользователя, id = {}", userId);
         userRepository.deleteById(userId);

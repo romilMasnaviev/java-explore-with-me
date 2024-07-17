@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.converter.RequestConverter;
 import ru.practicum.dao.EventRepository;
@@ -30,6 +31,7 @@ public class RequestService {
 
     private final EventRepository eventRepository;
 
+    @Transactional
     public ResponseEntity<ParticipantRequestDto> createRequest(Integer userId, Integer eventId) {
         log.debug("Добавление запроса от текущего пользователя на участие в событии, userId = {}, eventId = {}", userId, eventId);
         Event event = eventRepository.getReferenceById(eventId);
@@ -62,6 +64,7 @@ public class RequestService {
         return new ResponseEntity<>(converter.requestConvertToParticipantRequestDto(requests), HttpStatus.OK);
     }
 
+    @Transactional
     public ResponseEntity<ParticipantRequestDto> cancelRequest(Integer userId, Integer requestId) {
         log.debug("Отмена своего запроса на участие в событии, userId = {}, requestId = {}", userId, requestId);
         Request request = repository.findByIdAndUserId(requestId, userId)
