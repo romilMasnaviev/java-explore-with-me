@@ -13,8 +13,11 @@ import ru.practicum.model.StatEntity;
 import ru.practicum.service.StatService;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Контроллер для {@link StatEntity}
@@ -51,7 +54,17 @@ public class StatController {
                                     @RequestParam(name = "uris", required = false) List<String> uris,
                                     @RequestParam(name = "unique", required = false, defaultValue = "false") boolean unique) {
         log.debug("StatController. Get request, Get method, start = {}, end = {}, uris = {}, unique = {}", start, end, uris, unique);
+        if (start.isAfter(end)) {
+            throw new ValidationException("Некорректные данные: start date is after end date");
+        }
         return service.get(start, end, uris, unique);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Map<String, String>> handleValidationException(ValidationException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
