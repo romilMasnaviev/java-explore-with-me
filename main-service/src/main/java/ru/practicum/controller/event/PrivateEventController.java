@@ -34,13 +34,13 @@ public class PrivateEventController {
     }
 
     @GetMapping("/{userId}/events/{eventId}")
-    public EventFullDto getEvent(@PathVariable @Min(value = 0) Integer userId,
+    public EventFullDto getEvent(@PathVariable(name = "userId") Integer userId,
                                  @PathVariable(name = "eventId") Integer eventId) {
         return service.getEvent(userId, eventId);
     }
 
     @GetMapping("/{userId}/events")
-    public List<EventShortDto> getUserEvents(@PathVariable @Min(value = 0) Integer userId,
+    public List<EventShortDto> getUserEvents(@PathVariable(name = "userId") Integer userId,
                                              @RequestParam(name = "from", defaultValue = "0") @Min(value = 0) Integer from,
                                              @RequestParam(name = "size", defaultValue = "10") @Min(value = 1) Integer size) {
         return service.getUserEvents(userId, from, size);

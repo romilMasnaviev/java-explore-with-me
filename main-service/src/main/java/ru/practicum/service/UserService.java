@@ -2,6 +2,8 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,8 @@ public class UserService {
         if (ids != null) {
             return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllById(ids)), HttpStatus.OK);
         }
-        return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllUsers(from, size)), HttpStatus.OK);
+        Pageable pageable = PageRequest.of(from, size);
+        return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAll(pageable).toList()), HttpStatus.OK);
     }
 
     @Transactional

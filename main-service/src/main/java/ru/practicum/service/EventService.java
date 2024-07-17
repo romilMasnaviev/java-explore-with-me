@@ -53,6 +53,53 @@ public class EventService {
     private final Client statClient;
 
     @Transactional
+    public EventFullDto getEventPublic(Integer id, HttpServletRequest httpServletRequest) {
+        log.debug("Получение события по id, id = {}", id);
+        saveEndpointHit(httpServletRequest);
+        if (!repository.existsByIdAndState(id, State.PUBLISHED)) {
+            throw new EntityNotFoundException("Сущности с id = " + id + " не существует. Возможно событие еще не опубликовано");
+        }
+
+        Event event = repository.getReferenceById(id);
+        setEventViews(event, httpServletRequest);
+        repository.save(event);
+
+        return converter.eventConvertToEventFullDto(event);
+    }
+
+    @Transactional
+    public List<EventFullDto> getEventsPublic(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
+                                              LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
+        log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
+                        "rangeStart = {}, rangeEnd = {}, onlyAvailable = {}, sort = {}, from = {}, size = {}",
+                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
+
+        saveEndpointHit(httpServletRequest);
+        String sorting = determineSorting(sort);
+
+        if (rangeStart == null) {
+            rangeStart = LocalDateTime.now();
+        }
+        if (rangeEnd == null) {
+            rangeEnd = LocalDateTime.now().plusYears(100);
+        }
+
+        if (rangeEnd.isBefore(rangeStart)) {
+            throw new CustomException(HttpStatus.BAD_REQUEST.name(), "Время конца меньше времени начала", "Некорректные данные", Collections.emptyList());
+        }
+
+        Pageable pageable = PageRequest.of(from, size, Sort.by(sorting));
+        List<Event> events = repository.getAllByTextAndParameters(
+                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable);
+
+        for (Event event : events) {
+            setEventViews(event, httpServletRequest);
+        }
+        repository.saveAll(events);
+        return converter.eventConvertToEventFullDto(events);
+    }
+
+    @Transactional
     public ResponseEntity<EventFullDto> createEvent(Integer userId, NewEventDto newEvent) {
         log.debug("Создание события {}, userId = {}", newEvent, userId);
         checkNewEventValidData(newEvent);
@@ -179,53 +226,6 @@ public class EventService {
 
         Pageable pageable = PageRequest.of(from, size);
         return converter.eventConvertToEventFullDto(repository.getAllByParameters(users, states, categories, rangeStart, rangeEnd, pageable));
-    }
-
-    @Transactional
-    public List<EventFullDto> getEventsPublic(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
-                                              LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
-        log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
-                        "rangeStart = {}, rangeEnd = {}, onlyAvailable = {}, sort = {}, from = {}, size = {}",
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
-
-        saveEndpointHit(httpServletRequest);
-        String sorting = determineSorting(sort);
-
-        if (rangeStart == null) {
-            rangeStart = LocalDateTime.now();
-        }
-        if (rangeEnd == null) {
-            rangeEnd = LocalDateTime.now().plusYears(100);
-        }
-
-        if (rangeEnd.isBefore(rangeStart)) {
-            throw new CustomException(HttpStatus.BAD_REQUEST.name(), "Время конца меньше времени начала", "Некорректные данные", Collections.emptyList());
-        }
-
-        Pageable pageable = PageRequest.of(from, size, Sort.by(sorting));
-        List<Event> events = repository.getAllByTextAndParameters(
-                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable);
-
-        for (Event event : events) {
-            setEventViews(event, httpServletRequest);
-        }
-        repository.saveAll(events);
-        return converter.eventConvertToEventFullDto(events);
-    }
-
-    @Transactional
-    public EventFullDto getEventPublic(Integer id, HttpServletRequest httpServletRequest) {
-        log.debug("Получение события по id, id = {}", id);
-        saveEndpointHit(httpServletRequest);
-        if (!repository.existsByIdAndState(id, State.PUBLISHED)) {
-            throw new EntityNotFoundException("Сущности с id = " + id + " не существует. Возможно событие еще не опубликовано");
-        }
-
-        Event event = repository.getReferenceById(id);
-        setEventViews(event, httpServletRequest);
-        repository.save(event);
-
-        return converter.eventConvertToEventFullDto(event);
     }
 
     private void setEventViews(Event event, HttpServletRequest httpServletRequest) {
