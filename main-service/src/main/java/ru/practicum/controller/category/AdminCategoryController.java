@@ -9,7 +9,7 @@ import ru.practicum.dto.category.CategoryDto;
 import ru.practicum.dto.category.NewCategoryDto;
 import ru.practicum.dto.category.UpdateCategoryDto;
 import ru.practicum.model.Category;
-import ru.practicum.service.CategoryService;
+import ru.practicum.service.category.AdminCategoryService;
 
 import javax.validation.Valid;
 
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @Validated
 public class AdminCategoryController {
 
-    private final CategoryService service;
+    private final AdminCategoryService service;
 
     /**
      * Создание категории.

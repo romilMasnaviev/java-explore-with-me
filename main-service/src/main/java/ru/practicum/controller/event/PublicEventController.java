@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.event.EventFullDto;
 import ru.practicum.model.Event;
 import ru.practicum.model.enums.EventSort;
-import ru.practicum.service.EventService;
+import ru.practicum.service.event.PublicEventService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
@@ -25,7 +25,7 @@ import static ru.practicum.conf.Configuration.LOCAL_DATE_TIME_PATTERN;
 @Validated
 public class PublicEventController {
 
-    private final EventService service;
+    private final PublicEventService service;
 
     /**
      * Получение списка событий с возможностью фильтрации и сортировки.

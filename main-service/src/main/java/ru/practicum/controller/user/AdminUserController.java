@@ -6,14 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.user.NewUserDto;
-import ru.practicum.service.UserService;
+import ru.practicum.model.User;
+import ru.practicum.service.user.AdminUserService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
 /**
- * Админ Контроллер для {@link ru.practicum.model.User}
+ * Админ Контроллер для {@link User}
  */
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ import java.util.List;
 @Validated
 public class AdminUserController {
 
-    private final UserService service;
+    private final AdminUserService service;
 
     /**
      * Создание нового пользователя.

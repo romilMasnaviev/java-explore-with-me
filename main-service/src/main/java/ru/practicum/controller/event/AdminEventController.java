@@ -8,7 +8,7 @@ import ru.practicum.dto.event.EventFullDto;
 import ru.practicum.dto.event.EventUpdateAdminRequest;
 import ru.practicum.model.Event;
 import ru.practicum.model.enums.State;
-import ru.practicum.service.EventService;
+import ru.practicum.service.event.AdminEventService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -26,7 +26,7 @@ import static ru.practicum.conf.Configuration.LOCAL_DATE_TIME_PATTERN;
 @Validated
 public class AdminEventController {
 
-    private final EventService service;
+    private final AdminEventService service;
 
     /**
      * Обновление информации и статуса события.

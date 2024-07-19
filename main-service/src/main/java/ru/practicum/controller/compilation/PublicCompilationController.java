@@ -5,12 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.compilation.CompilationDto;
-import ru.practicum.service.CompilationService;
+import ru.practicum.model.Compilation;
+import ru.practicum.service.compilation.PublicCompilationService;
 
 import java.util.List;
 
 /**
- * Публичный Контроллер для {@link ru.practicum.model.Compilation}
+ * Публичный Контроллер для {@link Compilation}
  */
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ import java.util.List;
 @Validated
 public class PublicCompilationController {
 
-    private final CompilationService service;
+    private final PublicCompilationService service;
 
     /**
      * Получение списка подборок.

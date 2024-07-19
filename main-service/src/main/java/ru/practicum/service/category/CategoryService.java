@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.category;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CategoryService {
+public class CategoryService implements AdminCategoryService, PublicCategoryService {
     private final CategoryRepository repository;
     private final CategoryConverter converter;
 

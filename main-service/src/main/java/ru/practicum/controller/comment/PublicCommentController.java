@@ -5,7 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.comment.CommentFullDto;
 import ru.practicum.model.Comment;
-import ru.practicum.service.CommentService;
+import ru.practicum.service.comment.PublicCommentService;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 public class PublicCommentController {
 
-    private final CommentService service;
+    private final PublicCommentService service;
 
     /**
      * Получение комментариев для события.

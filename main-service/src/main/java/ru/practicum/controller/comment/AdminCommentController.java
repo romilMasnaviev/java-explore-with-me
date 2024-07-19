@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.comment.CommentFullDto;
 import ru.practicum.dto.comment.CommentUpdateAdminRequest;
 import ru.practicum.model.Comment;
-import ru.practicum.service.CommentService;
+import ru.practicum.service.comment.AdminCommentService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ import static ru.practicum.conf.Configuration.LOCAL_DATE_TIME_PATTERN;
 @RequestMapping("/admin/comments")
 public class AdminCommentController {
 
-    private final CommentService service;
+    private final AdminCommentService service;
 
     /**
      * Удаление комментария.

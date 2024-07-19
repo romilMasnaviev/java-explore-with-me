@@ -5,7 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.category.CategoryDto;
 import ru.practicum.model.Category;
-import ru.practicum.service.CategoryService;
+import ru.practicum.service.category.PublicCategoryService;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 public class PublicCategoryController {
 
-    private final CategoryService service;
+    private final PublicCategoryService service;
 
     /**
      * Получение списка категорий (публичное).

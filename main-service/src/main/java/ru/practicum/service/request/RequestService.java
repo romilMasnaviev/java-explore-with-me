@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.request;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class RequestService {
+public class RequestService implements PrivateRequestService {
 
     private final RequestRepository repository;
     private final RequestConverter converter;

@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.comment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CommentService {
+public class CommentService implements AdminCommentService, PrivateCommentService, PublicCommentService {
 
     private final CommentRepository repository;
     private final CommentConverter converter;

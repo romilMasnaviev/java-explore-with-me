@@ -9,7 +9,7 @@ import ru.practicum.dto.comment.CommentFullDto;
 import ru.practicum.dto.comment.CommentUpdateRequest;
 import ru.practicum.dto.comment.NewCommentDto;
 import ru.practicum.model.Comment;
-import ru.practicum.service.CommentService;
+import ru.practicum.service.comment.PrivateCommentService;
 
 import javax.validation.Valid;
 
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @Validated
 public class PrivateCommentController {
 
-    private final CommentService service;
+    private final PrivateCommentService service;
 
     /**
      * Создание комментария.

@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.compilation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CompilationService {
+public class CompilationService implements AdminCompilationService, PublicCompilationService {
 
     private final CompilationRepository repository;
     private final CompilationConverter converter;

@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EventService {
+public class EventService implements AdminEventService, PrivateEventService, PublicEventService {
 
     private final EventRepository repository;
     private final EventConverter converter;

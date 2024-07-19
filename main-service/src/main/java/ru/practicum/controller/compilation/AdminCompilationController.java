@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.compilation.CompilationDto;
 import ru.practicum.dto.compilation.NewCompilationDto;
 import ru.practicum.dto.compilation.UpdateCompilationRequest;
-import ru.practicum.service.CompilationService;
+import ru.practicum.model.Compilation;
+import ru.practicum.service.compilation.AdminCompilationService;
 
 import javax.validation.Valid;
 
 /**
- * Админ Контроллер для {@link ru.practicum.model.Compilation}
+ * Админ Контроллер для {@link Compilation}
  */
 @RestController
 @RequestMapping("/admin/compilations")
@@ -21,7 +22,7 @@ import javax.validation.Valid;
 @Validated
 public class AdminCompilationController {
 
-    private final CompilationService service;
+    private final AdminCompilationService service;
 
     /**
      * Создание новой подборки.

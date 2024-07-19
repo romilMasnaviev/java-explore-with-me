@@ -5,12 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.request.ParticipantRequestDto;
-import ru.practicum.service.RequestService;
+import ru.practicum.model.Request;
+import ru.practicum.service.request.PrivateRequestService;
 
 import java.util.List;
 
 /**
- * Приватный Контроллер для {@link ru.practicum.model.Request}
+ * Приватный Контроллер для {@link Request}
  */
 @RestController
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ import java.util.List;
 @Validated
 public class PrivateRequestController {
 
-    private final RequestService service;
+    private final PrivateRequestService service;
 
     /**
      * Создание запроса на участие в событии.

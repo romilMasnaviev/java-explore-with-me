@@ -13,7 +13,7 @@ import ru.practicum.dto.request.EventRequestStatusUpdateRequest;
 import ru.practicum.dto.request.ParticipantRequestDto;
 import ru.practicum.dto.request.RequestStatusUpdateResult;
 import ru.practicum.model.Event;
-import ru.practicum.service.EventService;
+import ru.practicum.service.event.PrivateEventService;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -29,7 +29,7 @@ import java.util.List;
 @Validated
 public class PrivateEventController {
 
-    private final EventService service;
+    private final PrivateEventService service;
 
     /**
      * Создание события пользователем.

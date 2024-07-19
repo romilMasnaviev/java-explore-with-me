@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class UserService implements AdminUserService {
     private final UserRepository userRepository;
     private final UserConverter userConverter;
 
