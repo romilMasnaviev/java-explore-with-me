@@ -44,7 +44,7 @@ public class Client {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public Client(RestTemplateBuilder builder, @Value("http://localhost:9090") String url) { //TODO
+    public Client(RestTemplateBuilder builder, @Value("${stat.server.url}") String url) {
         this.restTemplate = builder
                 .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                 .build();
