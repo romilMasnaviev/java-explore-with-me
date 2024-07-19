@@ -22,7 +22,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             "and ((:states) is null or e.state in (:states)) " +
             "and ((:categories) is null or e.category.id in (:categories)) " +
             "and ((cast(:rangeStart as date) is null and cast(:rangeEnd as date) is null) " +
-            "or (e.eventDate < :rangeEnd and  e.eventDate > :rangeStart))")
+            "or (e.eventDate < (:rangeEnd) and  e.eventDate > (:rangeStart)))")
     List<Event> getAllByParameters(@Param("users") List<Integer> users,
                                    @Param("states") List<State> states,
                                    @Param("categories") List<Integer> categories,
@@ -31,12 +31,12 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
                                    Pageable pageable);
 
     @Query("SELECT e FROM Event e WHERE " +
-            "(coalesce(:text, '') = '' OR lower(e.annotation) LIKE lower(concat('%', :text, '%')) " +
-            "OR lower(e.description) LIKE lower(concat('%', :text, '%'))) " +
-            "AND (coalesce(:categories, null) IS NULL OR e.category.id IN :categories) " +
-            "AND (:paid IS NULL OR e.paid = :paid) " +
-            "AND (cast(:rangeStart as date) IS NULL OR e.eventDate > :rangeStart) " +
-            "AND (cast(:rangeEnd as date) IS NULL OR e.eventDate < :rangeEnd) " +
+            "((:text) IS NULL OR lower(e.annotation) LIKE lower(concat('%', (:text), '%')) " +
+            "OR lower(e.description) LIKE lower(concat('%', (:text), '%'))) " +
+            "AND ((:categories) IS NULL OR e.category.id IN (:categories)) " +
+            "AND ((:paid) IS NULL OR e.paid = (:paid)) " +
+            "AND (cast(:rangeStart as date) IS NULL OR e.eventDate > (:rangeStart)) " +
+            "AND (cast(:rangeEnd as date) IS NULL OR e.eventDate < (:rangeEnd)) " +
             "AND e.state = 'PUBLISHED' " +
             "AND (:onlyAvailable IS NULL OR e.confirmedRequests < e.participantLimit)")
     List<Event> getAllByTextAndParameters(@Param("text") String text,

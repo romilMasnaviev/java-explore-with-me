@@ -52,7 +52,6 @@ public class EventService {
 
     private final Client statClient;
 
-    @Transactional
     public EventFullDto getEventPublic(Integer id, HttpServletRequest httpServletRequest) {
         log.debug("Получение события по id, id = {}", id);
         saveEndpointHit(httpServletRequest);
@@ -67,7 +66,6 @@ public class EventService {
         return converter.eventConvertToEventFullDto(event);
     }
 
-    @Transactional
     public List<EventFullDto> getEventsPublic(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
                                               LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
         log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
@@ -115,7 +113,7 @@ public class EventService {
         log.debug("Получение события, userId = {}, eventId ={}", userId, eventId);
         Event event = repository.getReferenceById(eventId);
         if (event.getInitiator().getId() != userId) {
-            throw new EntityNotFoundException("Событие с id = " + eventId + "не найдено или недоступно");
+            throw new EntityNotFoundException("Событие с id = " + eventId + " не найдено или недоступно");
         }
         return converter.eventConvertToEventFullDto(repository.getReferenceById(eventId));
     }
