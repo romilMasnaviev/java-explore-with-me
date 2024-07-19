@@ -7,6 +7,8 @@ import ru.practicum.dto.location.LocationDto;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
+import static ru.practicum.conf.Configuration.LOCAL_DATE_TIME_PATTERN;
+
 @Data
 public class NewEventDto {
     @NotNull(message = "Аннотация не должна быть пустой")
@@ -24,7 +26,7 @@ public class NewEventDto {
 
     @NotNull(message = "Дата события не должна быть пустой")
     @Future(message = "Дата события должна быть в будущем")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = LOCAL_DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
 
     @NotNull(message = "Место проведения события не должно быть пустым")

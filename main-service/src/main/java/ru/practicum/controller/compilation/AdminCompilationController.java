@@ -12,28 +12,48 @@ import ru.practicum.service.CompilationService;
 
 import javax.validation.Valid;
 
+/**
+ * Админ Контроллер для {@link ru.practicum.model.Compilation}
+ */
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/admin/compilations")
+@RequiredArgsConstructor
 @Validated
 public class AdminCompilationController {
 
     private final CompilationService service;
 
+    /**
+     * Создание новой подборки.
+     *
+     * @param compilationDto данные новой подборки
+     * @return созданная подборка
+     */
     @PostMapping
-    public ResponseEntity<CompilationDto> createCompilation(@RequestBody @Valid NewCompilationDto compilationDto) {
-        return service.createCompilation(compilationDto);
+    public ResponseEntity<CompilationDto> createCompilationByAdmin(@RequestBody @Valid NewCompilationDto compilationDto) {
+        return service.createCompilationByAdmin(compilationDto);
     }
 
+    /**
+     * Удаление подборки.
+     *
+     * @param compId идентификатор подборки
+     */
     @DeleteMapping("/{compId}")
-    public ResponseEntity<HttpStatus> deleteCompilation(@PathVariable(name = "compId") Integer compId) {
-        return service.deleteCompilation(compId);
+    public ResponseEntity<HttpStatus> deleteCompilationByAdmin(@PathVariable(name = "compId") Integer compId) {
+        return service.deleteCompilationByAdmin(compId);
     }
 
+    /**
+     * Редактирование подборки.
+     *
+     * @param compId  идентификатор подборки
+     * @param request данные для обновления подборки
+     * @return обновленная подборка
+     */
     @PatchMapping("/{compId}")
-    CompilationDto updateCompilation(@PathVariable(name = "compId") Integer compId,
-                                     @RequestBody @Valid UpdateCompilationRequest request) {
-        return service.updateCompilation(compId, request);
+    CompilationDto updateCompilationByAdmin(@PathVariable(name = "compId") Integer compId,
+                                            @RequestBody @Valid UpdateCompilationRequest request) {
+        return service.updateCompilationByAdmin(compId, request);
     }
-
 }

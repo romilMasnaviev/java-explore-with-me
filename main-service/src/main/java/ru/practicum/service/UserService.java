@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.converter.UserConverter;
 import ru.practicum.dao.UserRepository;
+import ru.practicum.dto.converter.UserConverter;
 import ru.practicum.dto.user.NewUserDto;
 import ru.practicum.dto.user.UserDto;
 import ru.practicum.model.User;
@@ -24,14 +24,14 @@ public class UserService {
     private final UserConverter userConverter;
 
     @Transactional
-    public ResponseEntity<?> createUser(NewUserDto newUser) {
+    public ResponseEntity<?> createUserByAdmin(NewUserDto newUser) {
         log.debug("Создание пользователя {}", newUser);
         User user = userConverter.newUserDtoConvertToUser(newUser);
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>(userConverter.userConvertToUserDto(savedUser), HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<UserDto>> getUsers(Integer from, Integer size, List<Integer> ids) {
+    public ResponseEntity<List<UserDto>> getUsersByAdmin(Integer from, Integer size, List<Integer> ids) {
         log.debug("Получение пользователей, from = {}, from = {}, ids = {}", from, size, ids);
         if (ids != null) {
             return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllById(ids)), HttpStatus.OK);
@@ -41,7 +41,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteUser(Integer userId) {
+    public ResponseEntity<HttpStatus> deleteUserByAdmin(Integer userId) {
         log.debug("Удаление пользователя, id = {}", userId);
         userRepository.deleteById(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

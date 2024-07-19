@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.converter.CategoryConverter;
 import ru.practicum.dao.CategoryRepository;
 import ru.practicum.dto.category.CategoryDto;
 import ru.practicum.dto.category.NewCategoryDto;
 import ru.practicum.dto.category.UpdateCategoryDto;
+import ru.practicum.dto.converter.CategoryConverter;
 import ru.practicum.model.Category;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class CategoryService {
     private final CategoryConverter converter;
 
     @Transactional
-    public ResponseEntity<CategoryDto> createCategory(NewCategoryDto newCategory) {
+    public ResponseEntity<CategoryDto> createCategoryByAdmin(NewCategoryDto newCategory) {
         log.debug("Создание категории {}", newCategory);
         Category category = converter.newCategoryDtoConvertToCategory(newCategory);
         Category savedCategory = repository.save(category);
@@ -33,7 +33,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryDto updateCategory(Integer catId, UpdateCategoryDto updateCategory) {
+    public CategoryDto updateCategoryByAdmin(Integer catId, UpdateCategoryDto updateCategory) {
         log.debug("Изменение категории {}, catId = {}", updateCategory, catId);
         Category category = converter.changeCategoryDtoConvertToCategory(updateCategory);
         category.setId(catId);
@@ -42,13 +42,13 @@ public class CategoryService {
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteCategory(Integer catId) {
+    public ResponseEntity<HttpStatus> deleteCategoryByAdmin(Integer catId) {
         log.debug("Удаление категории, catId = {}", catId);
         repository.deleteById(catId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public List<CategoryDto> getCategories(Integer from, Integer size) {
+    public List<CategoryDto> getCategoriesPublic(Integer from, Integer size) {
         log.debug("Получение категорий, from ={}, size = {}", from, size);
         Pageable pageable = PageRequest.of(from, size);
         List<Category> categories = repository.findAll(pageable).toList();

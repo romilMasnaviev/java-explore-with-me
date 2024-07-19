@@ -9,6 +9,9 @@ import ru.practicum.service.CompilationService;
 
 import java.util.List;
 
+/**
+ * Публичный Контроллер для {@link ru.practicum.model.Compilation}
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/compilations")
@@ -17,15 +20,29 @@ public class PublicCompilationController {
 
     private final CompilationService service;
 
+    /**
+     * Получение списка подборок.
+     *
+     * @param pinned флаг, указывающий, являются ли подборки закрепленными
+     * @param from   индекс начала выборки
+     * @param size   размер выборки
+     * @return список подборок
+     */
     @GetMapping
-    public List<CompilationDto> getCompilations(@RequestParam(name = "pinned", required = false) Boolean pinned,
-                                                @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                                @RequestParam(name = "size", defaultValue = "10") Integer size) {
-        return service.getCompilations(pinned, from, size);
+    public List<CompilationDto> getCompilationsPublic(@RequestParam(name = "pinned", required = false) Boolean pinned,
+                                                      @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                                      @RequestParam(name = "size", defaultValue = "10") Integer size) {
+        return service.getCompilationsPublic(pinned, from, size);
     }
 
+    /**
+     * Получение подборки по идентификатору.
+     *
+     * @param compId идентификатор подборки
+     * @return информация о подборке
+     */
     @GetMapping("/{compId}")
-    public ResponseEntity<CompilationDto> getCompilationById(@PathVariable(name = "compId") Integer compId) {
-        return service.getCompilationById(compId);
+    public ResponseEntity<CompilationDto> getCompilationByIdPublic(@PathVariable(name = "compId") Integer compId) {
+        return service.getCompilationByIdPublic(compId);
     }
 }

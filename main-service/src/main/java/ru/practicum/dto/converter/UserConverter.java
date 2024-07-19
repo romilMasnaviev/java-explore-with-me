@@ -1,4 +1,4 @@
-package ru.practicum.converter;
+package ru.practicum.dto.converter;
 
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;

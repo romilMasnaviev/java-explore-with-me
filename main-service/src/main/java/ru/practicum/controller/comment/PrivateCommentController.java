@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.comment.CommentFullDto;
 import ru.practicum.dto.comment.CommentUpdateRequest;
 import ru.practicum.dto.comment.NewCommentDto;
+import ru.practicum.model.Comment;
 import ru.practicum.service.CommentService;
 
 import javax.validation.Valid;
 
+/**
+ * Приватный Контроллер для {@link Comment}
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -20,23 +24,46 @@ public class PrivateCommentController {
 
     private final CommentService service;
 
+    /**
+     * Создание комментария.
+     *
+     * @param userId     идентификатор пользователя
+     * @param eventId    идентификатор события
+     * @param newComment данные нового комментария
+     * @return созданный комментарий
+     */
     @PostMapping("/{userId}/events/{eventId}/comments")
     public ResponseEntity<CommentFullDto> createComment(@PathVariable(name = "userId") Integer userId,
                                                         @PathVariable(name = "eventId") Integer eventId,
                                                         @RequestBody @Valid NewCommentDto newComment) {
-        return service.createComment(userId, eventId, newComment);
+        return service.createCommentPrivate(userId, eventId, newComment);
     }
 
+    /**
+     * Редактирование комментария.
+     *
+     * @param userId               идентификатор пользователя
+     * @param commentId            идентификатор комментария
+     * @param commentUpdateRequest данные для обновления комментария
+     * @return обновленный комментарий
+     */
     @PatchMapping("/{userId}/comments/{commentId}")
-    public CommentFullDto updateComment(@PathVariable(name = "userId") Integer userId,
-                                        @PathVariable(name = "commentId") Integer commentId,
-                                        @RequestBody @Valid CommentUpdateRequest commentUpdateRequest) {
-        return service.updateComment(userId, commentId, commentUpdateRequest);
+    public CommentFullDto updateCommentPrivate(@PathVariable(name = "userId") Integer userId,
+                                               @PathVariable(name = "commentId") Integer commentId,
+                                               @RequestBody @Valid CommentUpdateRequest commentUpdateRequest) {
+        return service.updateCommentPrivate(userId, commentId, commentUpdateRequest);
     }
 
+    /**
+     * Удаление комментария.
+     *
+     * @param userId    идентификатор пользователя
+     * @param commentId идентификатор комментария
+     * @return статус удаления
+     */
     @DeleteMapping("/{userId}/comments/{commentId}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable(name = "userId") Integer userId,
-                                             @PathVariable(name = "commentId") Integer commentId) {
-        return service.delete(userId, commentId);
+    public ResponseEntity<HttpStatus> deleteCommentPrivate(@PathVariable(name = "userId") Integer userId,
+                                                           @PathVariable(name = "commentId") Integer commentId) {
+        return service.deleteCommentPrivate(userId, commentId);
     }
 }

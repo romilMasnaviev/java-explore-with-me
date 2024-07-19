@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.converter.CommentConverter;
 import ru.practicum.dao.CommentRepository;
 import ru.practicum.dao.EventRepository;
 import ru.practicum.dao.UserRepository;
@@ -16,6 +15,7 @@ import ru.practicum.dto.comment.CommentFullDto;
 import ru.practicum.dto.comment.CommentUpdateAdminRequest;
 import ru.practicum.dto.comment.CommentUpdateRequest;
 import ru.practicum.dto.comment.NewCommentDto;
+import ru.practicum.dto.converter.CommentConverter;
 import ru.practicum.handler.CustomException;
 import ru.practicum.model.Comment;
 import ru.practicum.model.Event;
@@ -39,7 +39,7 @@ public class CommentService {
     private final EventRepository eventRepository;
 
     @Transactional
-    public ResponseEntity<CommentFullDto> createComment(Integer userId, Integer eventId, NewCommentDto newComment) {
+    public ResponseEntity<CommentFullDto> createCommentPrivate(Integer userId, Integer eventId, NewCommentDto newComment) {
         log.debug("Создание комментария = {}, userId = {}, eventId = {}", newComment, userId, eventId);
         Comment comment = buildNewComment(userId, eventId, newComment);
 
@@ -48,7 +48,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentFullDto updateComment(Integer userId, Integer commentId, CommentUpdateRequest commentUpdateRequest) {
+    public CommentFullDto updateCommentPrivate(Integer userId, Integer commentId, CommentUpdateRequest commentUpdateRequest) {
         log.debug("Обновление комментария, commentUpdateRequest = {}, userId = {}, commentId = {}",
                 commentUpdateRequest, userId, commentId);
 
@@ -62,7 +62,7 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> delete(Integer userId, Integer commentId) {
+    public ResponseEntity<HttpStatus> deleteCommentPrivate(Integer userId, Integer commentId) {
         log.debug("Удаление комментария с id = {}, userId = {}", commentId, userId);
 
         checkDeleteCommentValidData(commentId, userId);
@@ -72,14 +72,14 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> delete(Integer commentId) {
+    public ResponseEntity<HttpStatus> deleteCommentByAdmin(Integer commentId) {
         log.debug("Удаление комментария с id = {}", commentId);
         repository.deleteById(commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Transactional
-    public CommentFullDto updateComment(Integer commentId, CommentUpdateAdminRequest commentUpdateRequest) {
+    public CommentFullDto updateCommentByAdmin(Integer commentId, CommentUpdateAdminRequest commentUpdateRequest) {
         log.debug("Обновление комментария, commentUpdateRequest = {}, commentId = {}",
                 commentUpdateRequest, commentId);
 
@@ -91,9 +91,9 @@ public class CommentService {
         return converter.commentConvertToFullCommentDto(repository.save(comment));
     }
 
-    public List<CommentFullDto> getComments(List<Integer> ids, List<Integer> events, List<Integer> authors,
-                                            String text, LocalDateTime start, LocalDateTime end, Boolean isEdited,
-                                            Integer from, Integer size) {
+    public List<CommentFullDto> getCommentsByAdmin(List<Integer> ids, List<Integer> events, List<Integer> authors,
+                                                   String text, LocalDateTime start, LocalDateTime end, Boolean isEdited,
+                                                   Integer from, Integer size) {
         log.debug("Получение комментариев с параметрами: " +
                         "ids = {}, events = {}, авторы = {}, " +
                         "текст = {}, начало = {}, конец = {}, " +
@@ -104,7 +104,7 @@ public class CommentService {
                 text, start, end, isEdited, pageable));
     }
 
-    public List<CommentFullDto> getEventComments(Integer eventId, Integer from, Integer size) {
+    public List<CommentFullDto> getEventCommentsPublic(Integer eventId, Integer from, Integer size) {
         log.debug("Получение комментариев дл события с id = {}, from = {}, size ={}", eventId, from, size);
 
         checkEventPublished(eventId);

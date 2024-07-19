@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import ru.practicum.converter.RequestConverter;
 import ru.practicum.dao.EventRepository;
 import ru.practicum.dao.RequestRepository;
+import ru.practicum.dto.converter.RequestConverter;
 import ru.practicum.dto.request.ParticipantRequestDto;
 import ru.practicum.handler.CustomException;
 import ru.practicum.model.Event;
@@ -32,7 +32,7 @@ public class RequestService {
     private final EventRepository eventRepository;
 
     @Transactional
-    public ResponseEntity<ParticipantRequestDto> createRequest(Integer userId, Integer eventId) {
+    public ResponseEntity<ParticipantRequestDto> createRequestPrivate(Integer userId, Integer eventId) {
         log.debug("Добавление запроса от текущего пользователя на участие в событии, userId = {}, eventId = {}", userId, eventId);
         Event event = eventRepository.getReferenceById(eventId);
 
@@ -58,14 +58,14 @@ public class RequestService {
         return new ResponseEntity<>(requestDto, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<ParticipantRequestDto>> getRequest(Integer userId) {
+    public ResponseEntity<List<ParticipantRequestDto>> getRequestPrivate(Integer userId) {
         log.debug("Получение информации о заявках текущего пользователя на участие в чужих событиях, userId = {}", userId);
         List<Request> requests = repository.findByUserId(userId);
         return new ResponseEntity<>(converter.requestConvertToParticipantRequestDto(requests), HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<ParticipantRequestDto> cancelRequest(Integer userId, Integer requestId) {
+    public ResponseEntity<ParticipantRequestDto> cancelRequestPrivate(Integer userId, Integer requestId) {
         log.debug("Отмена своего запроса на участие в событии, userId = {}, requestId = {}", userId, requestId);
         Request request = repository.findByIdAndUserId(requestId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Запрос не найден"));
