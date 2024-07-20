@@ -1,6 +1,5 @@
 package ru.practicum.service.event;
 
-import org.springframework.http.ResponseEntity;
 import ru.practicum.dto.event.EventFullDto;
 import ru.practicum.dto.event.EventShortDto;
 import ru.practicum.dto.event.EventUpdateRequest;
@@ -12,7 +11,7 @@ import ru.practicum.dto.request.RequestStatusUpdateResult;
 import java.util.List;
 
 public interface PrivateEventService {
-    ResponseEntity<EventFullDto> createEventPrivate(Integer userId, NewEventDto newEvent);
+    EventFullDto createEventPrivate(Integer userId, NewEventDto newEvent);
 
     EventFullDto getEventPrivate(Integer userId, Integer eventId);
 

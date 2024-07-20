@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dao.CompilationRepository;
@@ -31,7 +30,8 @@ public class CompilationService implements AdminCompilationService, PublicCompil
     private final EventRepository eventRepository;
 
     @Transactional
-    public ResponseEntity<CompilationDto> createCompilationByAdmin(NewCompilationDto compilationDto) {
+    @Override
+    public CompilationDto createCompilationByAdmin(NewCompilationDto compilationDto) {
         log.debug("Добавление новой подборки, compilationDto = {}", compilationDto);
         List<Event> events = new ArrayList<>();
         if (compilationDto.getEvents() != null) {
@@ -43,9 +43,10 @@ public class CompilationService implements AdminCompilationService, PublicCompil
         compilation.setTitle(compilationDto.getTitle());
         compilation.setPinned(compilationDto.isPinned());
 
-        return new ResponseEntity<>(converter.compilationConvertToCompilationDto(repository.save(compilation)), HttpStatus.CREATED);
+        return converter.compilationConvertToCompilationDto(repository.save(compilation));
     }
 
+    @Override
     public List<CompilationDto> getCompilationsPublic(Boolean pinned, Integer from, Integer size) {
         log.debug("Получение подборок, pinned = {}, from = {}, size = {}", pinned, from, size);
         Pageable pageable = PageRequest.of(from, size);
@@ -53,19 +54,21 @@ public class CompilationService implements AdminCompilationService, PublicCompil
         return converter.compilationConvertToCompilationDto(compilations);
     }
 
-    public ResponseEntity<CompilationDto> getCompilationByIdPublic(Integer compId) {
+    public CompilationDto getCompilationByIdPublic(Integer compId) {
         Compilation compilation = repository.getReferenceById(compId);
-        return new ResponseEntity<>(converter.compilationConvertToCompilationDto(compilation), HttpStatus.OK);
+        return converter.compilationConvertToCompilationDto(compilation);
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteCompilationByAdmin(Integer compId) {
+    @Override
+    public HttpStatus deleteCompilationByAdmin(Integer compId) {
         log.debug("Удаление подборки, compilationDto = {}", compId);
         repository.deleteById(compId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return HttpStatus.NO_CONTENT;
     }
 
     @Transactional
+    @Override
     public CompilationDto updateCompilationByAdmin(Integer compId, UpdateCompilationRequest request) {
         log.debug("Обновление подборки compId = {}, request = {}", compId, request);
         Compilation compilation = repository.getReferenceById(compId);

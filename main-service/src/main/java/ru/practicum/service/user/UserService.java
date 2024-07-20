@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dao.UserRepository;
@@ -24,26 +23,29 @@ public class UserService implements AdminUserService {
     private final UserConverter userConverter;
 
     @Transactional
-    public ResponseEntity<?> createUserByAdmin(NewUserDto newUser) {
+    @Override
+    public UserDto createUserByAdmin(NewUserDto newUser) {
         log.debug("Создание пользователя {}", newUser);
         User user = userConverter.newUserDtoConvertToUser(newUser);
         User savedUser = userRepository.save(user);
-        return new ResponseEntity<>(userConverter.userConvertToUserDto(savedUser), HttpStatus.CREATED);
+        return userConverter.userConvertToUserDto(savedUser);
     }
 
-    public ResponseEntity<List<UserDto>> getUsersByAdmin(Integer from, Integer size, List<Integer> ids) {
+    @Override
+    public List<UserDto> getUsersByAdmin(Integer from, Integer size, List<Integer> ids) {
         log.debug("Получение пользователей, from = {}, from = {}, ids = {}", from, size, ids);
         if (ids != null) {
-            return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAllById(ids)), HttpStatus.OK);
+            return userConverter.userConvertToUserDto(userRepository.findAllById(ids));
         }
         Pageable pageable = PageRequest.of(from, size);
-        return new ResponseEntity<>(userConverter.userConvertToUserDto(userRepository.findAll(pageable).toList()), HttpStatus.OK);
+        return userConverter.userConvertToUserDto(userRepository.findAll(pageable).toList());
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteUserByAdmin(Integer userId) {
+    @Override
+    public HttpStatus deleteUserByAdmin(Integer userId) {
         log.debug("Удаление пользователя, id = {}", userId);
         userRepository.deleteById(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return HttpStatus.NO_CONTENT;
     }
 }

@@ -1,15 +1,15 @@
 package ru.practicum.service.user;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import ru.practicum.dto.user.NewUserDto;
+import ru.practicum.dto.user.UserDto;
 
 import java.util.List;
 
 public interface AdminUserService {
-    ResponseEntity<?> createUserByAdmin(NewUserDto user);
+    UserDto createUserByAdmin(NewUserDto user);
 
-    ResponseEntity<?> getUsersByAdmin(Integer from, Integer size, List<Integer> ids);
+    List<UserDto> getUsersByAdmin(Integer from, Integer size, List<Integer> ids);
 
-    ResponseEntity<HttpStatus> deleteUserByAdmin(Integer userId);
+    HttpStatus deleteUserByAdmin(Integer userId);
 }

@@ -32,7 +32,7 @@ public class AdminCategoryController {
      */
     @PostMapping
     public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid NewCategoryDto newCategory) {
-        return service.createCategoryByAdmin(newCategory);
+        return new ResponseEntity<>(service.createCategoryByAdmin(newCategory), HttpStatus.CREATED);
     }
 
     /**
@@ -55,6 +55,6 @@ public class AdminCategoryController {
      */
     @DeleteMapping("/{catId}")
     public ResponseEntity<HttpStatus> deleteCategory(@PathVariable Integer catId) {
-        return service.deleteCategoryByAdmin(catId);
+        return new ResponseEntity<>(service.deleteCategoryByAdmin(catId));
     }
 }

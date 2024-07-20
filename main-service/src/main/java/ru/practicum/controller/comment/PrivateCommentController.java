@@ -33,10 +33,10 @@ public class PrivateCommentController {
      * @return созданный комментарий
      */
     @PostMapping("/{userId}/events/{eventId}/comments")
-    public ResponseEntity<CommentFullDto> createComment(@PathVariable(name = "userId") Integer userId,
-                                                        @PathVariable(name = "eventId") Integer eventId,
+    public ResponseEntity<CommentFullDto> createComment(@PathVariable Integer userId,
+                                                        @PathVariable Integer eventId,
                                                         @RequestBody @Valid NewCommentDto newComment) {
-        return service.createCommentPrivate(userId, eventId, newComment);
+        return new ResponseEntity<>(service.createCommentPrivate(userId, eventId, newComment), HttpStatus.CREATED);
     }
 
     /**
@@ -48,8 +48,8 @@ public class PrivateCommentController {
      * @return обновленный комментарий
      */
     @PatchMapping("/{userId}/comments/{commentId}")
-    public CommentFullDto updateCommentPrivate(@PathVariable(name = "userId") Integer userId,
-                                               @PathVariable(name = "commentId") Integer commentId,
+    public CommentFullDto updateCommentPrivate(@PathVariable Integer userId,
+                                               @PathVariable Integer commentId,
                                                @RequestBody @Valid CommentUpdateRequest commentUpdateRequest) {
         return service.updateCommentPrivate(userId, commentId, commentUpdateRequest);
     }
@@ -62,8 +62,8 @@ public class PrivateCommentController {
      * @return статус удаления
      */
     @DeleteMapping("/{userId}/comments/{commentId}")
-    public ResponseEntity<HttpStatus> deleteCommentPrivate(@PathVariable(name = "userId") Integer userId,
-                                                           @PathVariable(name = "commentId") Integer commentId) {
-        return service.deleteCommentPrivate(userId, commentId);
+    public ResponseEntity<HttpStatus> deleteCommentPrivate(@PathVariable Integer userId,
+                                                           @PathVariable Integer commentId) {
+        return new ResponseEntity<>(service.deleteCommentPrivate(userId, commentId));
     }
 }

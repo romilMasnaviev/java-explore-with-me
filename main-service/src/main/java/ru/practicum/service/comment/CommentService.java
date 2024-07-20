@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dao.CommentRepository;
@@ -39,15 +38,16 @@ public class CommentService implements AdminCommentService, PrivateCommentServic
     private final EventRepository eventRepository;
 
     @Transactional
-    public ResponseEntity<CommentFullDto> createCommentPrivate(Integer userId, Integer eventId, NewCommentDto newComment) {
+    @Override
+    public CommentFullDto createCommentPrivate(Integer userId, Integer eventId, NewCommentDto newComment) {
         log.debug("Создание комментария = {}, userId = {}, eventId = {}", newComment, userId, eventId);
         Comment comment = buildNewComment(userId, eventId, newComment);
 
-        CommentFullDto newCommentFullDto = converter.commentConvertToFullCommentDto(repository.save(comment));
-        return new ResponseEntity<>(newCommentFullDto, HttpStatus.CREATED);
+        return converter.commentConvertToFullCommentDto(repository.save(comment));
     }
 
     @Transactional
+    @Override
     public CommentFullDto updateCommentPrivate(Integer userId, Integer commentId, CommentUpdateRequest commentUpdateRequest) {
         log.debug("Обновление комментария, commentUpdateRequest = {}, userId = {}, commentId = {}",
                 commentUpdateRequest, userId, commentId);
@@ -62,23 +62,26 @@ public class CommentService implements AdminCommentService, PrivateCommentServic
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteCommentPrivate(Integer userId, Integer commentId) {
+    @Override
+    public HttpStatus deleteCommentPrivate(Integer userId, Integer commentId) {
         log.debug("Удаление комментария с id = {}, userId = {}", commentId, userId);
 
         checkDeleteCommentValidData(commentId, userId);
         repository.deleteById(commentId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return HttpStatus.NO_CONTENT;
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteCommentByAdmin(Integer commentId) {
+    @Override
+    public HttpStatus deleteCommentByAdmin(Integer commentId) {
         log.debug("Удаление комментария с id = {}", commentId);
         repository.deleteById(commentId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return HttpStatus.NO_CONTENT;
     }
 
     @Transactional
+    @Override
     public CommentFullDto updateCommentByAdmin(Integer commentId, CommentUpdateAdminRequest commentUpdateRequest) {
         log.debug("Обновление комментария, commentUpdateRequest = {}, commentId = {}",
                 commentUpdateRequest, commentId);
@@ -91,6 +94,7 @@ public class CommentService implements AdminCommentService, PrivateCommentServic
         return converter.commentConvertToFullCommentDto(repository.save(comment));
     }
 
+    @Override
     public List<CommentFullDto> getCommentsByAdmin(List<Integer> ids, List<Integer> events, List<Integer> authors,
                                                    String text, LocalDateTime start, LocalDateTime end, Boolean isEdited,
                                                    Integer from, Integer size) {
@@ -104,6 +108,7 @@ public class CommentService implements AdminCommentService, PrivateCommentServic
                 text, start, end, isEdited, pageable));
     }
 
+    @Override
     public List<CommentFullDto> getEventCommentsPublic(Integer eventId, Integer from, Integer size) {
         log.debug("Получение комментариев дл события с id = {}, from = {}, size ={}", eventId, from, size);
 

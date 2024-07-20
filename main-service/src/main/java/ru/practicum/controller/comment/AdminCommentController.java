@@ -32,8 +32,8 @@ public class AdminCommentController {
      * @param commentId идентификатор комментария
      */
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable(name = "commentId") Integer commentId) {
-        return service.deleteCommentByAdmin(commentId);
+    public ResponseEntity<HttpStatus> delete(@PathVariable Integer commentId) {
+        return new ResponseEntity<>(service.deleteCommentByAdmin(commentId), HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -44,7 +44,7 @@ public class AdminCommentController {
      * @return обновленный комментарий
      */
     @PatchMapping("/{commentId}")
-    public CommentFullDto updateCommentByAdmin(@PathVariable(name = "commentId") Integer commentId,
+    public CommentFullDto updateCommentByAdmin(@PathVariable Integer commentId,
                                                @RequestBody @Valid CommentUpdateAdminRequest commentUpdateRequest) {
         return service.updateCommentByAdmin(commentId, commentUpdateRequest);
     }

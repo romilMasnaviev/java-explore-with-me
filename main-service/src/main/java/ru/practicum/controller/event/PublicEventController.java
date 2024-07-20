@@ -63,8 +63,8 @@ public class PublicEventController {
      * @param httpServletRequest HTTP запрос для сбора информации о запросе
      * @return информация о событии
      */
-    @GetMapping("/{id}")
-    public EventFullDto getEventPublic(@PathVariable(name = "id") Integer eventId,
+    @GetMapping("/{eventId}")
+    public EventFullDto getEventPublic(@PathVariable Integer eventId,
                                        HttpServletRequest httpServletRequest) {
         return service.getEventPublic(eventId, httpServletRequest);
     }

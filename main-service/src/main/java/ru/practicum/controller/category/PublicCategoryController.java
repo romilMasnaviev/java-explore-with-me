@@ -40,7 +40,7 @@ public class PublicCategoryController {
      * @return категория
      */
     @GetMapping("/{catId}")
-    public CategoryDto getCategoryPublic(@PathVariable(name = "catId") Integer catId) {
+    public CategoryDto getCategoryPublic(@PathVariable Integer catId) {
         return service.getCategory(catId);
     }
 }

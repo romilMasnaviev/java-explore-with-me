@@ -1,6 +1,7 @@
 package ru.practicum.controller.compilation;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,7 @@ public class PublicCompilationController {
      * @return информация о подборке
      */
     @GetMapping("/{compId}")
-    public ResponseEntity<CompilationDto> getCompilationByIdPublic(@PathVariable(name = "compId") Integer compId) {
-        return service.getCompilationByIdPublic(compId);
+    public ResponseEntity<CompilationDto> getCompilationByIdPublic(@PathVariable Integer compId) {
+        return new ResponseEntity<>(service.getCompilationByIdPublic(compId), HttpStatus.OK);
     }
 }

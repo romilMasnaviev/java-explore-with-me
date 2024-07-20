@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dao.CategoryRepository;
@@ -25,14 +24,16 @@ public class CategoryService implements AdminCategoryService, PublicCategoryServ
     private final CategoryConverter converter;
 
     @Transactional
-    public ResponseEntity<CategoryDto> createCategoryByAdmin(NewCategoryDto newCategory) {
+    @Override
+    public CategoryDto createCategoryByAdmin(NewCategoryDto newCategory) {
         log.debug("Создание категории {}", newCategory);
         Category category = converter.newCategoryDtoConvertToCategory(newCategory);
         Category savedCategory = repository.save(category);
-        return new ResponseEntity<>(converter.categoryConvertToCategoryDto(savedCategory), HttpStatus.CREATED);
+        return converter.categoryConvertToCategoryDto(savedCategory);
     }
 
     @Transactional
+    @Override
     public CategoryDto updateCategoryByAdmin(Integer catId, UpdateCategoryDto updateCategory) {
         log.debug("Изменение категории {}, catId = {}", updateCategory, catId);
         Category category = converter.changeCategoryDtoConvertToCategory(updateCategory);
@@ -42,12 +43,14 @@ public class CategoryService implements AdminCategoryService, PublicCategoryServ
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> deleteCategoryByAdmin(Integer catId) {
+    @Override
+    public HttpStatus deleteCategoryByAdmin(Integer catId) {
         log.debug("Удаление категории, catId = {}", catId);
         repository.deleteById(catId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return HttpStatus.NO_CONTENT;
     }
 
+    @Override
     public List<CategoryDto> getCategoriesPublic(Integer from, Integer size) {
         log.debug("Получение категорий, from ={}, size = {}", from, size);
         Pageable pageable = PageRequest.of(from, size);
@@ -55,6 +58,7 @@ public class CategoryService implements AdminCategoryService, PublicCategoryServ
         return converter.categoryConvertToCategoryDto(categories);
     }
 
+    @Override
     public CategoryDto getCategory(Integer catId) {
         log.debug("Получение категории, catId ={}", catId);
         return converter.categoryConvertToCategoryDto(repository.getReferenceById(catId));

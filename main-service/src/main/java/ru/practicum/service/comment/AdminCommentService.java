@@ -1,7 +1,6 @@
 package ru.practicum.service.comment;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import ru.practicum.dto.comment.CommentFullDto;
 import ru.practicum.dto.comment.CommentUpdateAdminRequest;
 
@@ -9,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdminCommentService {
-    ResponseEntity<HttpStatus> deleteCommentByAdmin(Integer commentId);
+    HttpStatus deleteCommentByAdmin(Integer commentId);
 
     CommentFullDto updateCommentByAdmin(Integer commentId, CommentUpdateAdminRequest commentUpdateRequest);
 

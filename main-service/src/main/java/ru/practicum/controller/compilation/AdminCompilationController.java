@@ -32,7 +32,7 @@ public class AdminCompilationController {
      */
     @PostMapping
     public ResponseEntity<CompilationDto> createCompilationByAdmin(@RequestBody @Valid NewCompilationDto compilationDto) {
-        return service.createCompilationByAdmin(compilationDto);
+        return new ResponseEntity<>(service.createCompilationByAdmin(compilationDto), HttpStatus.CREATED);
     }
 
     /**
@@ -41,8 +41,8 @@ public class AdminCompilationController {
      * @param compId идентификатор подборки
      */
     @DeleteMapping("/{compId}")
-    public ResponseEntity<HttpStatus> deleteCompilationByAdmin(@PathVariable(name = "compId") Integer compId) {
-        return service.deleteCompilationByAdmin(compId);
+    public ResponseEntity<HttpStatus> deleteCompilationByAdmin(@PathVariable Integer compId) {
+        return new ResponseEntity<>(service.deleteCompilationByAdmin(compId));
     }
 
     /**
@@ -53,7 +53,7 @@ public class AdminCompilationController {
      * @return обновленная подборка
      */
     @PatchMapping("/{compId}")
-    CompilationDto updateCompilationByAdmin(@PathVariable(name = "compId") Integer compId,
+    CompilationDto updateCompilationByAdmin(@PathVariable Integer compId,
                                             @RequestBody @Valid UpdateCompilationRequest request) {
         return service.updateCompilationByAdmin(compId, request);
     }

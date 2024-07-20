@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.user.NewUserDto;
+import ru.practicum.dto.user.UserDto;
 import ru.practicum.model.User;
 import ru.practicum.service.user.AdminUserService;
 
@@ -31,8 +32,8 @@ public class AdminUserController {
      * @return ответ с созданным пользователем
      */
     @PostMapping
-    public ResponseEntity<?> createUserByAdmin(@RequestBody @Valid NewUserDto user) {
-        return service.createUserByAdmin(user);
+    public ResponseEntity<UserDto> createUserByAdmin(@RequestBody @Valid NewUserDto user) {
+        return new ResponseEntity<>(service.createUserByAdmin(user), HttpStatus.CREATED);
     }
 
     /**
@@ -44,10 +45,10 @@ public class AdminUserController {
      * @return список пользователей
      */
     @GetMapping
-    public ResponseEntity<?> getUsersByAdmin(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
-                                             @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
-                                             @RequestParam(name = "ids", required = false) List<Integer> ids) {
-        return service.getUsersByAdmin(from, size, ids);
+    public ResponseEntity<List<UserDto>> getUsersByAdmin(@RequestParam(name = "from", required = false, defaultValue = "0") @Min(value = 0) Integer from,
+                                                         @RequestParam(name = "size", required = false, defaultValue = "10") @Min(value = 1) Integer size,
+                                                         @RequestParam(name = "ids", required = false) List<Integer> ids) {
+        return new ResponseEntity<>(service.getUsersByAdmin(from, size, ids), HttpStatus.OK);
     }
 
     /**
@@ -57,7 +58,7 @@ public class AdminUserController {
      * @return ответ с кодом статуса
      */
     @DeleteMapping("/{userId}")
-    public ResponseEntity<HttpStatus> deleteUserByAdmin(@PathVariable(name = "userId") Integer userId) {
-        return service.deleteUserByAdmin(userId);
+    public ResponseEntity<HttpStatus> deleteUserByAdmin(@PathVariable Integer userId) {
+        return new ResponseEntity<>(service.deleteUserByAdmin(userId));
     }
 }

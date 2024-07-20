@@ -2,6 +2,7 @@ package ru.practicum.controller.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +40,9 @@ public class PrivateEventController {
      * @return созданное событие
      */
     @PostMapping("/{userId}/events")
-    public ResponseEntity<EventFullDto> createEventPrivate(@PathVariable(name = "userId") Integer userId,
+    public ResponseEntity<EventFullDto> createEventPrivate(@PathVariable Integer userId,
                                                            @RequestBody @Valid NewEventDto newEvent) {
-        return service.createEventPrivate(userId, newEvent);
+        return new ResponseEntity<>(service.createEventPrivate(userId, newEvent), HttpStatus.CREATED);
     }
 
     /**
@@ -52,8 +53,8 @@ public class PrivateEventController {
      * @return событие
      */
     @GetMapping("/{userId}/events/{eventId}")
-    public EventFullDto getEventPrivate(@PathVariable(name = "userId") Integer userId,
-                                        @PathVariable(name = "eventId") Integer eventId) {
+    public EventFullDto getEventPrivate(@PathVariable Integer userId,
+                                        @PathVariable Integer eventId) {
         return service.getEventPrivate(userId, eventId);
     }
 
@@ -66,7 +67,7 @@ public class PrivateEventController {
      * @return список событий
      */
     @GetMapping("/{userId}/events")
-    public List<EventShortDto> getUserEventsPrivate(@PathVariable(name = "userId") Integer userId,
+    public List<EventShortDto> getUserEventsPrivate(@PathVariable Integer userId,
                                                     @RequestParam(name = "from", defaultValue = "0") @Min(value = 0) Integer from,
                                                     @RequestParam(name = "size", defaultValue = "10") @Min(value = 1) Integer size) {
         return service.getUserEventsPrivate(userId, from, size);
@@ -81,8 +82,8 @@ public class PrivateEventController {
      * @return обновленное событие
      */
     @PatchMapping("/{userId}/events/{eventId}")
-    public EventFullDto updateEventByUserPrivate(@PathVariable(name = "eventId") Integer eventId,
-                                                 @PathVariable(name = "userId") Integer userId,
+    public EventFullDto updateEventByUserPrivate(@PathVariable Integer eventId,
+                                                 @PathVariable Integer userId,
                                                  @RequestBody @Valid EventUpdateRequest updateRequest) {
         return service.updateEventByUserPrivate(eventId, userId, updateRequest);
     }
@@ -95,8 +96,8 @@ public class PrivateEventController {
      * @return список запросов на участие
      */
     @GetMapping("/{userId}/events/{eventId}/requests")
-    public List<ParticipantRequestDto> getUserEventRequestsPrivate(@PathVariable(name = "eventId") Integer eventId,
-                                                                   @PathVariable(name = "userId") Integer userId) {
+    public List<ParticipantRequestDto> getUserEventRequestsPrivate(@PathVariable Integer eventId,
+                                                                   @PathVariable Integer userId) {
         return service.getUserEventRequestsPrivate(eventId, userId);
     }
 
@@ -109,8 +110,8 @@ public class PrivateEventController {
      * @return результат обновления статусов запросов
      */
     @PatchMapping("/{userId}/events/{eventId}/requests")
-    public RequestStatusUpdateResult changeEventRequestsStatusPrivate(@PathVariable(name = "eventId") Integer eventId,
-                                                                      @PathVariable(name = "userId") Integer userId,
+    public RequestStatusUpdateResult changeEventRequestsStatusPrivate(@PathVariable Integer eventId,
+                                                                      @PathVariable Integer userId,
                                                                       @RequestBody EventRequestStatusUpdateRequest request) {
         return service.changeEventRequestsStatusPrivate(eventId, userId, request);
     }

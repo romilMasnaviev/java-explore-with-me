@@ -1,6 +1,7 @@
 package ru.practicum.controller.request;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,9 @@ public class PrivateRequestController {
      * @return DTO запроса на участие
      */
     @PostMapping("/{userId}/requests")
-    public ResponseEntity<ParticipantRequestDto> createRequestPrivate(@PathVariable(name = "userId") Integer userId,
-                                                                      @RequestParam(name = "eventId") Integer eventId) {
-        return service.createRequestPrivate(userId, eventId);
+    public ResponseEntity<ParticipantRequestDto> createRequestPrivate(@PathVariable Integer userId,
+                                                                      @RequestParam Integer eventId) {
+        return new ResponseEntity<>(service.createRequestPrivate(userId, eventId), HttpStatus.CREATED);
     }
 
     /**
@@ -41,8 +42,8 @@ public class PrivateRequestController {
      * @return список DTO запросов на участие
      */
     @GetMapping("/{userId}/requests")
-    public ResponseEntity<List<ParticipantRequestDto>> getRequestPrivate(@PathVariable(name = "userId") Integer userId) {
-        return service.getRequestPrivate(userId);
+    public ResponseEntity<List<ParticipantRequestDto>> getRequestPrivate(@PathVariable Integer userId) {
+        return new ResponseEntity<>(service.getRequestPrivate(userId), HttpStatus.OK);
     }
 
     /**
@@ -53,8 +54,8 @@ public class PrivateRequestController {
      * @return DTO отмененного запроса
      */
     @PatchMapping("/{userId}/requests/{requestId}/cancel")
-    public ResponseEntity<ParticipantRequestDto> cancelRequestPrivate(@PathVariable(name = "userId") Integer userId,
-                                                                      @PathVariable(name = "requestId") Integer requestId) {
-        return service.cancelRequestPrivate(userId, requestId);
+    public ResponseEntity<ParticipantRequestDto> cancelRequestPrivate(@PathVariable Integer userId,
+                                                                      @PathVariable Integer requestId) {
+        return new ResponseEntity<>(service.cancelRequestPrivate(userId, requestId), HttpStatus.OK);
     }
 }
