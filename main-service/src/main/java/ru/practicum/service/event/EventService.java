@@ -1,4 +1,4 @@
-package ru.practicum.service;
+package ru.practicum.service.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,16 +6,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.Client;
-import ru.practicum.converter.EventConverter;
-import ru.practicum.converter.LocationConverter;
-import ru.practicum.converter.RequestConverter;
 import ru.practicum.dao.*;
 import ru.practicum.dto.StatEntityGetResponse;
 import ru.practicum.dto.StatEntityPostRequest;
+import ru.practicum.dto.converter.EventConverter;
+import ru.practicum.dto.converter.LocationConverter;
+import ru.practicum.dto.converter.RequestConverter;
 import ru.practicum.dto.event.*;
 import ru.practicum.dto.request.EventRequestStatusUpdateRequest;
 import ru.practicum.dto.request.ParticipantRequestDto;
@@ -37,7 +36,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class EventService {
+public class EventService implements AdminEventService, PrivateEventService, PublicEventService {
 
     private final EventRepository repository;
     private final EventConverter converter;
@@ -52,7 +51,7 @@ public class EventService {
 
     private final Client statClient;
 
-    @Transactional
+    @Override
     public EventFullDto getEventPublic(Integer id, HttpServletRequest httpServletRequest) {
         log.debug("Получение события по id, id = {}", id);
         saveEndpointHit(httpServletRequest);
@@ -67,7 +66,7 @@ public class EventService {
         return converter.eventConvertToEventFullDto(event);
     }
 
-    @Transactional
+    @Override
     public List<EventFullDto> getEventsPublic(String text, List<Integer> categories, Boolean paid, LocalDateTime rangeStart,
                                               LocalDateTime rangeEnd, Boolean onlyAvailable, EventSort sort, Integer from, Integer size, HttpServletRequest httpServletRequest) {
         log.debug("Получение событий по заданным фильтрам, text = {}, categories = {}, paid = {}, " +
@@ -100,34 +99,38 @@ public class EventService {
     }
 
     @Transactional
-    public ResponseEntity<EventFullDto> createEvent(Integer userId, NewEventDto newEvent) {
+    @Override
+    public EventFullDto createEventPrivate(Integer userId, NewEventDto newEvent) {
         log.debug("Создание события {}, userId = {}", newEvent, userId);
         checkNewEventValidData(newEvent);
         Event event = buildEvent(newEvent, userId);
 
         locationRepository.save(event.getLocation());
         Event savedEvent = repository.save(event);
-        return new ResponseEntity<>(converter.eventConvertToEventFullDto(savedEvent), HttpStatus.CREATED);
+        return converter.eventConvertToEventFullDto(savedEvent);
     }
 
     @Transactional
-    public EventFullDto getEvent(Integer userId, Integer eventId) {
+    @Override
+    public EventFullDto getEventPrivate(Integer userId, Integer eventId) {
         log.debug("Получение события, userId = {}, eventId ={}", userId, eventId);
         Event event = repository.getReferenceById(eventId);
         if (event.getInitiator().getId() != userId) {
-            throw new EntityNotFoundException("Событие с id = " + eventId + "не найдено или недоступно");
+            throw new EntityNotFoundException("Событие с id = " + eventId + " не найдено или недоступно");
         }
         return converter.eventConvertToEventFullDto(repository.getReferenceById(eventId));
     }
 
     @Transactional
-    public List<EventShortDto> getUserEvents(Integer userId, Integer from, Integer size) {
+    @Override
+    public List<EventShortDto> getUserEventsPrivate(Integer userId, Integer from, Integer size) {
         log.debug("Получение событий, добавленных пользователем, user id = {}, from = {}, size = {}", userId, from, size);
         return converter.eventConvertToEventShortDto(repository.getUserEvents(from, size, userId));
     }
 
     @Transactional
-    public EventFullDto updateEventByUser(Integer eventId, Integer userId, EventUpdateRequest updateRequest) {
+    @Override
+    public EventFullDto updateEventByUserPrivate(Integer eventId, Integer userId, EventUpdateRequest updateRequest) {
         log.debug("Обновление события пользователем, eventId = {}, userId = {}, request = {}", eventId, userId, updateRequest);
         Event oldEvent = repository.getReferenceById(eventId);
 
@@ -138,7 +141,8 @@ public class EventService {
         return converter.eventConvertToEventFullDto(repository.save(oldEvent));
     }
 
-    public List<ParticipantRequestDto> getUserEventRequests(Integer eventId, Integer userId) {
+    @Override
+    public List<ParticipantRequestDto> getUserEventRequestsPrivate(Integer eventId, Integer userId) {
         log.debug("Получение информации о запросах на участие в событии текущего пользователя," +
                 "eventId = {}, userId = {}", eventId, userId);
         validateUserAccessToEvent(eventId, userId);
@@ -147,8 +151,9 @@ public class EventService {
     }
 
     @Transactional
-    public RequestStatusUpdateResult changeEventRequestsStatus(Integer eventId, Integer userId,
-                                                               EventRequestStatusUpdateRequest updateRequest) {
+    @Override
+    public RequestStatusUpdateResult changeEventRequestsStatusPrivate(Integer eventId, Integer userId,
+                                                                      EventRequestStatusUpdateRequest updateRequest) {
         log.debug("Получение информации о запросах на участие в событии текущего пользователя," +
                 "eventId = {}, userId = {}, updateRequest = {}", eventId, userId, updateRequest);
 
@@ -207,7 +212,8 @@ public class EventService {
     }
 
     @Transactional
-    public EventFullDto updateEventInfoAndStatus(Integer eventId, EventUpdateAdminRequest updateRequest) {
+    @Override
+    public EventFullDto updateEventInfoAndStatusByAdmin(Integer eventId, EventUpdateAdminRequest updateRequest) {
         log.debug("Обновление события пользователем, eventId = {}, request = {}", eventId, updateRequest);
         Event oldEvent = repository.getReferenceById(eventId);
 
@@ -217,9 +223,10 @@ public class EventService {
         return converter.eventConvertToEventFullDto(repository.save(oldEvent));
     }
 
-    public List<EventFullDto> getEvents(List<Integer> users, List<State> states,
-                                        List<Integer> categories, LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                        Integer from, Integer size) {
+    @Override
+    public List<EventFullDto> getEventsByAdmin(List<Integer> users, List<State> states,
+                                               List<Integer> categories, LocalDateTime rangeStart, LocalDateTime rangeEnd,
+                                               Integer from, Integer size) {
         log.debug("Получение события по заданным фильтрам, users ={} , states = {}, categories = {}, " +
                         "rangeStart = {}, rangeEnd ={}, from = {}, size = {}", users, states, categories, rangeStart, rangeEnd,
                 from, size);

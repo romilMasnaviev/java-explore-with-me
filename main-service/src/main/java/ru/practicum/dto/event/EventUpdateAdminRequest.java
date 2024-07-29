@@ -9,6 +9,8 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+import static ru.practicum.conf.Configuration.LOCAL_DATE_TIME_PATTERN;
+
 @Data
 public class EventUpdateAdminRequest {
     @Size(min = 20, max = 2000, message = "Аннотация должна быть от {min} до {max} символов")
@@ -20,7 +22,7 @@ public class EventUpdateAdminRequest {
     private String description;
 
     @Future(message = "Дата события должна быть в будущем")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = LOCAL_DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
 
     private LocationDto location;

@@ -1,15 +1,14 @@
-package ru.practicum.service;
+package ru.practicum.service.request;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import ru.practicum.converter.RequestConverter;
 import ru.practicum.dao.EventRepository;
 import ru.practicum.dao.RequestRepository;
+import ru.practicum.dto.converter.RequestConverter;
 import ru.practicum.dto.request.ParticipantRequestDto;
 import ru.practicum.handler.CustomException;
 import ru.practicum.model.Event;
@@ -24,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class RequestService {
+public class RequestService implements PrivateRequestService {
 
     private final RequestRepository repository;
     private final RequestConverter converter;
@@ -32,7 +31,8 @@ public class RequestService {
     private final EventRepository eventRepository;
 
     @Transactional
-    public ResponseEntity<ParticipantRequestDto> createRequest(Integer userId, Integer eventId) {
+    @Override
+    public ParticipantRequestDto createRequestPrivate(Integer userId, Integer eventId) {
         log.debug("Добавление запроса от текущего пользователя на участие в событии, userId = {}, eventId = {}", userId, eventId);
         Event event = eventRepository.getReferenceById(eventId);
 
@@ -53,19 +53,19 @@ public class RequestService {
 
         eventRepository.save(event);
 
-        ParticipantRequestDto requestDto = converter.requestConvertToParticipantRequestDto(savedRequest);
-
-        return new ResponseEntity<>(requestDto, HttpStatus.CREATED);
+        return converter.requestConvertToParticipantRequestDto(savedRequest);
     }
 
-    public ResponseEntity<List<ParticipantRequestDto>> getRequest(Integer userId) {
+    @Override
+    public List<ParticipantRequestDto> getRequestPrivate(Integer userId) {
         log.debug("Получение информации о заявках текущего пользователя на участие в чужих событиях, userId = {}", userId);
         List<Request> requests = repository.findByUserId(userId);
-        return new ResponseEntity<>(converter.requestConvertToParticipantRequestDto(requests), HttpStatus.OK);
+        return converter.requestConvertToParticipantRequestDto(requests);
     }
 
     @Transactional
-    public ResponseEntity<ParticipantRequestDto> cancelRequest(Integer userId, Integer requestId) {
+    @Override
+    public ParticipantRequestDto cancelRequestPrivate(Integer userId, Integer requestId) {
         log.debug("Отмена своего запроса на участие в событии, userId = {}, requestId = {}", userId, requestId);
         Request request = repository.findByIdAndUserId(requestId, userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Запрос не найден"));
@@ -80,7 +80,7 @@ public class RequestService {
         request.setStatus(Status.CANCELED);
         repository.save(request);
 
-        return new ResponseEntity<>(converter.requestConvertToParticipantRequestDto(request), HttpStatus.OK);
+        return converter.requestConvertToParticipantRequestDto(request);
     }
 
     private void checkNewRequestValidData(Integer userId, Integer eventId, Event event) {

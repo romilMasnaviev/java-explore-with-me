@@ -51,4 +51,6 @@ public class Event {
     private int views;
     @ManyToMany(mappedBy = "events")
     private List<Compilation> compilations;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 }

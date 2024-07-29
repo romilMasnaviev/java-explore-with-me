@@ -1,0 +1,2411 @@
+{
+	"info": {
+		"_postman_id": "c2219190-fe11-4b0e-8694-14c9006a66f6",
+		"name": "Test Explore With Me - Feature (comments)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30103054"
+	},
+	"item": [
+		{
+			"name": "Validation",
+			"item": [
+				{
+					"name": "ошибка. Добавление комментария с несуществующим событием",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 404\", function () {",
+									"    pm.response.to.be.notFound;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"тестовый текст для комментария\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/999/events/999/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Добавление комментария с  неопубликованным событием",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 404\", function () {",
+									"    pm.response.to.be.notFound;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"тестовый текст для комментария\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/999/events/1/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Добавление комментария с  несуществующим пользователем",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 404\", function () {",
+									"    pm.response.to.be.notFound;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"тестовый текст для комментария\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/999/events/2/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Добавление комментария без текста",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400\", function () {",
+									"    pm.response.to.be.badRequest;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"BAD_REQUEST\"').to.eql('BAD_REQUEST');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/999/events/2/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Добавление комментария c текстом из пробелов",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400\", function () {",
+									"    pm.response.to.be.badRequest;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"BAD_REQUEST\"').to.eql('BAD_REQUEST');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"         \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/999/events/2/comments"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PrivateControlller",
+			"item": [
+				{
+					"name": "успешно. Добавление 1-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 201\", function () {",
+									"    pm.response.to.be.status(201);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData.id, ' \"id\" должно быть \"1\"').to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля eventId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('eventId');",
+									"    pm.expect(jsonData.eventId, ' \"eventId\" должно быть \"2\"').to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля authorId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('authorId');",
+									"    pm.expect(jsonData.authorId, ' \"authorId\" должно быть \"1\"').to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля text\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('text');",
+									"    pm.expect(jsonData.text, ' \"text\" должно быть \"1-й Комментарий ко 2 событию от пользователя 1\"').to.eql('1-й Комментарий ко 2 событию от пользователя 1');",
+									"});",
+									"pm.test(\"Тест поля edited\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('edited');",
+									"    pm.expect(jsonData.edited, ' \"edited\" должно быть \"false\"').to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"1-й Комментарий ко 2 событию от пользователя 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/events/2/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Не уникальный комментарий pk = (userId,eventId,text)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 409\", function () {",
+									"    pm.response.to.be.status(409);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"CONFLICT\"').to.eql('CONFLICT');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"1-й Комментарий ко 2 событию от пользователя 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/events/2/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Изменение 1-го комментария, не владелец комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400\", function () {",
+									"    pm.response.to.be.badRequest;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"BAD_REQUEST\"').to.eql('BAD_REQUEST');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"Попытка изменить комментарий чужим пользователем\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/2/comments/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Изменение 1-го комментария, несуществующий комментарий",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 404\", function () {",
+									"    pm.response.to.be.notFound;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"Неудачная попытка изменить комментарий\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/comments/5"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Изменение 1-го комментария, без текста",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400\", function () {",
+									"    pm.response.to.be.badRequest;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"BAD_REQUEST\"').to.eql('BAD_REQUEST');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/comments/5"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Изменение 1-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200\", function () {",
+									"    pm.response.to.be.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData.id, ' \"id\" должно быть \"1\"').to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля eventId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('eventId');",
+									"    pm.expect(jsonData.eventId, ' \"eventId\" должно быть \"2\"').to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля authorId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('authorId');",
+									"    pm.expect(jsonData.authorId, ' \"authorId\" должно быть \"1\"').to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля text\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('text');",
+									"    pm.expect(jsonData.text, ' \"text\" должно быть \"Изменение 1-го комментария успешное\"').to.eql('Изменение 1-го комментария успешное');",
+									"});",
+									"pm.test(\"Тест поля edited\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('edited');",
+									"    pm.expect(jsonData.edited, ' \"edited\" должно быть \"true\"').to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"Изменение 1-го комментария успешное\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/comments/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. Удаление 1-го комментария не пользователем",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 400\", function () {",
+									"    pm.response.to.be.badRequest;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"BAD_REQUEST\"').to.eql('BAD_REQUEST');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"Изменение 1-го комментария успешное\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/2/comments/1"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. удаление несуществующего комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 404\", function () {",
+									"    pm.response.to.be.notFound;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/2/comments/999"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. удаление 1-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 204\", function () {",
+									"    pm.response.to.be.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/comments/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AdminController",
+			"item": [
+				{
+					"name": "успешно. Добавление 2-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 201\", function () {",
+									"    pm.response.to.be.status(201);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData.id, ' \"id\" должно быть \"3\"').to.eql(3);",
+									"});",
+									"pm.test(\"Тест поля eventId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('eventId');",
+									"    pm.expect(jsonData.eventId, ' \"eventId\" должно быть \"2\"').to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля authorId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('authorId');",
+									"    pm.expect(jsonData.authorId, ' \"authorId\" должно быть \"1\"').to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля text\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('text');",
+									"    pm.expect(jsonData.text, ' \"text\" должно быть \"1-й Комментарий ко 2 событию от пользователя 1\"').to.eql('1-й Комментарий ко 2 событию от пользователя 1');",
+									"});",
+									"pm.test(\"Тест поля edited\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('edited');",
+									"    pm.expect(jsonData.edited, ' \"edited\" должно быть \"false\"').to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"1-й Комментарий ко 2 событию от пользователя 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/1/events/2/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Изменение 2-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200\", function () {",
+									"    pm.response.to.be.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData.id, ' \"id\" должно быть \"3\"').to.eql(3);",
+									"});",
+									"pm.test(\"Тест поля eventId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('eventId');",
+									"    pm.expect(jsonData.eventId, ' \"eventId\" должно быть \"2\"').to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля authorId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('authorId');",
+									"    pm.expect(jsonData.authorId, ' \"authorId\" должно быть \"1\"').to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля text\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('text');",
+									"    pm.expect(jsonData.text, ' \"text\" должно быть \"1-й Комментарий ко 2 событию от пользователя 1\"').to.eql('1-й Комментарий ко 2 событию от пользователя 1');",
+									"});",
+									"pm.test(\"Тест поля edited\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('edited');",
+									"    pm.expect(jsonData.edited, ' \"edited\" должно быть \"false\"').to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"1-й Комментарий ко 2 событию от пользователя 1\",\n    \"isisEdited\" : false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/admin/comments/3"
+					},
+					"response": []
+				},
+				{
+					"name": "ошибка. удаление несуществующего комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 404\", function () {",
+									"    pm.response.to.be.notFound;",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля status \",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('status');",
+									"    pm.expect(jsonData.status, ' \"status\" должно быть \"NOT_FOUND\"').to.eql('NOT_FOUND');",
+									"});",
+									"pm.test(\"Тест наличия поля поля reason\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('reason');",
+									"});",
+									"pm.test(\"Тест наличия поля поля message\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('message');",
+									"});",
+									"pm.test(\"Тест наличия поля поля timestamp\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('timestamp');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/admin/comments/999"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. удаление 2-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 204\", function () {",
+									"    pm.response.to.be.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/admin/comments/3"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Добавление 4-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"4-й Комментарий к 85 событию от пользователя 10\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/10/events/85/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Добавление 5-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 201\", function () {",
+									"    pm.response.to.be.status(201);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData.id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});",
+									"pm.test(\"Тест поля eventId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('eventId');",
+									"    pm.expect(jsonData.eventId, ' \"eventId\" должно быть \"86\"').to.eql(86);",
+									"});",
+									"pm.test(\"Тест поля authorId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('authorId');",
+									"    pm.expect(jsonData.authorId, ' \"authorId\" должно быть \"20\"').to.eql(20);",
+									"});",
+									"pm.test(\"Тест поля text\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('text');",
+									"    pm.expect(jsonData.text, ' \"text\" должно быть \"5-й комментарий к событию 86 от пользователя 20\"').to.eql('5-й комментарий к событию 86 от пользователя 20');",
+									"});",
+									"pm.test(\"Тест поля edited\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('edited');",
+									"    pm.expect(jsonData.edited, ' \"edited\" должно быть \"false\"').to.eql(false);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"5-й комментарий к событию 86 от пользователя 20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/20/events/86/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Добавление 6-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"6-й Комментарий к 87 событию от пользователя 40\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/40/events/87/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение без параметров",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(3);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"4\"').to.eql(4);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[1]).to.have.property('id');",
+									"    pm.expect(jsonData[1].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[2]).to.have.property('id');",
+									"    pm.expect(jsonData[2].id, ' \"id\" должно быть \"6\"').to.eql(6);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/admin/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение по Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"4\"').to.eql(4);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[1]).to.have.property('id');",
+									"    pm.expect(jsonData[1].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?ids=4,5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "ids",
+									"value": "4,5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение по eventId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[1]).to.have.property('id');",
+									"    pm.expect(jsonData[1].id, ' \"id\" должно быть \"6\"').to.eql(6);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?events=86,87",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "events",
+									"value": "86,87"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение по authors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"4\"').to.eql(4);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[1]).to.have.property('id');",
+									"    pm.expect(jsonData[1].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?authors=10,20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "authors",
+									"value": "10,20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение по text",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?text=5-й",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "5-й"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение по времени",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(3);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"4\"').to.eql(4);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[1]).to.have.property('id');",
+									"    pm.expect(jsonData[1].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[2]).to.have.property('id');",
+									"    pm.expect(jsonData[2].id, ' \"id\" должно быть \"6\"').to.eql(6);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?start=2022-07-19 21:09:55&end=2025-07-19 21:13:07",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "2022-07-19 21:09:55"
+								},
+								{
+									"key": "end",
+									"value": "2025-07-19 21:13:07"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение с пагинацией",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(2);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"4\"').to.eql(4);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[1]).to.have.property('id');",
+									"    pm.expect(jsonData[1].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?from=0&size=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Изменение 5-го комментария",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ должен содержать код статуса 200\", function () {",
+									"    pm.response.to.be.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать тело\", function(){",
+									"    pm.response.to.be.withBody;",
+									"    pm.response.to.be.json;",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('id');",
+									"    pm.expect(jsonData.id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});",
+									"pm.test(\"Тест поля eventId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('eventId');",
+									"    pm.expect(jsonData.eventId, ' \"eventId\" должно быть \"86\"').to.eql(86);",
+									"});",
+									"pm.test(\"Тест поля authorId\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('authorId');",
+									"    pm.expect(jsonData.authorId, ' \"authorId\" должно быть \"20\"').to.eql(20);",
+									"});",
+									"pm.test(\"Тест поля text\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('text');",
+									"    pm.expect(jsonData.text, ' \"text\" должно быть \"Изменение 5-го комментария успешное\"').to.eql('Изменение 5-го комментария успешное');",
+									"});",
+									"pm.test(\"Тест поля edited\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('edited');",
+									"    pm.expect(jsonData.edited, ' \"edited\" должно быть \"true\"').to.eql(true);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\":\"Изменение 5-го комментария успешное\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/20/comments/5"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение по is isEdited",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?isEdited=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "isEdited",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение нескольким параметрам",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/comments?events=86&authors=20&text=Изменение&start=2022-07-19 21:09:55&end=2025-07-19 21:13:07",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "events",
+									"value": "86"
+								},
+								{
+									"key": "authors",
+									"value": "20"
+								},
+								{
+									"key": "text",
+									"value": "Изменение"
+								},
+								{
+									"key": "start",
+									"value": "2022-07-19 21:09:55"
+								},
+								{
+									"key": "end",
+									"value": "2025-07-19 21:13:07"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PublicController",
+			"item": [
+				{
+					"name": "успешно. Получение комментариев события, у которого их нет",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(0);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/events/2/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение комментариев события",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/events/86/comments"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Получение комментариев события c пагинацией",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Ответ должен содержать правильное количество комментариев\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.length).to.eql(1);",
+									"});",
+									"pm.test(\"Тест поля id\",function(){",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData[0]).to.have.property('id');",
+									"    pm.expect(jsonData[0].id, ' \"id\" должно быть \"5\"').to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/events/86/comments?from=0&size=1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"86",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Существующие контроллеры",
+			"item": [
+				{
+					"name": "успешно. Запрос через privateEvent",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {\r",
+									"    const api = new API(pm);\r",
+									"    const rnd = new RandomUtils();\r",
+									"\r",
+									"    try {\r",
+									"        const user = await api.addUser(rnd.getUser());\r",
+									"        const category = await api.addCategory(rnd.getCategory());\r",
+									"        let event = await api.addEvent(user.id, rnd.getEvent(category.id));\r",
+									"        event = await api.publishEvent(event.id);\r",
+									"        pm.request.removeQueryParams(['users', 'categories']);\r",
+									"        pm.request.addQueryParams([`users=` + user.id, 'categories=' + category.id]);\r",
+									"        pm.collectionVariables.set('response', event);\r",
+									"    } catch(err) {\r",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"const interval = setInterval(() => {}, 1000);\r",
+									"\r",
+									"setTimeout(async () => \r",
+									"    {\r",
+									"        try {\r",
+									"            // выполняем наш скрипт\r",
+									"            await main();\r",
+									"        } catch (e) {\r",
+									"            console.error(e);\r",
+									"        } finally {\r",
+									"            clearInterval(interval);\r",
+									"        }\r",
+									"    },  \r",
+									"    100 \r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Проверка структуры ответа и комментариев\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('comments');\r",
+									"    pm.expect(jsonData.comments[0].text).to.eql(\"4-й Комментарий к 85 событию от пользователя 10\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/102/events/85",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"102",
+								"events",
+								"85"
+							],
+							"query": [
+								{
+									"key": "users",
+									"value": "20",
+									"description": "список id пользователей, чьи события нужно найти",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": "PUBLISHED",
+									"description": "список состояний в которых находятся искомые события",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": "0",
+									"description": "список id категорий в которых будет вестись поиск",
+									"disabled": true
+								},
+								{
+									"key": "rangeStart",
+									"value": "2022-01-06%2013%3A30%3A38",
+									"description": "дата и время не раньше которых должно произойти событие",
+									"disabled": true
+								},
+								{
+									"key": "rangeEnd",
+									"value": "2097-09-06%2013%3A30%3A38",
+									"description": "дата и время не позже которых должно произойти событие",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "0",
+									"description": "количество событий, которые нужно пропустить для формирования текущего набора",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1000",
+									"description": "количество событий в наборе",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Запрос через publicEvent",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {\r",
+									"    const api = new API(pm);\r",
+									"    const rnd = new RandomUtils();\r",
+									"\r",
+									"    try {\r",
+									"        const user = await api.addUser(rnd.getUser());\r",
+									"        const category = await api.addCategory(rnd.getCategory());\r",
+									"        let event = await api.addEvent(user.id, rnd.getEvent(category.id));\r",
+									"        event = await api.publishEvent(event.id);\r",
+									"        pm.request.removeQueryParams(['users', 'categories']);\r",
+									"        pm.request.addQueryParams([`users=` + user.id, 'categories=' + category.id]);\r",
+									"        pm.collectionVariables.set('response', event);\r",
+									"    } catch(err) {\r",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"const interval = setInterval(() => {}, 1000);\r",
+									"\r",
+									"setTimeout(async () => \r",
+									"    {\r",
+									"        try {\r",
+									"            // выполняем наш скрипт\r",
+									"            await main();\r",
+									"        } catch (e) {\r",
+									"            console.error(e);\r",
+									"        } finally {\r",
+									"            clearInterval(interval);\r",
+									"        }\r",
+									"    },  \r",
+									"    100 \r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Проверка структуры ответа и комментариев\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData).to.have.property('comments');\r",
+									"    pm.expect(jsonData.comments[0].text).to.eql(\"Изменение 5-го комментария успешное\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/events/86",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"86"
+							],
+							"query": [
+								{
+									"key": "users",
+									"value": "20",
+									"description": "список id пользователей, чьи события нужно найти",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": "PUBLISHED",
+									"description": "список состояний в которых находятся искомые события",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": "0",
+									"description": "список id категорий в которых будет вестись поиск",
+									"disabled": true
+								},
+								{
+									"key": "rangeStart",
+									"value": "2022-01-06%2013%3A30%3A38",
+									"description": "дата и время не раньше которых должно произойти событие",
+									"disabled": true
+								},
+								{
+									"key": "rangeEnd",
+									"value": "2097-09-06%2013%3A30%3A38",
+									"description": "дата и время не позже которых должно произойти событие",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "0",
+									"description": "количество событий, которые нужно пропустить для формирования текущего набора",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1000",
+									"description": "количество событий в наборе",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия"
+					},
+					"response": []
+				},
+				{
+					"name": "успешно. Запрос через AdminEvent",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const main = async () => {\r",
+									"    const api = new API(pm);\r",
+									"    const rnd = new RandomUtils();\r",
+									"\r",
+									"    try {\r",
+									"        const user = await api.addUser(rnd.getUser());\r",
+									"        const category = await api.addCategory(rnd.getCategory());\r",
+									"        let event = await api.addEvent(user.id, rnd.getEvent(category.id));\r",
+									"        event = await api.publishEvent(event.id);\r",
+									"        pm.request.removeQueryParams(['users', 'categories']);\r",
+									"        pm.request.addQueryParams([`users=` + user.id, 'categories=' + category.id]);\r",
+									"        pm.collectionVariables.set('response', event);\r",
+									"    } catch(err) {\r",
+									"        console.error(\"Ошибка при подготовке тестовых данных.\", err);\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"const interval = setInterval(() => {}, 1000);\r",
+									"\r",
+									"setTimeout(async () => \r",
+									"    {\r",
+									"        try {\r",
+									"            // выполняем наш скрипт\r",
+									"            await main();\r",
+									"        } catch (e) {\r",
+									"            console.error(e);\r",
+									"        } finally {\r",
+									"            clearInterval(interval);\r",
+									"        }\r",
+									"    },  \r",
+									"    100 \r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ответ имеет статус 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Проверка структуры ответа и комментариев\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0]).to.have.property('comments');\r",
+									"    pm.expect(jsonData[0].comments[0].text).to.eql(\"6-й Комментарий к 87 событию от пользователя 40\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/admin/events?categories=96",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"events"
+							],
+							"query": [
+								{
+									"key": "users",
+									"value": "20",
+									"description": "список id пользователей, чьи события нужно найти",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": "PUBLISHED",
+									"description": "список состояний в которых находятся искомые события",
+									"disabled": true
+								},
+								{
+									"key": "rangeStart",
+									"value": "2022-01-06%2013%3A30%3A38",
+									"description": "дата и время не раньше которых должно произойти событие",
+									"disabled": true
+								},
+								{
+									"key": "rangeEnd",
+									"value": "2097-09-06%2013%3A30%3A38",
+									"description": "дата и время не позже которых должно произойти событие",
+									"disabled": true
+								},
+								{
+									"key": "from",
+									"value": "0",
+									"description": "количество событий, которые нужно пропустить для формирования текущего набора",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "1000",
+									"description": "количество событий в наборе",
+									"disabled": true
+								},
+								{
+									"key": "categories",
+									"value": "96"
+								}
+							]
+						},
+						"description": "Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

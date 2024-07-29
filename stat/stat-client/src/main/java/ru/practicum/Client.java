@@ -75,8 +75,8 @@ public class Client {
 
     private UriComponentsBuilder buildRequest(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url + "/stats")
-                .queryParam(startStr, start.minusSeconds(10).format(formatter))
-                .queryParam(endStr, end.plusHours(1).format(formatter))
+                .queryParam(startStr, start.plusSeconds(1).format(formatter))
+                .queryParam(endStr, end.plusSeconds(1).format(formatter))
                 .queryParam(uniqueStr, unique);
 
         if (uris != null && !uris.isEmpty()) {
